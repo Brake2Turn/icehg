@@ -1,0 +1,72 @@
+[
+  { "id": "grp.betrayal_night_knife", "category": "group", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} waits until {B} is asleep, then opens {B.their} throat and takes {B.their} pack.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }, { "kind": "leaveGroup", "who": "A" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "B", "trait": "survival", "per": 0.2 }],
+        "text": "{B} wakes as {A} raises the knife. {B} gets away, bleeding and very, very awake.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "A" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_daylight", "category": "group", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} offers to carry {B}'s pack for a while. As {B} hands it over, {A} puts a knife in {B.their} stomach and twists.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "uncommon", "text": "{A} turns on {B} in broad daylight. {B} blocks the first swing with {B.their} forearm and runs, holding the arm together.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_cliff", "category": "group", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "zones": ["cliffs", "ruins"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} stop at the edge to look at the view. Only {A} walks away from it.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "uncommon", "text": "{A} shoves {B} off the edge. {B} catches a root ten metres down and hangs there, shouting things the Capitol will have to bleep.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }] }
+    ] },
+
+  { "id": "grp.betrayal_poison", "category": "group", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} offers {B} a drink from {A.their} bottle. It isn't just water. {B} works it out about a minute too late.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "uncommon", "text": "{A} slips crushed berries into {B}'s water. {B} spits out the first mouthful, looks at {A}, and understands everything.",
+        "effects": [{ "kind": "addTag", "who": "B", "tag": "poisoned" }, { "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_cleanout", "category": "group", "severity": "major", "rarity": "common", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} takes everything {B} owns while {B.they} {B.is} off collecting firewood, and disappears into the {zone}.",
+      "effects": [{ "kind": "transferItem", "from": "B", "to": "A", "item": "all" }, { "kind": "leaveGroup", "who": "A" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "grp.betrayal_snare", "category": "group", "severity": "lethal", "rarity": "rare", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} tells {B} {A.they} found water just past the ridge. There isn't water. There's a pit with sharpened stakes, and {A} dug it.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} leads {B} towards a hidden pit, but {B} spots the loose branches and stops dead. They stare at each other for a long moment. Then {B} runs.",
+        "effects": [{ "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_backfires", "category": "group", "severity": "lethal", "rarity": "legendary", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} turns on {B} with a knife, but {B} saw this coming days ago and swapped {A}'s blade for a stick while {A.they} slept. {B} uses the real one.",
+        "effects": [{ "kind": "kill", "target": "A", "by": "B" }, { "kind": "transferItem", "from": "A", "to": "B", "item": "all" }] },
+      { "rarity": "common", "text": "{A} goes for {B}, slips on a wet rock, and knocks {A.themself} out cold. {B} just walks away, shaking {B.their} head.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }] }
+    ] }
+]

@@ -1,0 +1,55 @@
+[
+  { "id": "feast.grab_and_run", "category": "feast", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "feast",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} sprints to the feast table, grabs the pack with {A.their} name on it and is gone before anyone else moves.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} grabs a pack from the feast table and runs. It isn't {A.their} pack. It's full of rope.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "rope" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "feast.patient", "category": "feast", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.2 }],
+    "outcomes": [{ "rarity": "common", "text": "{A} waits in the long grass while everyone else fights over the table, then strolls over and takes two packs.",
+      "effects": [{ "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "A", "item": "water" }, { "kind": "gainItem", "who": "A", "item": "food" }] }] },
+
+  { "id": "feast.medkit_desperate", "category": "feast", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "feast",
+    "roles": { "A": "one" },
+    "requires": { "health": [{ "who": "A", "is": ["wounded", "critical"] }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} limps to the feast table, tears open {A.their} pack right there and patches {A.themself} up in the open, which is brave or stupid.",
+      "effects": [{ "kind": "heal", "target": "A" }] }] },
+
+  { "id": "feast.ambush", "category": "feast", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "ambush",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "mods": [{ "kind": "trait", "who": "G", "trait": "cunning", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} hide{G.s} inside the Cornucopia and wait{G.s} for {H} to reach the table.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H", "ambush": true }] },
+      { "rarity": "uncommon", "text": "{G} wait{G.s} in ambush at the feast, but {H} spot{H.s} the trap and circle{H.s} round the back.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] },
+      { "rarity": "uncommon", "text": "{G} wait{G.s} in ambush at the feast. {H} take{H.s} one look at the suspiciously quiet Cornucopia and leave{H.s} without a pack.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "feast.brawl", "category": "feast", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} reach{G.es} the feast table at the same moment as {H}.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] },
+      { "rarity": "uncommon", "text": "{G} reach{G.es} the feast table at the same time as {H}. Everyone grabs a pack and runs in a different direction.",
+        "effects": [{ "kind": "move", "who": ["G"], "to": "adjacent" }, { "kind": "move", "who": ["H"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "feast.share", "category": "feast", "severity": "minor", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [{ "rarity": "common", "text": "{A} grabs two packs off the feast table and throws one to {B}. They run together.",
+      "effects": [{ "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "B", "item": "medkit" }, { "kind": "formGroup", "members": ["A", "B"] }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "feast.snatch", "category": "feast", "severity": "minor", "rarity": "common", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "traitDiff", "a": "A", "b": "B", "trait": "stealth", "per": 0.1 }],
+    "outcomes": [{ "rarity": "common", "text": "{A} snatches {B}'s pack off the table right in front of {B.them} and runs. {B} gets nothing.",
+      "effects": [{ "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -35 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] }
+]

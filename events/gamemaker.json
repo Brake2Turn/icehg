@@ -1,0 +1,151 @@
+[
+  { "id": "gm.gong", "category": "gamemaker", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none", "trigger": "gong",
+    "roles": {},
+    "intro": "The gong sounds. Let the I Could Eat a Horse Games begin.",
+    "perVictim": [] },
+
+  { "id": "gm.feast_announce", "category": "gamemaker", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "feast", "trigger": "feastAnnounce",
+    "roles": {},
+    "intro": "A voice booms across the arena: there will be a feast at the Cornucopia tomorrow morning. Everyone needs something. Everyone is invited.",
+    "perVictim": [] },
+
+  { "id": "gm.feast_drop", "category": "gamemaker", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "feast", "trigger": "feastDrop",
+    "roles": {},
+    "intro": "A table rises out of the ground at the Cornucopia, stacked with packs. Each one has a name on it. The Gamemakers have very much done this on purpose.",
+    "perVictim": [] },
+
+  { "id": "gm.wildfire", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "when": { "zones": ["forest", "meadow", "ruins", "cliffs", "caves", "cornucopia"] },
+    "intro": "The Gamemakers set the {zone} on fire.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.2 }], "text": "{X} outruns the flames.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} gets out with burns down one arm.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": -0.15 }], "text": "{X} doesn't make it out of the {zone}.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.flood", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "when": { "zoneTags": ["water"] },
+    "intro": "Without warning, the {zone} bursts its banks. A brown wall of water comes through at head height.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "strength", "per": 0.15 }], "text": "{X} grabs a tree and hangs on until it passes, then squelches away.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} is swept a kilometre downstream and dumped on the bank, battered and missing a shoe.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": -0.15 }], "text": "{X} goes under and doesn't come back up.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.poison_fog", "category": "gamemaker", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "A thick yellow fog rolls into the {zone}. Wherever it touches skin, the skin blisters.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.2 }], "text": "{X} smells it first and is already running.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "common", "text": "{X} gets out coughing blood, with blisters up {X.their} neck.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "addTag", "who": "X", "tag": "poisoned" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} breathes it in and drops where {X.they} stand{X.s}.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.mutts", "category": "gamemaker", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "Something is released into the {zone}: a pack of dogs, too big, with far too many teeth, and eyes that look disturbingly familiar.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "stealth", "per": 0.15 }], "text": "{X} gets up a tree just in time and waits for them to lose interest.",
+        "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 20 }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "hasWeapon", "who": "X", "mult": 1.8 }], "text": "{X} fights one off with {X.their} {weapon} and runs with teeth marks in {X.their} leg.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "X", "trait": "strength", "per": -0.1 }], "text": "The pack catches {X}. There isn't much left.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.rockslide", "category": "gamemaker", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "when": { "zones": ["cliffs", "caves", "ruins"] },
+    "intro": "The ground shudders and half of the {zone} comes down.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} dives clear and ends up coughing grit in a ditch.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} is clipped by a boulder and drags {X.themself} out with a broken arm.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} is buried under a few tonnes of rock. The cannon comes a minute later.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.heatwave", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "The Gamemakers turn the sun up. The {zone} becomes an oven.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} finds shade and lies very still until it passes.",
+        "effects": [{ "kind": "need", "who": "X", "need": "thirst", "delta": 30 }] },
+      { "rarity": "uncommon", "text": "{X} collapses with heatstroke and comes round hours later, burned and confused.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "need", "who": "X", "need": "thirst", "delta": 40 }] },
+      { "rarity": "rare", "mods": [{ "kind": "health", "who": "X", "is": "critical", "mult": 4 }], "text": "{X} stops sweating, which is a bad sign, and then stops everything else.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.acid_rain", "category": "gamemaker", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "It starts raining over the {zone}. The rain smokes when it hits the ground.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.15 }], "text": "{X} gets under a rock overhang in time.",
+        "effects": [] },
+      { "rarity": "common", "text": "{X} runs for cover with {X.their} jacket over {X.their} head, and loses most of {X.their} jacket and some of {X.their} scalp.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "rare", "text": "{X} is caught in the open. It's not quick.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.sinkhole", "category": "gamemaker", "severity": "lethal", "rarity": "rare", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "The floor of the {zone} opens up like a mouth.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} leaps clear and doesn't stop running for a long time.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "common", "text": "{X} falls in and is spat back out by a geyser of mud.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} falls in. The ground closes again.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.lightning", "category": "gamemaker", "severity": "lethal", "rarity": "veryRare", "tone": "neutral", "visual": "hazard",
+    "roles": {},
+    "intro": "A storm comes out of a clear sky over the {zone}, and the lightning is aimed.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} lies flat in a ditch with {X.their} face in the mud until the storm passes. Smart.",
+        "effects": [] },
+      { "rarity": "uncommon", "text": "{X} is thrown ten metres by a strike next to {X.them} and gets up with {X.their} hair standing on end.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }] },
+      { "rarity": "uncommon", "text": "{X} is struck directly. All that's left smells of burnt hair.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.close_firewall", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard", "trigger": "closure",
+    "roles": {},
+    "intro": "A wall of fire sweeps across the {zone}. The Gamemakers are closing it for good.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.2 }], "text": "{X} gets out ahead of the flames.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} runs through a gap in the fire and comes out smoking.",
+        "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "rare", "text": "{X} is trapped between the fire and the arena wall.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.close_flood", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard", "trigger": "closure",
+    "roles": {},
+    "intro": "Water pours into the {zone} from somewhere underneath. By noon it's a lake. The Gamemakers are closing it for good.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} wades out with {X.their} pack held over {X.their} head.",
+        "effects": [{ "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{X} swims for it and loses everything {X.they} {X.was} carrying.",
+        "effects": [{ "kind": "loseItem", "who": "X", "item": "food" }, { "kind": "loseItem", "who": "X", "item": "water" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
+      { "rarity": "rare", "text": "{X} is asleep when the water comes. {X} doesn't wake up.",
+        "effects": [{ "kind": "kill", "target": "X" }] }
+    ] }
+]

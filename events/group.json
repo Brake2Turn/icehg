@@ -1,0 +1,162 @@
+[
+  { "id": "grp.bond_fire", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "outcomes": [{ "rarity": "common", "text": "{G} sit around a small fire in the {zone} and, for about an hour, talk about anything except the Games.",
+      "effects": [{ "kind": "affinity", "from": "G", "to": "G", "delta": 10 }] }] },
+
+  { "id": "grp.share_food", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "requires": { "hasItem": [{ "who": "G", "item": "food" }] },
+    "outcomes": [{ "rarity": "common", "text": "{G} split what food they have into exactly equal portions. It takes twenty minutes and a lot of squinting.",
+      "effects": [{ "kind": "need", "who": "G", "need": "hunger", "delta": -25 }, { "kind": "affinity", "from": "G", "to": "G", "delta": 6 }] }] },
+
+  { "id": "grp.hunt_together", "category": "group", "severity": "minor", "rarity": "common", "tone": "cooperative", "visual": "forage",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["dawn", "day"] },
+    "mods": [{ "kind": "need", "who": "G", "need": "hunger", "per": 1.5 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} drive a wild pig into a gully in the {zone} and corner it. Dinner is noisy.",
+        "effects": [{ "kind": "need", "who": "G", "need": "hunger", "delta": -40 }] },
+      { "rarity": "uncommon", "text": "{G} spend all morning hunting in the {zone} and come back with one bird, which they argue over.",
+        "effects": [{ "kind": "need", "who": "G", "need": "hunger", "delta": -10 }, { "kind": "affinity", "from": "G", "to": "G", "delta": -4 }] }
+    ] },
+
+  { "id": "grp.keep_watch", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "sleep",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "loyalty", "per": 0.12 }],
+    "outcomes": [{ "rarity": "common", "text": "{A} keeps watch all night so the others can sleep, and doesn't mention it in the morning.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 20 }, { "kind": "affinity", "from": "G", "to": "A", "delta": 10 }] }] },
+
+  { "id": "grp.argue", "category": "group", "severity": "minor", "rarity": "common", "tone": "hostile", "visual": "none",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "mods": [{ "kind": "need", "who": "G", "need": "hunger", "per": 1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} have a furious whispered argument about whose turn it was to fetch water.",
+        "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": -15, "mutual": true }] },
+      { "rarity": "uncommon", "text": "{A} tells {B} exactly what {A.they} think{A.s} of {B.their} plan. It's a long list.",
+        "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": -20, "mutual": true }] }
+    ] },
+
+  { "id": "grp.storm_off", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "affinity": [{ "from": "A", "to": "B", "max": 10 }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} finally have it out. {A} grabs {A.their} pack and storms off into the {zone} alone.",
+      "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": -25, "mutual": true }, { "kind": "leaveGroup", "who": "A" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "grp.split_amicable", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "mods": [{ "kind": "alive", "per": 3 }],
+    "outcomes": [{ "rarity": "common", "text": "{G} agree, quietly, that it's time to go their separate ways before somebody has to make a decision. Nobody looks back.",
+      "effects": [{ "kind": "leaveGroup", "who": "G" }] }] },
+
+  { "id": "grp.endgame_split", "category": "group", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "alive": { "max": 6 } },
+    "outcomes": [{ "rarity": "common", "text": "{G} count the cannons and do the maths. They split up at dawn without saying much.",
+      "effects": [{ "kind": "leaveGroup", "who": "G" }] }] },
+
+  { "id": "grp.ditch_wounded", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }], "health": [{ "who": "A", "is": ["wounded", "critical"] }] },
+    "outcomes": [{ "rarity": "common", "text": "The rest of the group decide {A} is slowing them down. {A} wakes up alone.",
+      "effects": [{ "kind": "ditch", "who": "A", "from": "G" }, { "kind": "affinity", "from": "A", "to": "G", "delta": -40 }] }] },
+
+  { "id": "grp.ditch_disliked", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "G": { "min": 3, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }], "affinity": [{ "from": "G", "to": "A", "max": 0 }] },
+    "outcomes": [{ "rarity": "common", "text": "{R} send {A} to fetch water, and by the time {A.they} get{A.s} back, they're gone.",
+      "effects": [{ "kind": "ditch", "who": "A", "from": "G" }, { "kind": "affinity", "from": "A", "to": "G", "delta": -40 }] }] },
+
+  { "id": "grp.ditch_sleeping", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "G": { "min": 3, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }], "asleep": ["A"] },
+    "outcomes": [{ "rarity": "common", "text": "{R} pack up while {A} is asleep and creep away. {A.They} wake{A.s} at dawn to a cold fire.",
+      "effects": [{ "kind": "ditch", "who": "A", "from": "G" }, { "kind": "affinity", "from": "A", "to": "G", "delta": -45 }] }] },
+
+  { "id": "grp.vote", "category": "group", "severity": "major", "rarity": "veryRare", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "G": { "min": 4, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{R} hold a formal vote on whether to keep {A}. It's very civilised. {A} loses, and is escorted to the edge of the {zone}.",
+      "effects": [{ "kind": "ditch", "who": "A", "from": "G" }, { "kind": "affinity", "from": "A", "to": "G", "delta": -50 }] }] },
+
+  { "id": "grp.teach_snare", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "cooperative", "visual": "trap",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.15 }],
+    "outcomes": [{ "rarity": "common", "text": "{A} teaches {B} how to make a snare from a bootlace. {B} is bad at it, then less bad at it.",
+      "effects": [{ "kind": "gainItem", "who": "B", "item": "trap" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 12 }] }] },
+
+  { "id": "grp.medkit_share", "category": "group", "severity": "minor", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "hasItem": [{ "who": "A", "item": "medkit" }], "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} uses {A.their} only medkit on {B} without being asked. {B} doesn't know what to say, so {B.they} say{B.s} nothing.",
+      "effects": [{ "kind": "heal", "target": "B" }, { "kind": "loseItem", "who": "A", "item": "medkit" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 30 }] }] },
+
+  { "id": "grp.tend_wounds", "category": "group", "severity": "minor", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} boils water, cleans {B}'s wound and binds it with strips of {A.their} own jacket.",
+        "effects": [{ "kind": "heal", "target": "B" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 20 }] },
+      { "rarity": "uncommon", "text": "{A} tries to clean {B}'s wound and makes it noticeably worse. They agree not to talk about it.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -5 }] }
+    ] },
+
+  { "id": "grp.food_thief", "category": "group", "severity": "minor", "rarity": "uncommon", "tone": "hostile", "visual": "loot",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "mods": [{ "kind": "need", "who": "A", "need": "hunger", "per": 2 }, { "kind": "trait", "who": "A", "trait": "loyalty", "per": -0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} eats the group's last food in the middle of the night and buries the wrapper. Nobody ever finds out.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -40 }] },
+      { "rarity": "uncommon", "text": "{A} gets caught eating the group's last food in the middle of the night, cheeks full, like a hamster.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -40 }, { "kind": "affinity", "from": "G", "to": "A", "delta": -25 }] }
+    ] },
+
+  { "id": "grp.promise", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "affinity": [{ "from": "A", "to": "B", "min": 20 }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} make a deal: if it comes down to the two of them, they'll make it quick. They shake on it. It's the nicest thing anyone's said all week.",
+      "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": 15, "mutual": true }] }] },
+
+  { "id": "grp.leader", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one", "G": { "min": 3, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.12 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} appoints {A.themself} leader of the group. {R} let {A.them} think so.",
+        "effects": [] },
+      { "rarity": "uncommon", "text": "{A} tries to appoint {A.themself} leader. {R} laugh until {A} gives up.",
+        "effects": [{ "kind": "affinity", "from": "A", "to": "G", "delta": -10 }] }
+    ] },
+
+  { "id": "grp.separated", "category": "group", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.1 }, { "kind": "timeOfDay", "is": "night", "mult": 2 }],
+    "outcomes": [{ "rarity": "common", "text": "{A} steps away from the group to pee in the {zone} and can't find them again.",
+      "effects": [{ "kind": "leaveGroup", "who": "A" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "grp.night_scare", "category": "group", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [{ "rarity": "common", "text": "Something big moves in the {zone} near {G}'s camp. Nobody breathes for a minute. It moves on.",
+      "effects": [{ "kind": "need", "who": "G", "need": "fatigue", "delta": 8 }] }] },
+
+  { "id": "grp.inside_joke", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} does an impression of the Capitol host that makes everyone laugh so hard they have to hide in a bush.",
+      "effects": [{ "kind": "affinity", "from": "G", "to": "A", "delta": 8 }] }] },
+
+  { "id": "grp.blood_oath", "category": "group", "severity": "flavour", "rarity": "legendary", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "outcomes": [{ "rarity": "common", "text": "{G} cut their palms and swear an oath in the {zone}: none of them will ever raise a hand against the other. It's very moving. The odds are against it.",
+      "effects": [{ "kind": "affinity", "from": "G", "to": "G", "delta": 25 }] }] }
+]

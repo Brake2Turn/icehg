@@ -1,0 +1,415 @@
+[
+  { "id": "solo.cries_alone_abandoned", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "cry",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["abandoned"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} sits alone in the {zone} and cries. {A.Their} group didn't even say goodbye.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }] },
+
+  { "id": "solo.abandoned_rehearses", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "cry",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["abandoned"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} spends an hour rehearsing what {A.they} will say to {A.their} old group if {A.they} ever see{A.s} them again. Most of it is swearing.",
+      "effects": [] }] },
+
+  { "id": "solo.grieving_initials", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "cry",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["grieving"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} carves a name into a tree in the {zone}, then sits under it until it gets dark.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 5 }] }] },
+
+  { "id": "solo.grieving_rage", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "cry",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["grieving"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} screams at the sky until {A.their} voice gives out. Somewhere, a producer is very pleased.",
+      "effects": [{ "kind": "removeTag", "who": "A", "tag": "grieving" }] }] },
+
+  { "id": "solo.betrayed_cant_sleep", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["betrayed"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} sleeps sitting up with {A.their} back against a rock. Every time {A.they} close{A.s} {A.their} eyes {A.they} see{A.s} that face.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 15 }] }] },
+
+  { "id": "solo.betrayed_list", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["betrayed"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} scratches a list into the dirt of everyone {A.they} still trust{A.s}. It's very short. {A} rubs it out anyway.",
+      "effects": [] }] },
+
+  { "id": "solo.vengeful_sharpens", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["vengeful"] }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} sharpens {A.their} {weapon} on a flat stone for a very long time. {A.They} {A.has} someone in mind.",
+      "effects": [] }] },
+
+  { "id": "solo.hunted_paranoid", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["hunted"] }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} is sure {A.they} {A.is} being followed and moves on from the {zone}, doubling back twice to be safe.",
+        "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "common", "text": "{A} burrows under a pile of leaves in the {zone} and refuses to come out for hours.",
+        "effects": [{ "kind": "addTag", "who": "A", "tag": "hiding" }] }
+    ] },
+
+  { "id": "solo.forage_berries", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"], "zoneTags": ["food", "shelter"] },
+    "requires": { "needs": [{ "who": "A", "need": "hunger", "min": 25 }] },
+    "mods": [{ "kind": "need", "who": "A", "need": "hunger", "per": 1.5 }],
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.1 }],
+        "text": "{A} finds a bush of fat purple berries in the {zone} and eats until {A.their} fingers are stained.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -30 }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.1 }],
+        "text": "{A} eats a handful of berries that taste faintly of pennies and spends the afternoon being sick behind a tree.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -5 }, { "kind": "addTag", "who": "A", "tag": "poisoned" }, { "kind": "need", "who": "A", "need": "thirst", "delta": 20 }] },
+      { "rarity": "legendary", "text": "{A} pushes through a thicket in the {zone} and finds an entire orchard the Gamemakers forgot to poison. {A} eats until {A.they} can't move, fills every pocket, and tells no one.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -80 }, { "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "gainItem", "who": "A", "item": "food" }] }
+    ] },
+
+  { "id": "solo.bad_mushrooms", "category": "solo", "severity": "lethal", "rarity": "rare", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "requires": { "needs": [{ "who": "A", "need": "hunger", "min": 55 }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.12 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} is hungry enough to eat a mushroom {A.they} {A.does}n't recognise. {A.They} lie{A.s} down for a minute and never get{A.s} up.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "common", "text": "{A} eats a mushroom {A.they} {A.does}n't recognise and spends the night hallucinating that the trees are judging {A.them}. They probably are.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "need", "who": "A", "need": "hunger", "delta": -10 }] }
+    ] },
+
+  { "id": "solo.hunt_rabbit", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"] },
+    "requires": { "hasWeapon": ["A"] },
+    "mods": [{ "kind": "need", "who": "A", "need": "hunger", "per": 1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} kills a rabbit with {A.their} {weapon}, skins it badly, and eats it anyway.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -40 }] },
+      { "rarity": "uncommon", "text": "{A} stalks a deer through the {zone} for two hours. The deer wins.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 15 }] }
+    ] },
+
+  { "id": "solo.fishing", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "when": { "zones": ["river", "lake"], "timeOfDay": ["dawn", "day", "dusk"] },
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.15 }],
+        "text": "{A} wades into the {zone} and catches a fish with {A.their} bare hands. {A.They} look{A.s} around for someone to tell.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -35 }, { "kind": "gainItem", "who": "A", "item": "food" }] },
+      { "rarity": "common", "text": "{A} stands in the {zone} for an hour trying to catch a fish and catches a cold instead.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }
+    ] },
+
+  { "id": "solo.build_shelter", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["day", "dusk"] },
+    "mods": [{ "kind": "need", "who": "A", "need": "fatigue", "per": 1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} builds a lean-to out of branches in the {zone}. It's honestly not bad.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -15 }] },
+      { "rarity": "uncommon", "text": "{A} builds a shelter in the {zone}. It falls down. {A} builds it again. It falls down again. {A} sleeps next to the pile.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 5 }] }
+    ] },
+
+  { "id": "solo.lost", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.1 }],
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} walks in what {A.they} {A.is} absolutely certain is a straight line and ends up somewhere else entirely.",
+      "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "solo.find_knife", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "requires": { "unarmed": ["A"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds a knife half-buried in the mud of the {zone}. Somebody else dropped it. Somebody else probably regrets that.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "knife" }] },
+      { "rarity": "uncommon", "text": "{A} finds a rusty knife and a bloodstain in the {zone}, and decides not to think about the bloodstain.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "knife" }] }
+    ] },
+
+  { "id": "solo.sharpen_stick", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "when": { "zoneTags": ["shelter", "food"] },
+    "requires": { "unarmed": ["A"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.1 }],
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} spends the afternoon grinding a long branch to a point on a rock. Congratulations to {A} on the spear.",
+      "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "spear" }] }] },
+
+  { "id": "solo.find_bow", "category": "solo", "severity": "minor", "rarity": "rare", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "when": { "zones": ["ruins", "caves", "forest"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} finds a bow and a quiver of arrows tucked into a hollow in the {zone}. The Gamemakers clearly wanted somebody to find it.",
+      "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "bow" }] }] },
+
+  { "id": "solo.set_snare", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "trap",
+    "roles": { "A": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "rope" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} rigs a snare out of rope and a bent sapling in the {zone}, then hides nearby to see what wanders in.",
+        "effects": [{ "kind": "loseItem", "who": "A", "item": "rope" }, { "kind": "gainItem", "who": "A", "item": "trap" }] }
+    ] },
+
+  { "id": "solo.snare_catches", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "trap",
+    "roles": { "A": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "trap" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A}'s snare catches a squirrel. {A} apologises to it, then eats it.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -30 }] },
+      { "rarity": "uncommon", "text": "{A} forgets exactly where {A.they} set {A.their} own snare and finds it with {A.their} ankle.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "loseItem", "who": "A", "item": "trap" }] }
+    ] },
+
+  { "id": "solo.find_water_bottle", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "need", "who": "A", "need": "thirst", "per": 1 }],
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} finds a full water bottle wedged between two rocks. It's either a gift or a trap. It's water, so {A} doesn't care.",
+      "effects": [{ "kind": "gainItem", "who": "A", "item": "water" }] }] },
+
+  { "id": "solo.drinks_puddle", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "requires": { "needs": [{ "who": "A", "need": "thirst", "min": 50 }] },
+    "mods": [{ "kind": "need", "who": "A", "need": "thirst", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds a puddle in the {zone} and drinks from it on {A.their} hands and knees. It tastes of mud. It's the best thing {A.they} {A.has} ever tasted.",
+        "effects": [{ "kind": "need", "who": "A", "need": "thirst", "delta": -35 }] },
+      { "rarity": "uncommon", "text": "{A} drinks from a stagnant puddle in the {zone}. {A.Their} stomach files a formal complaint an hour later.",
+        "effects": [{ "kind": "need", "who": "A", "need": "thirst", "delta": -20 }, { "kind": "addTag", "who": "A", "tag": "poisoned" }] }
+    ] },
+
+  { "id": "solo.climbs_tree", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "sleep",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["dusk", "night"], "zoneTags": ["shelter", "food"] },
+    "requires": { "needs": [{ "who": "A", "need": "fatigue", "min": 30 }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} climbs a tree in the {zone} and straps {A.themself} to a branch with a belt to sleep.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -20 }] }] },
+
+  { "id": "solo.nightmare", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "sleep",
+    "roles": { "A": "one" },
+    "requires": { "asleep": ["A"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} has a nightmare about the Bloodbath and wakes with {A.their} hand over {A.their} own mouth.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 5 }] }] },
+
+  { "id": "solo.sleeps_soundly", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "sleep",
+    "roles": { "A": "one" },
+    "requires": { "asleep": ["A"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} sleeps like the dead in the {zone}. Under the circumstances, nobody finds this phrase funny.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -15 }] }] },
+
+  { "id": "solo.wakes_to_noise", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "requires": { "asleep": ["A"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} wakes to a twig snapping somewhere in the {zone}. Nothing's there. {A} doesn't sleep again.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }] },
+
+  { "id": "solo.medkit", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "medkit" }], "health": [{ "who": "A", "is": ["wounded", "critical"] }] },
+    "mods": [{ "kind": "health", "who": "A", "is": "critical", "mult": 3 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} opens {A.their} medkit, reads the instructions twice, and patches {A.themself} up properly.",
+        "effects": [{ "kind": "heal", "target": "A" }, { "kind": "loseItem", "who": "A", "item": "medkit" }] },
+      { "rarity": "uncommon", "text": "{A} uses an entire medkit's worth of bandages on {A.themself}. {A.They} look{A.s} like a badly wrapped present, but the bleeding stops.",
+        "effects": [{ "kind": "heal", "target": "A" }, { "kind": "heal", "target": "A" }, { "kind": "loseItem", "who": "A", "item": "medkit" }] }
+    ] },
+
+  { "id": "solo.stitches_self", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "requires": { "health": [{ "who": "A", "is": ["wounded"] }] },
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.15 }],
+        "text": "{A} stitches {A.their} own wound shut with a fishhook and some thread pulled from {A.their} sleeve. It works.",
+        "effects": [{ "kind": "heal", "target": "A" }] },
+      { "rarity": "common", "text": "{A} tries to stitch {A.their} own wound shut, faints halfway, and wakes up with it still open.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 15 }] }
+    ] },
+
+  { "id": "solo.asks_for_sandwich", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "needs": [{ "who": "A", "need": "hunger", "min": 40 }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} looks straight up at the sky and politely asks the Gamemakers for a sandwich. No sandwich arrives.",
+      "effects": [] }] },
+
+  { "id": "solo.counts_cannons", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "day": { "min": 2 } },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} keeps a tally of cannons on {A.their} forearm in charcoal. {A} is running out of forearm.",
+      "effects": [] }] },
+
+  { "id": "solo.cliff_climb", "category": "solo", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "when": { "zones": ["cliffs"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} climbs to the top of the cliffs and gets a good look at the whole arena. It doesn't make {A.them} feel better.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.1 }],
+        "text": "{A} loses {A.their} footing on the cliffs and slides twenty metres down a scree slope on {A.their} back.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }] },
+      { "rarity": "rare", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": -0.15 }],
+        "text": "A ledge gives way under {A}. The fall is long enough for {A.them} to realise what's happening.",
+        "effects": [{ "kind": "kill", "target": "A" }] }
+    ] },
+
+  { "id": "solo.swamp_leeches", "category": "solo", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "when": { "zones": ["swamp"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} wades out of the {zone} and finds eleven leeches on {A.their} legs. {A} names the biggest one after a Gamemaker.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }] },
+
+  { "id": "solo.swamp_sinks", "category": "solo", "severity": "lethal", "rarity": "rare", "tone": "neutral", "visual": "death",
+    "roles": { "A": "one" },
+    "when": { "zones": ["swamp"] },
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "A", "trait": "strength", "per": 0.15 }],
+        "text": "{A} steps into a patch of sucking mud in the {zone} and sinks to the chest before dragging {A.themself} out by a root.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 30 }] },
+      { "rarity": "uncommon", "text": "{A} steps into a patch of sucking mud in the {zone}. It takes {A.them} slowly. Nobody hears {A.them} shouting.",
+        "effects": [{ "kind": "kill", "target": "A" }] }
+    ] },
+
+  { "id": "solo.cave_bats", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "when": { "zones": ["caves"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} goes deeper into the caves and disturbs several thousand bats. {A} comes out faster than {A.they} went in.",
+      "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }] },
+
+  { "id": "solo.ruins_cache", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "when": { "zones": ["ruins"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} searches a collapsed building in the {zone} and finds a coil of rope.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "rope" }] },
+      { "rarity": "uncommon", "text": "{A} searches the {zone} and finds a medkit under a fallen beam, still sealed.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "medkit" }] },
+      { "rarity": "uncommon", "text": "{A} searches the {zone} and finds a box of matches and a map of the arena that is completely wrong.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "matches" }, { "kind": "gainItem", "who": "A", "item": "map" }] }
+    ] },
+
+  { "id": "solo.meadow_exposed", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "when": { "zones": ["meadow"], "timeOfDay": ["day"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} crosses the open {zone} in a crouch, which makes {A.them} feel invisible and look ridiculous.",
+      "effects": [] }] },
+
+  { "id": "solo.campfire", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "sleep",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "requires": { "hasItem": [{ "who": "A", "item": "matches" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} builds a tiny, well-hidden fire in the {zone} and warms {A.their} hands. It's the first good hour {A.they} {A.has} had.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -15 }] },
+      { "rarity": "uncommon", "text": "{A} builds a fire in the {zone} that can be seen from space. {A} panics and stamps it out.",
+        "effects": [{ "kind": "addTag", "who": "A", "tag": "hunted" }] }
+    ] },
+
+  { "id": "solo.fever", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "requires": { "health": [{ "who": "A", "is": ["healthy"] }] },
+    "mods": [{ "kind": "hasTag", "who": "A", "tag": "poisoned", "mult": 6 }],
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} comes down with a fever and spends the day shivering in the {zone}.",
+      "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "removeTag", "who": "A", "tag": "poisoned" }] }] },
+
+  { "id": "solo.loses_food", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "food" }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "A raccoon steals {A}'s food while {A.they} {A.is} looking the other way. {A} chases it for a while, which is a strong look.",
+      "effects": [{ "kind": "loseItem", "who": "A", "item": "food" }] }] },
+
+  { "id": "solo.snake_bite", "category": "solo", "severity": "lethal", "rarity": "rare", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "when": { "zoneTags": ["water", "dark", "dangerous"] },
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.15 }],
+        "text": "A snake bites {A} on the hand. {A} cuts the bite open and sucks out what {A.they} can. {A.Their} hand swells up like a glove full of water.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }] },
+      { "rarity": "uncommon", "text": "A snake bites {A} on the ankle. By the time {A.they} realise{A.s} how bad it is, {A.they} can't stand.",
+        "effects": [{ "kind": "kill", "target": "A" }] }
+    ] },
+
+  { "id": "solo.night_noises", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "Something howls in the {zone}. {A} lies very still and tries to remember if anything in this arena is a normal animal.",
+      "effects": [] }] },
+
+  { "id": "solo.practises_weapon", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["day"] },
+    "requires": { "hasWeapon": ["A"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} practises with {A.their} {weapon} against a tree in the {zone}. The tree is having a very bad day.",
+      "effects": [] }] },
+
+  { "id": "solo.eats_bugs", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "forage",
+    "roles": { "A": "one" },
+    "requires": { "needs": [{ "who": "A", "need": "hunger", "min": 55 }] },
+    "mods": [{ "kind": "need", "who": "A", "need": "hunger", "per": 2 }],
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} eats a handful of grubs from under a log. {A.They} rate{A.s} them three out of ten. Crunchy.",
+      "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -15 }] }] },
+
+  { "id": "solo.talks_to_camera", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} finds a hidden camera in a tree and gives it a long, detailed review of the arena so far. One star.",
+      "effects": [] }] },
+
+  { "id": "solo.hidden_cache", "category": "solo", "severity": "minor", "rarity": "legendary", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "when": { "zones": ["ruins", "caves"] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} digs into a patch of soft earth in the {zone} and finds a sealed cache: a sword, a medkit, food and water. The Gamemakers apparently forgot it was there.",
+      "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "sword" }, { "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "gainItem", "who": "A", "item": "water" }] }] },
+
+  { "id": "solo.last_light", "category": "solo", "severity": "lethal", "rarity": "veryRare", "tone": "neutral", "visual": "death",
+    "roles": { "A": "one" },
+    "when": { "day": { "min": 2 } },
+    "mods": [
+      { "kind": "hasTag", "who": "A", "tag": "abandoned", "mult": 3 },
+      { "kind": "hasTag", "who": "A", "tag": "grieving", "mult": 3 },
+      { "kind": "hasTag", "who": "A", "tag": "betrayed", "mult": 2 }
+    ],
+    "outcomes": [
+      { "rarity": "uncommon", "text": "{A} takes {A.their} own life in the {zone}.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "common", "text": "{A} sits at the edge of the {zone} for a long time, very still. Then {A.they} get{A.s} up and keep{A.s} going.",
+        "effects": [] }
+    ] },
+
+  { "id": "solo.finds_sleeping_bag", "category": "solo", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "requires": { "lacksItem": [{ "who": "A", "item": "sleepingBag" }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} finds a sleeping bag snagged on a bush in the {zone}. It's damp and smells of someone else. {A} takes it.",
+      "effects": [{ "kind": "gainItem", "who": "A", "item": "sleepingBag" }] }] },
+
+  { "id": "solo.map_reading", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "map" }] },
+    "outcomes": [{ "rarity": "common",
+      "text": "{A} studies {A.their} map of the arena, decides it's upside down, turns it round, and decides it was right the first time.",
+      "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] }] }
+]

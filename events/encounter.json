@@ -1,0 +1,293 @@
+[
+  { "id": "enc.attack_at_water", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "when": { "zoneTags": ["water"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} spot{G.s} {H} at the water's edge and attack{G.s}.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "H", "trait": "stealth", "per": 0.2 }],
+        "text": "{H} see{H.s} {G} coming and slip{H.s} away before anyone gets close.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }, { "kind": "addTag", "who": "H", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.hunt_down", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"] },
+    "mods": [{ "kind": "trait", "who": "G", "trait": "ruthlessness", "per": 0.12 }, { "kind": "alive", "per": 0.8 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} track{G.s} {H} through the {zone} and catch{G.es} up.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "H", "trait": "stealth", "per": 0.2 }],
+        "text": "{G} track{G.s} {H} through the {zone} for an hour, then lose{G.s} the trail at a stream.",
+        "effects": [{ "kind": "addTag", "who": "H", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.group_attacks_lone", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "ambush",
+    "roles": { "G": { "min": 2, "max": 6 }, "B": "one" },
+    "mods": [{ "kind": "groupSize", "who": "G", "per": 0.2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} find{G.s} {B} alone in the {zone} and fan{G.s} out around {B.them}.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "B" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "B", "trait": "stealth", "per": 0.2 }],
+        "text": "{G} spot{G.s} {B} in the {zone}, but {B} is up a tree and gone through the canopy before they can surround {B.them}.",
+        "effects": [{ "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "addTag", "who": "B", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.lone_hunts_group", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "ambush",
+    "roles": { "A": "one", "H": { "min": 2, "max": 4 } },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": 0.15 }, { "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} follows {H} through the {zone} for an hour, waiting for a gap. Then {A} goes in.",
+        "effects": [{ "kind": "fight", "attackers": "A", "defenders": "H", "ambush": true }] },
+      { "rarity": "common", "text": "{A} follows {H} for an hour, counts them twice, and decides against it.",
+        "effects": [] }
+    ] },
+
+  { "id": "enc.night_ambush", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "ambush",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "awake": ["G"], "asleep": ["H"] },
+    "mods": [{ "kind": "trait", "who": "G", "trait": "stealth", "per": 0.12 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} creep{G.s} up on {H} sleeping in the {zone}.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H", "ambush": true }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "H", "trait": "survival", "per": 0.15 }],
+        "text": "{G} creep{G.s} up on {H} in the dark, but a branch cracks underfoot. By the time {G} get{G.s} there, the camp is empty.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }, { "kind": "addTag", "who": "H", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.knife_in_the_dark", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "awake": ["A"], "asleep": ["B"], "hasWeapon": ["A"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds {B} asleep in the {zone}. {B} doesn't wake up, and then {B} never will.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "B", "trait": "survival", "per": 0.15 }],
+        "text": "{A} finds {B} asleep in the {zone} and raises {A.their} {weapon}. {B} opens {B.their} eyes.",
+        "effects": [{ "kind": "fight", "attackers": "A", "defenders": "B" }] },
+      { "rarity": "uncommon", "text": "{A} finds {B} asleep in the {zone}, stands over {B.them} for a long minute, and then just takes {B.their} food and goes.",
+        "effects": [{ "kind": "transferItem", "from": "B", "to": "A", "item": "food" }] }
+    ] },
+
+  { "id": "enc.ambush_day", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "ambush",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "when": { "zoneTags": ["shelter", "dark", "highGround"] },
+    "mods": [{ "kind": "trait", "who": "G", "trait": "cunning", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} lie{G.s} in wait in the {zone} and jump{G.s} {H} as {H.they} pass.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H", "ambush": true }] },
+      { "rarity": "common", "text": "{G} lie{G.s} in wait in the {zone} for {H}, who take{H.s} a different path and never know how close it was.",
+        "effects": [] }
+    ] },
+
+  { "id": "enc.high_ground", "category": "encounter", "severity": "lethal", "rarity": "rare", "tone": "hostile", "visual": "ambush",
+    "roles": { "A": "one", "H": { "min": 1, "max": 6 } },
+    "when": { "zones": ["cliffs"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} spots {H} from the top of the cliffs and starts rolling rocks down.",
+        "effects": [{ "kind": "fight", "attackers": "A", "defenders": "H", "ambush": true }] },
+      { "rarity": "common", "text": "{A} spots {H} from the top of the cliffs, rolls a rock down, and watches it miss everyone by several metres.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }, { "kind": "addTag", "who": "H", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.team_up", "category": "encounter", "severity": "major", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "notSameGroup": [["A", "B"]] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} agree to stick together. For now.",
+        "effects": [{ "kind": "formGroup", "members": ["A", "B"] }] },
+      { "rarity": "legendary", "text": "{A} and {B} recognise each other from a school trip years ago, and spend an hour arguing about who threw up on the coach. They agree to stick together. It's the first time either of them has laughed since the gong.",
+        "effects": [{ "kind": "formGroup", "members": ["A", "B"] }, { "kind": "affinity", "from": "A", "to": "B", "delta": 30, "mutual": true }] }
+    ] },
+
+  { "id": "enc.alliance_of_necessity", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "notSameGroup": [["A", "B"]], "health": [{ "who": "A", "is": ["wounded", "critical"] }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} is bleeding and {B} has nothing. They team up out of pure desperation. Neither of them is happy about it.",
+      "effects": [{ "kind": "formGroup", "members": ["A", "B"] }] }] },
+
+  { "id": "enc.alliance_unarmed", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "unarmed": ["A", "B"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} meet in the {zone}, both empty-handed, and agree that two people with sticks is better than one.",
+      "effects": [{ "kind": "formGroup", "members": ["A", "B"] }] }] },
+
+  { "id": "enc.alliance_hungry", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "needs": [{ "who": "A", "need": "hunger", "min": 55 }, { "who": "B", "need": "hunger", "min": 40 }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} are too hungry to fight. They agree to hunt together and argue about it later.",
+      "effects": [{ "kind": "formGroup", "members": ["A", "B"] }, { "kind": "need", "who": "A", "need": "hunger", "delta": -20 }, { "kind": "need", "who": "B", "need": "hunger", "delta": -20 }] }] },
+
+  { "id": "enc.alliance_early", "category": "encounter", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "day": { "max": 2 } },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} run into each other in the {zone}, both shaking from the Bloodbath. They decide nobody should be alone yet.",
+      "effects": [{ "kind": "formGroup", "members": ["A", "B"] }] }] },
+
+  { "id": "enc.group_recruits", "category": "encounter", "severity": "major", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 5 }, "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} find{G.s} {B} in the {zone} and, after a tense minute, invite {B.them} along.",
+        "effects": [{ "kind": "joinGroup", "who": "B", "group": "G" }] },
+      { "rarity": "uncommon", "text": "{G} find{G.s} {B} in the {zone} and argue for ten minutes about whether to let {B.them} join. {B} waits politely. In the end, yes.",
+        "effects": [{ "kind": "joinGroup", "who": "B", "group": "G" }] }
+    ] },
+
+  { "id": "enc.groups_merge", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 3 }, "H": { "min": 2, "max": 3 } },
+    "outcomes": [{ "rarity": "common", "text": "{G} run into {H} in the {zone}, weapons up. Nobody wants to go first. Somehow that turns into a merger.",
+      "effects": [{ "kind": "formGroup", "members": ["G", "H"] }] }] },
+
+  { "id": "enc.abandoned_finds_friend", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "tags": [{ "who": "A", "has": ["abandoned"] }] },
+    "outcomes": [{ "rarity": "common", "text": "{A}, still raw from being dumped, stumbles into {B}. {B} takes one look and lets {A.them} tag along.",
+      "effects": [{ "kind": "formGroup", "members": ["A", "B"] }, { "kind": "affinity", "from": "A", "to": "B", "delta": 20 }, { "kind": "removeTag", "who": "A", "tag": "abandoned" }] }] },
+
+  { "id": "enc.share_food", "category": "encounter", "severity": "minor", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "food" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} sees how thin {B} looks and tosses {B.them} some food without a word. They part ways.",
+      "effects": [{ "kind": "transferItem", "from": "A", "to": "B", "item": "food" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 25 }] }] },
+
+  { "id": "enc.pass_by", "category": "encounter", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} come{G.s} face to face with {H} across the {zone}. Everybody slowly backs away.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{G} reach{G.es} for the same blackberry bush as {H} at exactly the same moment. Everyone stares. Everyone silently agrees to take turns.",
+        "effects": [] }
+    ] },
+
+  { "id": "enc.standoff", "category": "encounter", "severity": "minor", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasWeapon": ["A", "B"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} stand ten metres apart in the {zone}, weapons up, for a full five minutes. Then they both back off. Nobody tells the cameras what that was.",
+      "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": -10, "mutual": true }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }] },
+
+  { "id": "enc.mercy", "category": "encounter", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "fight",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "affinity": [{ "from": "A", "to": "B", "min": 60 }], "hasWeapon": ["A"], "notSameGroup": [["A", "B"]] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} has a clear shot at {B} from the bushes. {A} lowers {A.their} {weapon} and lets {B.them} walk on. {B} never knows.",
+        "effects": [] },
+      { "rarity": "common", "text": "{A} gets the drop on {B}, then can't do it. {A.They} just say{A.s} \"Go,\" and {B} goes.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 25 }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "enc.mercy_wounded", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "affinity": [{ "from": "A", "to": "B", "min": 60 }], "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} finds {B} hurt in the {zone}. Anyone else would finish it. {A} cleans the wound and stays until {B} can stand.",
+      "effects": [{ "kind": "heal", "target": "B" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 30 }] }] },
+
+  { "id": "enc.revenge", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "A": "one", "H": { "min": 1, "max": 6 } },
+    "requires": { "tags": [{ "who": "A", "has": ["vengeful"] }] },
+    "mods": [{ "kind": "hasTag", "who": "A", "tag": "vengeful", "mult": 6 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finally catches up with {H} in the {zone}. {A} doesn't say anything. {A} just goes for it.",
+        "effects": [{ "kind": "fight", "attackers": "A", "defenders": "H" }] },
+      { "rarity": "uncommon", "text": "{A} finds {H} in the {zone}, has a perfect chance, and freezes. The moment passes. {A} hates {A.themself} for it.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }] }
+    ] },
+
+  { "id": "enc.revenge_group", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "fight",
+    "roles": { "G": { "min": 2, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "requires": { "tags": [{ "who": "G", "has": ["vengeful"] }] },
+    "mods": [{ "kind": "hasTag", "who": "G", "tag": "vengeful", "mult": 4 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{G} have been looking for {H}, and now {G} have found {H.them}.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] },
+      { "rarity": "uncommon", "text": "{G} corner{G.s} {H} in the {zone} but can't agree on who gets to do it, and {H} use{H.s} the argument to run.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }, { "kind": "addTag", "who": "H", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.chase", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "chase",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 3 } },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"] },
+    "outcomes": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "H", "trait": "survival", "per": 0.15 }],
+        "text": "{G} chase{G.s} {H} out of the {zone}. {H} get{H.s} away, but only just.",
+        "effects": [{ "kind": "move", "who": ["H"], "to": "adjacent" }, { "kind": "addTag", "who": "H", "tag": "hunted" }] },
+      { "rarity": "common", "text": "{G} chase{G.s} {H} across the {zone} and run{G.s} {H.them} down at the far end.",
+        "effects": [{ "kind": "fight", "attackers": "G", "defenders": "H" }] }
+    ] },
+
+  { "id": "enc.walks_into_snare", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "trap",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "trap" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{B} walks straight into {A}'s snare and gets hoisted upside down. {A} strolls out of the bushes and finishes it.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "loseItem", "who": "A", "item": "trap" }] },
+      { "rarity": "common", "text": "{B} walks into {A}'s snare, cuts {B.themself} loose with {B.their} teeth and a lot of swearing, and is gone before {A} arrives.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "loseItem", "who": "A", "item": "trap" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "enc.river_rescue", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "zones": ["river", "lake", "swamp"] },
+    "outcomes": [{ "rarity": "common", "text": "{B} goes under in the {zone} and doesn't come up. {A} dives in and drags {B.them} out by the collar. {B} coughs up half the {zone} and stares at {A} like {A.they} {A.is} insane.",
+      "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 35 }, { "kind": "affinity", "from": "A", "to": "B", "delta": 10 }] }] },
+
+  { "id": "enc.finish_wounded", "category": "encounter", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
+    "mods": [{ "kind": "health", "who": "B", "is": "critical", "mult": 2 }, { "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds {B} too hurt to run and finishes {B.them} off. It doesn't take long.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "uncommon", "text": "{A} finds {B} too hurt to run, takes {B.their} pack, and leaves {B.them} where {B.they} lie{B.s}. That might be worse.",
+        "effects": [{ "kind": "transferItem", "from": "B", "to": "A", "item": "all" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -40 }] }
+    ] },
+
+  { "id": "enc.steal_sleeping", "category": "encounter", "severity": "minor", "rarity": "common", "tone": "hostile", "visual": "loot",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "awake": ["A"], "asleep": ["B"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} creeps into {B}'s camp while {B.they} sleep{B.s} and takes everything worth taking. {B} will wake up confused.",
+        "effects": [{ "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": -0.15 }],
+        "text": "{A} creeps into {B}'s camp to rob {B.them}, treads on {B.their} hand, and has to run for it.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -40 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "enc.trade", "category": "encounter", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasItem": [{ "who": "A", "item": "water" }, { "who": "B", "item": "food" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} meet in the {zone} and swap water for food at arm's length, like a hostage exchange.",
+      "effects": [{ "kind": "transferItem", "from": "A", "to": "B", "item": "water" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "food" }, { "kind": "affinity", "from": "A", "to": "B", "delta": 10, "mutual": true }] }] },
+
+  { "id": "enc.taunt", "category": "encounter", "severity": "flavour", "rarity": "common", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [{ "rarity": "common", "text": "{A} throws a rock at {B} from across the {zone} and runs off laughing. {B} will remember this.",
+      "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -20 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }] },
+
+  { "id": "enc.surrender", "category": "encounter", "severity": "minor", "rarity": "uncommon", "tone": "hostile", "visual": "loot",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasWeapon": ["A"] },
+    "mods": [{ "kind": "health", "who": "B", "is": "wounded", "mult": 2 }],
+    "outcomes": [{ "rarity": "common", "text": "{B} drops everything and puts {B.their} hands up. {A} takes the lot and tells {B.them} to walk. {B} walks.",
+      "effects": [{ "kind": "transferItem", "from": "B", "to": "A", "item": "all" }, { "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -15 }] }] },
+
+  { "id": "enc.campfire_truce", "category": "encounter", "severity": "minor", "rarity": "legendary", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 1, "max": 6 }, "H": { "min": 1, "max": 6 } },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "outcomes": [{ "rarity": "common", "text": "{G} run{G.s} into {H} in the {zone} at nightfall, and for some reason nobody fights. They share a fire and tell stories about home until it burns down. In the morning, everyone goes their separate ways. Nobody mentions it again.",
+      "effects": [{ "kind": "affinity", "from": "G", "to": "H", "delta": 30, "mutual": true }] }] },
+
+  { "id": "enc.wrong_target", "category": "encounter", "severity": "lethal", "rarity": "veryRare", "tone": "neutral", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "hasWeapon": ["A"], "affinity": [{ "from": "A", "to": "B", "min": 20 }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} hears something in the dark and lashes out with {A.their} {weapon}. It's {B}. {A} sits with {B.them} until it's over.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "addTag", "who": "A", "tag": "grieving" }] },
+      { "rarity": "common", "text": "{A} hears something in the dark and lashes out. It's {B}, and {A} misses by an inch. Neither of them sleeps after that.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 10 }, { "kind": "need", "who": "B", "need": "fatigue", "delta": 10 }] }
+    ] }
+]

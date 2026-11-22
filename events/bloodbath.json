@@ -1,0 +1,209 @@
+[
+  { "id": "bb.grab_backpack", "category": "bloodbath", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} grabs the nearest backpack and sprints for the trees without looking back.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} grabs a backpack, unzips it on the run and finds a water bottle and a single sock. It's a start.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "water" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.grab_knife", "category": "bloodbath", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} snatches a knife off the grass and backs away, pointing it at anyone who looks over.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "knife" }] }
+    ] },
+
+  { "id": "bb.weapons_rack", "category": "bloodbath", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "strength", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} reaches the weapons rack first and comes away with a sword. Several people change direction.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "sword" }] },
+      { "rarity": "common", "text": "{A} reaches the weapons rack first and takes an axe, because it looked the most serious.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "axe" }] },
+      { "rarity": "uncommon", "text": "{A} gets to the weapons rack and takes the bow. {A} has never fired a bow. {A} will learn.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "bow" }] }
+    ] },
+
+  { "id": "bb.runs_empty", "category": "bloodbath", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "chase",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} takes one look at the Cornucopia and runs the other way with nothing at all.",
+        "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} runs straight past the supplies, straight past everyone, and doesn't stop until the screaming is a long way off.",
+        "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }, { "kind": "need", "who": "A", "need": "fatigue", "delta": 15 }] }
+    ] },
+
+  { "id": "bb.trips", "category": "bloodbath", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "injury",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} trips over a crate in the first five seconds and limps away with a twisted ankle and no dignity.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.knife_tackle", "category": "bloodbath", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "traitDiff", "a": "A", "b": "B", "trait": "strength", "per": 0.06 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} tackles {B} into the dirt and stabs {B.them} until {B.they} stop{B.s} moving.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "knife" }] },
+      { "rarity": "uncommon", "text": "{A} goes for {B} with a knife. {B} kicks {A.them} in the face and is gone before {A} stops seeing stars.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -30 }] }
+    ] },
+
+  { "id": "bb.axe_back", "category": "bloodbath", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} pulls an axe from a crate and buries it in the back of {B}'s skull. {B} was reaching for a sleeping bag.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "axe" }, { "kind": "gainItem", "who": "A", "item": "sleepingBag" }] },
+      { "rarity": "uncommon", "text": "{A} swings an axe at {B} and takes a chunk out of {B.their} arm. {B} keeps running, leaking.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "setWeapon", "who": "A", "weapon": "axe" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.spear_pin", "category": "bloodbath", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} throws a spear across the clearing. It goes clean through {B} and pins {B.them} to a crate of tinned peaches.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "spear" }] },
+      { "rarity": "common", "text": "{A} throws a spear at {B} and misses by a foot. They both stare at it for a second, then {B} runs.",
+        "effects": [{ "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "addTag", "who": "B", "tag": "hunted" }] }
+    ] },
+
+  { "id": "bb.strangle", "category": "bloodbath", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "unarmed": ["A"] },
+    "mods": [{ "kind": "traitDiff", "a": "A", "b": "B", "trait": "strength", "per": 0.08 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} has no weapon, so {A} uses a strap from a backpack instead. {B} goes purple, then grey, then still.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "uncommon", "text": "{A} gets a strap around {B}'s neck, but {B} bites {A.their} hand to the bone and wriggles free.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -40 }] }
+    ] },
+
+  { "id": "bb.scuffle", "category": "bloodbath", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "fight",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} reach the same crate at the same time.",
+        "effects": [{ "kind": "fight", "attackers": "A", "defenders": "B" }] },
+      { "rarity": "uncommon", "text": "{A} and {B} reach the same crate at the same time, look at each other, and both decide it isn't worth it.",
+        "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.cornered", "category": "bloodbath", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "ambush",
+    "roles": { "A": "one", "B": "one", "C": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} corner {C} behind the Cornucopia. It's over quickly, and then {A} and {B} look at each other and agree to stick together.",
+        "effects": [{ "kind": "kill", "target": "C", "by": "A" }, { "kind": "formGroup", "members": ["A", "B"] }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "C", "trait": "stealth", "per": 0.15 }],
+        "text": "{A} and {B} corner {C} behind the Cornucopia, but {C} slips between them and is into the trees before either of them can swing.",
+        "effects": [{ "kind": "move", "who": ["C"], "to": "adjacent" }, { "kind": "addTag", "who": "C", "tag": "hunted" }, { "kind": "formGroup", "members": ["A", "B"] }] }
+    ] },
+
+  { "id": "bb.team_up", "category": "bloodbath", "severity": "major", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} grabs {B} by the sleeve and shouts \"With me!\". {B} goes. They run for the trees together with a bag each.",
+        "effects": [{ "kind": "formGroup", "members": ["A", "B"] }, { "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "gainItem", "who": "B", "item": "water" }] }
+    ] },
+
+  { "id": "bb.three_alliance", "category": "bloodbath", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "C": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A}, {B} and {C} end up back to back in the middle of the chaos. Nobody says anything. When it thins out, they leave together.",
+        "effects": [{ "kind": "formGroup", "members": ["A", "B", "C"] }] }
+    ] },
+
+  { "id": "bb.throws_bag", "category": "bloodbath", "severity": "minor", "rarity": "uncommon", "tone": "cooperative", "visual": "loot",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} throws a spare medkit to {B} on the way past. {B} has no idea why, and is going to think about it for days.",
+        "effects": [{ "kind": "gainItem", "who": "B", "item": "medkit" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 25 }] }
+    ] },
+
+  { "id": "bb.mace_skull", "category": "bloodbath", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds a mace, which is a ridiculous weapon, and then uses it on {B}, which stops being funny immediately.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "mace" }] },
+      { "rarity": "common", "text": "{A} swings a mace at {B}, misses, and nearly takes {A.their} own knee off. {B} leaves at speed.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "mace" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.archer", "category": "bloodbath", "severity": "lethal", "rarity": "rare", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} climbs on top of the Cornucopia with a bow and puts an arrow through {B}'s neck from forty metres.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "bow" }] },
+      { "rarity": "uncommon", "text": "{A} climbs on top of the Cornucopia with a bow and spends the whole Bloodbath missing {B} by inches.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "bow" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -25 }] }
+    ] },
+
+  { "id": "bb.snatch", "category": "bloodbath", "severity": "minor", "rarity": "common", "tone": "hostile", "visual": "chase",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} rips a backpack out of {B}'s hands and runs. {B} shouts something that won't make the broadcast.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -25 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.hides_inside", "category": "bloodbath", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": 0.12 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} crawls inside the Cornucopia and hides behind a stack of crates until it goes quiet. {A} comes out with a medkit.",
+        "effects": [{ "kind": "addTag", "who": "A", "tag": "hiding" }, { "kind": "gainItem", "who": "A", "item": "medkit" }] }
+    ] },
+
+  { "id": "bb.mercy", "category": "bloodbath", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "fight",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "affinity": [{ "from": "A", "to": "B", "min": 60 }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} has {B} on the ground with a knife at {B.their} throat. {A} looks at {B} for a long second, then gets up and lets {B.them} go.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 20 }, { "kind": "setWeapon", "who": "A", "weapon": "knife" }] }
+    ] },
+
+  { "id": "bb.double_kill", "category": "bloodbath", "severity": "lethal", "rarity": "rare", "tone": "neutral", "visual": "death",
+    "roles": { "A": "one", "B": "one", "C": "one" },
+    "when": { "alive": { "min": 4 } },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} kills {B} and {C} in about eight seconds, one after the other, with the same knife. {A} doesn't even look out of breath.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "kill", "target": "C", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "knife" }] },
+      { "rarity": "common", "text": "{A} kills {B} with a knife and turns on {C}, who throws a tin of beans at {A.their} head and escapes.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "setWeapon", "who": "A", "weapon": "knife" }, { "kind": "move", "who": ["C"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} goes for {B} and {C} at the same time, which is ambitious. They both get away, and {A} gets a knife across the palm for {A.their} trouble.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "setWeapon", "who": "A", "weapon": "knife" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.calm_walk", "category": "bloodbath", "severity": "minor", "rarity": "legendary", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} walks calmly into the middle of the Bloodbath, picks out the best sword, a medkit and a sleeping bag, and walks out again. Nobody goes near {A.them}. Nobody can explain why.",
+        "effects": [{ "kind": "setWeapon", "who": "A", "weapon": "sword" }, { "kind": "gainItem", "who": "A", "item": "medkit" }, { "kind": "gainItem", "who": "A", "item": "sleepingBag" }] }
+    ] },
+
+  { "id": "bb.frozen", "category": "bloodbath", "severity": "flavour", "rarity": "veryRare", "tone": "neutral", "visual": "hide",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} freezes on {A.their} plate and doesn't move until everyone else has gone. Then {A.they} wander{A.s} over and help{A.s} {A.themself} to the leftovers.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "food" }, { "kind": "gainItem", "who": "A", "item": "water" }] }
+    ] },
+
+  { "id": "bb.collide", "category": "bloodbath", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "chase",
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} crash into each other going for the same bag, bounce off, and run in opposite directions.",
+        "effects": [{ "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "bb.sleeping_bag", "category": "bloodbath", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "loot",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} risks {A.their} life for a sleeping bag. In fairness, it's a very good sleeping bag.",
+        "effects": [{ "kind": "gainItem", "who": "A", "item": "sleepingBag" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] }
+]

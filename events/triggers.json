@@ -1,0 +1,67 @@
+[
+  { "id": "solo.wound_infected", "category": "solo", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "injury", "trigger": "woundWorsen",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A}'s wound has gone hot and started to smell. {A.They} {A.is} not doing well.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "critical" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.2 }],
+        "text": "{A}'s wound starts to turn, so {A.they} wash{A.es} it out with river water and boiled moss. It's disgusting, and it works.",
+        "effects": [{ "kind": "heal", "target": "A" }] }
+    ] },
+
+  { "id": "solo.wound_reopens", "category": "solo", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "injury", "trigger": "woundWorsen",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} climbs over a fallen log and feels {A.their} wound tear open again. There's a lot of blood.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "critical" }] },
+      { "rarity": "common", "text": "{A}'s wound reopens, but {A.they} bind{A.s} it tight with a strip of {A.their} shirt and keep{A.s} moving.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": 15 }] }
+    ] },
+
+  { "id": "solo.succumbs", "category": "solo", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "death", "trigger": "succumb",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} succumbs to {A.their} wounds alone in the {zone}.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.2 }],
+        "text": "{A} is grey and shaking and should be dead by now. {A} refuses.",
+        "effects": [] },
+      { "rarity": "rare", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.2 }],
+        "text": "{A}'s fever breaks overnight. {A.They} wake{A.s} up weak, starving, and somehow on the mend.",
+        "effects": [{ "kind": "heal", "target": "A" }] }
+    ] },
+
+  { "id": "solo.bleeds_out", "category": "solo", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "death", "trigger": "succumb",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} sits down against a tree to rest for a minute and quietly bleeds out.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "common", "text": "{A} passes out from blood loss in the {zone} and wakes up hours later, surprised to be waking up at all.",
+        "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -20 }] }
+    ] },
+
+  { "id": "solo.dehydration", "category": "solo", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "injury", "trigger": "dehydration",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A}'s lips have split and {A.their} head is pounding. {A.They} can barely walk in a straight line.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "health", "who": "A", "is": "critical", "mult": 6 }],
+        "text": "{A} dies of thirst in the {zone}. There was water an hour's walk away.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "A", "trait": "survival", "per": 0.2 }],
+        "text": "{A} licks dew off leaves at dawn until {A.their} tongue works again.",
+        "effects": [{ "kind": "need", "who": "A", "need": "thirst", "delta": -50 }] }
+    ] },
+
+  { "id": "solo.starvation", "category": "solo", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "injury", "trigger": "starvation",
+    "roles": { "A": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} hasn't eaten in days. {A.Their} hands won't stop shaking.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }] },
+      { "rarity": "uncommon", "mods": [{ "kind": "health", "who": "A", "is": "critical", "mult": 6 }],
+        "text": "{A} starves to death in the {zone}, curled up small.",
+        "effects": [{ "kind": "kill", "target": "A" }] },
+      { "rarity": "uncommon", "text": "{A} eats bark. Then {A} eats a beetle. Then {A} eats more bark. It's enough, just about.",
+        "effects": [{ "kind": "need", "who": "A", "need": "hunger", "delta": -40 }] }
+    ] }
+]
