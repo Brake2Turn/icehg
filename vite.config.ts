@@ -3,11 +3,13 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig({
+// `--mode artifact` builds one self-contained page (no service worker, no code splitting)
+// for publishing as a claude.ai artifact; see scripts/build-artifact.mjs.
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    VitePWA({
+    mode !== 'artifact' && VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
@@ -40,4 +42,5 @@ export default defineConfig({
     }),
   ],
   server: { host: true },
-});
+  build: mode === 'artifact' ? { outDir: 'dist-artifact', rolldownOptions: { output: { inlineDynamicImports: true } } } : {},
+}));

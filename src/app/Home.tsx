@@ -8,6 +8,7 @@ type Saved = Awaited<ReturnType<typeof games.list>>[number];
 export function Home() {
   const nav = useNavigate();
   const [saved, setSaved] = useState<Saved[]>([]);
+  const [confirming, setConfirming] = useState<string | null>(null);
   useEffect(() => {
     games.list().then(setSaved).catch(() => setSaved([]));
   }, []);
@@ -56,17 +57,22 @@ export function Home() {
                       {g.status === 'finished' ? 'Finished' : formatGameTime(g.clock.anchorGameMin)} · {g.setup.contestants.length} tributes
                     </div>
                   </button>
-                  <button
-                    className="px-3 py-2 text-mute text-sm"
-                    aria-label="Delete game"
-                    onClick={async () => {
-                      if (!confirm(`Delete “${g.title}”?`)) return;
-                      await games.remove(g.id);
-                      setSaved((s) => s.filter((x) => x.id !== g.id));
-                    }}
-                  >
-                    ✕
-                  </button>
+                  {confirming === g.id ? (
+                    <button
+                      className="px-3 py-2 text-chip-red text-sm font-medium"
+                      onClick={async () => {
+                        await games.remove(g.id);
+                        setSaved((s) => s.filter((x) => x.id !== g.id));
+                        setConfirming(null);
+                      }}
+                    >
+                      Delete?
+                    </button>
+                  ) : (
+                    <button className="px-3 py-2 text-mute text-sm" aria-label="Delete game" onClick={() => setConfirming(g.id)}>
+                      ✕
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

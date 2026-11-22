@@ -6,3 +6,5 @@ dev-dist
 .DS_Store
 coverage
 *.bundle
+dist-artifact
+artifact

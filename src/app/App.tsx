@@ -1,5 +1,8 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router';
+
+// The artifact build runs inside a frame where page paths can't change, so it keeps the route in memory.
+const Router = import.meta.env.MODE === 'artifact' ? MemoryRouter : BrowserRouter;
 import { Home } from './Home';
 import { ModeSelect } from '../features/setup/ModeSelect';
 import { CreateScreen } from '../features/setup/CreateScreen';
@@ -10,7 +13,7 @@ const SimStatsScreen = lazy(() => import('../features/lab/SimStatsScreen').then(
 
 export function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Suspense fallback={<div className="p-8 text-mute">Loading…</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -23,6 +26,6 @@ export function App() {
         <Route path="*" element={<Home />} />
       </Routes>
       </Suspense>
-    </BrowserRouter>
+    </Router>
   );
 }

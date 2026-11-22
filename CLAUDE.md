@@ -49,6 +49,7 @@ npm test             # all tests (must pass every phase)
 npm run sim:stats    # 1,000 games of 24 → compare with the §6.14 targets (npm run sim:stats -- 200 for a quicker run)
 npm run build        # typecheck + production build into dist/
 npm run preview      # serve the production build locally
+npm run build:artifact  # one self-contained HTML file (artifact/icehg.html) for the claude.ai link
 ```
 
 ## Deploy
