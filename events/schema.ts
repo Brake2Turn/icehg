@@ -161,13 +161,8 @@ export type Effect = z.infer<typeof EffectZ>;
 export type Outcome = z.infer<typeof OutcomeZ>;
 export type EventTemplate = z.infer<typeof EventTemplateZ>;
 export type HazardTemplate = z.infer<typeof HazardTemplateZ>;
-export type AnyTemplate = EventTemplate | HazardTemplate;
 export type FightLine = z.infer<typeof FightLineZ>;
 export type Role = z.infer<typeof RoleZ>;
 export type Trigger = z.infer<typeof TriggerZ>;
-
-export type EventDb = { templates: AnyTemplate[]; fightLines: FightLine[] };
-
-export function isHazard(t: AnyTemplate): t is HazardTemplate {
-  return 'perVictim' in t;
-}
+export type { AnyTemplate, EventDb } from './types';
+export { isHazard } from './types';

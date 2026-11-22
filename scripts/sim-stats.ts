@@ -1,5 +1,6 @@
 // npm run sim:stats [-- games] — runs N games of 24 tributes and prints the §6.14 report.
-import { eventDb, validateEventDb } from '../events';
+import { eventDb } from '../events';
+import { validateEventDb } from '../events/validate';
 import { median, pct, runStats } from '../engine/analysis/stats';
 
 validateEventDb();

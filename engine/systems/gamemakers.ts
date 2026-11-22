@@ -1,5 +1,5 @@
 // The Gamemakers (§6.11): hazards, the feast, the shrinking arena and the backstop.
-import type { HazardTemplate } from '../../events/schema';
+import type { HazardTemplate } from '../../events/types';
 import { RING, zoneHas, zoneLabel } from '../core/arena';
 import { minuteOfDay } from '../core/clock';
 import { renderText } from '../core/text';

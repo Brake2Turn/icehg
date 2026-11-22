@@ -1,5 +1,5 @@
 // Picking templates, binding roles, weighing (§6.7), applying effects and building feed entries.
-import type { Effect, EventTemplate, Outcome, WeightMod } from '../../events/schema';
+import type { Effect, EventTemplate, Outcome, WeightMod } from '../../events/types';
 import { zoneHas, zoneLabel } from '../core/arena';
 import type { Rng } from '../core/rng';
 import { renderText, type TextBinding, type TextContext } from '../core/text';

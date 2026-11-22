@@ -1,6 +1,6 @@
 // Pre-process the event database into lookup tables the engine can use quickly.
-import type { AnyTemplate, EventDb, FightLine, HazardTemplate, EventTemplate, Trigger } from '../../events/schema';
-import { isHazard } from '../../events/schema';
+import type { AnyTemplate, EventDb, FightLine, HazardTemplate, EventTemplate, Trigger } from '../../events/types';
+import { isHazard } from '../../events/types';
 import type { Category } from '../core/types';
 
 export type SingleRole = 'A' | 'B' | 'C';

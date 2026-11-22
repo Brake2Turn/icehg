@@ -1,6 +1,6 @@
 // Needs, sleep and wounds (§6.5 step 1).
 import { zoneHas } from '../core/arena';
-import type { Trigger } from '../../events/schema';
+import type { Trigger } from '../../events/types';
 import type { World } from '../core/world';
 import {
   DRINK_IN_WATER_ZONE,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { eventDb, validateEventDb } from '../../events';
-import { isHazard, type AnyTemplate, type Outcome } from '../../events/schema';
+import { eventDb } from '../../events';
+import { validateEventDb } from '../../events/validate';
+import { isHazard, type AnyTemplate, type Outcome } from '../../events/types';
 import { hasLeftoverTokens, renderText, type TextBinding, type TextContext } from '../core/text';
 import type { PronounKey } from '../core/types';
 

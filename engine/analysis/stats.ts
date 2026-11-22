@@ -1,6 +1,6 @@
 // Aggregate statistics over many simulated games (§6.14). Pure: runs in Node or the browser.
-import type { EventDb } from '../../events/schema';
-import { isHazard } from '../../events/schema';
+import type { EventDb } from '../../events/types';
+import { isHazard } from '../../events/types';
 import { dayOf } from '../core/clock';
 import { simulate } from '../core/simulate';
 import type { GameResult, GameSetup, PronounKey } from '../core/types';

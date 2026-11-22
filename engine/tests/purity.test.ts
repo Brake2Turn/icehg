@@ -26,7 +26,7 @@ describe('engine purity (§4.1)', () => {
       for (const m of code.matchAll(/from\s+'([^']+)'/g)) {
         const mod = m[1]!;
         expect(mod.startsWith('.') || mod === 'zod', `${p} imports ${mod}`).toBe(true);
-        if (mod.startsWith('../../') || mod.startsWith('../events')) expect(mod).toMatch(/events\/schema$/);
+        if (mod.startsWith('../../') || mod.startsWith('../events')) expect(mod).toMatch(/events\/(types|schema)$/);
       }
     }
   });

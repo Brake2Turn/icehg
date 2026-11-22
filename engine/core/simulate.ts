@@ -1,5 +1,5 @@
 // Roll a whole game forward one tick at a time (§4.2). Never looks ahead, never aims for a length.
-import type { EventDb } from '../../events/schema';
+import type { EventDb } from '../../events/types';
 import { BLOODBATH_TICKS, TICK_MIN } from '../tuning';
 import { compileDb, type CompiledDb } from '../systems/compile';
 import { midnight } from '../systems/affinity';

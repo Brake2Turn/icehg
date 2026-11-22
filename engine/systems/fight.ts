@@ -1,5 +1,5 @@
 // The fight system (§6.10). rollFight is pure maths (tested on its own); resolveFight applies it.
-import type { FightLine } from '../../events/schema';
+import type { FightLine } from '../../events/types';
 import type { Rng } from '../core/rng';
 import { renderText } from '../core/text';
 import type { Health, Weapon } from '../core/types';
