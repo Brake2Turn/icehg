@@ -52,4 +52,5 @@ npm run preview      # serve the production build locally
 ```
 
 ## Deploy
-Push to GitHub → Vercel builds (`npm run build`, output `dist/`, SPA rewrites in `vercel.json`) and the site updates within a minute or two. Production deploys come from `main`; other branches get preview URLs. Tell the owner before anything costs money or needs a new account.
+**For now the owner runs it locally** (`npm run dev`, phone on the same Wi-Fi); no hosting yet. Keep everything host-agnostic so hosting and online play (Phase 4) can be added later.
+When hosting is added: push to GitHub → Vercel builds (`npm run build`, output `dist/`, SPA rewrites in `vercel.json`) and the site updates within a minute or two. Production deploys come from `main`; other branches get preview URLs. Tell the owner before anything costs money or needs a new account.

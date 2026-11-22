@@ -56,3 +56,6 @@ All additive, so the spec's examples are valid as written:
 - **Small extras beyond the Phase 1 list:** feed filters (All / Deaths / Groups & betrayals / tap a name to follow one person) and a simple Tributes list (status, kills, weapon, items, group, traits) as a stand-in until the Phase 3 contestant card.
 - **Awards on the Victor screen:** "Most loyal friendship" needs ≥40 both ways and "Most hated" needs a negative average; otherwise they're skipped.
 - **"Play again with the same cast"** reuses names, pronouns and districts with a new seed.
+
+### Hosting (owner's choice, after Phase 1)
+- **No hosting for now: the owner runs the app locally** and opens it on their phone over the same Wi-Fi. Over plain `http://` on a local network the game, feed and saved games all work, but "Add to Home Screen" won't give a proper installed app and offline mode is off (both need https). Nothing in the code depends on Vercel: `vercel.json` stays in the repo, unused, so hosting can be switched on later. Multiplayer (Phase 4) stays possible: storage already sits behind `GameRepository`/`PoolRepository` interfaces, and the game is a log replayed by a clock, which is what live spectating needs.
