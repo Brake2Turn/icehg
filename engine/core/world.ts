@@ -26,8 +26,9 @@ import {
   GM_MOOD_SD,
   START_MINUTE,
   TAG_DURATION,
-  TRAIT_MAX,
-  TRAIT_MIN,
+  BASE_TRAIT,
+  QUIRK_EFFECTS,
+  type QuirkEffect,
   WEAPON_BONUS,
 } from '../tuning';
 import type { CompiledDb } from '../systems/compile';
@@ -92,14 +93,9 @@ export class World {
     this.rng = new Rng(setup.seed);
     this.startCount = setup.contestants.length;
     for (const s of setup.contestants) {
-      const traits: Traits = {
-        strength: this.rollTrait(),
-        stealth: this.rollTrait(),
-        cunning: this.rollTrait(),
-        survival: this.rollTrait(),
-        loyalty: this.rollTrait(),
-        ruthlessness: this.rollTrait(),
-      };
+      // Everyone is equal unless they have a quirk.
+      const traits: Traits = { strength: BASE_TRAIT, stealth: BASE_TRAIT, cunning: BASE_TRAIT, survival: BASE_TRAIT, loyalty: BASE_TRAIT, ruthlessness: BASE_TRAIT };
+      if (s.quirk) Object.assign(traits, QUIRK_EFFECTS[s.quirk].traits ?? {});
       this.traits[s.id] = { ...traits };
       this.c[s.id] = {
         id: s.id,
@@ -121,6 +117,7 @@ export class World {
         killedBy: null,
         deathMinute: null,
         traits,
+        quirk: s.quirk,
         tags: [],
       };
       this.order.push(s.id);
@@ -129,10 +126,10 @@ export class World {
     this.gmMood = Math.exp(this.rng.normal(0, GM_MOOD_SD));
   }
 
-  private rollTrait(): number {
-    // Roughly bell-shaped 1–10 (sum of two dice), so extremes are rarer.
-    const v = Math.round((this.rng.int(TRAIT_MIN, TRAIT_MAX) + this.rng.int(TRAIT_MIN, TRAIT_MAX)) / 2);
-    return Math.max(TRAIT_MIN, Math.min(TRAIT_MAX, v));
+  /** This contestant's quirk effect (empty if none). */
+  quirk(id: string): QuirkEffect {
+    const q = this.c[id]?.quirk;
+    return q ? QUIRK_EFFECTS[q] : {};
   }
 
   private initAffinity() {
@@ -141,7 +138,8 @@ export class World {
       this.aff[a] = {};
       this.affStart[a] = {};
     }
-    const start = defaultAffinity(ids, this.setup.affinitySeed ?? this.setup.seed, this.setup.affinityBase ?? 'random');
+    const quirks = Object.fromEntries(this.setup.contestants.filter((c) => c.quirk).map((c) => [c.id, c.quirk!]));
+    const start = defaultAffinity(ids, this.setup.affinitySeed ?? this.setup.seed, this.setup.affinityBase ?? 'random', quirks);
     for (const a of ids) for (const b of ids) if (a !== b) this.aff[a]![b] = start[a]![b]!;
     for (const o of this.setup.affinityOverrides ?? []) {
       if (this.aff[o.from] && o.from !== o.to && o.to in this.aff) this.aff[o.from]![o.to] = clampAff(o.value);

@@ -1,4 +1,6 @@
 // Core engine types. Pure data: no React, no browser APIs.
+import type { QuirkId } from './quirks';
+export type { QuirkId } from './quirks';
 
 export type ZoneId =
   | 'cornucopia'
@@ -59,6 +61,8 @@ export type ContestantSetup = {
   name: string;
   pronouns: PronounKey;
   district?: number;
+  /** Optional quirk; without one, everyone is equal. */
+  quirk?: QuirkId;
 };
 
 export type AffinityOverride = { from: string; to: string; value: number };
@@ -97,6 +101,7 @@ export type Contestant = {
   killedBy: string | null;
   deathMinute: number | null;
   traits: Traits;
+  quirk?: QuirkId;
   tags: TagState[];
 };
 

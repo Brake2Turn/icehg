@@ -1,5 +1,5 @@
 import type { Person } from './person';
-import { dayOf, ITEM_LABEL, WEAPON_LABEL, type Traits, type ViewContestant, type ViewState } from '../../../engine';
+import { dayOf, ITEM_LABEL, QUIRK_INFO, WEAPON_LABEL, type ViewContestant, type ViewState } from '../../../engine';
 import { Avatar } from '../../components/Avatar';
 import { listNames } from './outcomes';
 
@@ -11,7 +11,6 @@ const HEALTH: Record<string, string> = { healthy: 'Healthy', wounded: 'Injured',
 export function Roster({
   view,
   people,
-  traits,
   saves,
   onClose,
   onPick,
@@ -20,7 +19,6 @@ export function Roster({
   saves: Record<string, number>;
   view: ViewState;
   people: Record<string, Person>;
-  traits: Record<string, Traits>;
   onClose: () => void;
   onPick: (id: string) => void;
 }) {
@@ -33,7 +31,6 @@ export function Roster({
 
   const row = (c: ViewContestant) => {
     const p = people[c.id]!;
-    const t = traits[c.id];
     const sv = saves[c.id] ?? 0;
     const saved = sv ? `${sv} save${sv === 1 ? '' : 's'}` : '';
     const status = c.alive
@@ -47,13 +44,9 @@ export function Roster({
             <div className="font-medium">
               {p.name}
               {p.district ? <span className="text-xs text-mute"> · D{p.district}</span> : null}
+              {p.quirk ? <span className="text-xs text-gold"> · {QUIRK_INFO[p.quirk].label}</span> : null}
             </div>
             <div className="text-xs text-mute truncate">{status.filter(Boolean).join(' · ')}</div>
-            {t && c.alive && (
-              <div className="text-[10px] text-mute/80 mt-0.5 tabular-nums">
-                STR {t.strength} · STL {t.stealth} · CUN {t.cunning} · SUR {t.survival} · LOY {t.loyalty} · RUTH {t.ruthlessness}
-              </div>
-            )}
           </div>
         </button>
       </li>

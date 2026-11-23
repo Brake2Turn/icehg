@@ -9,3 +9,4 @@ export { ZONES, RING, ALL_ZONES, neighbours, zoneLabel } from './core/arena';
 export { ITEM_LABEL, WEAPON_LABEL } from './systems/resolve';
 export * as tuning from './tuning';
 export { defaultAffinity, affinityLabel, clampAff as clampAffinity, type AffinityMatrix, type AffinityBase } from './core/affinity';
+export { QUIRK_IDS, QUIRK_INFO } from './core/quirks';

@@ -96,3 +96,19 @@ These override §8.1 and §8.3 of the spec at the owner's request.
 - **Drag to swap** needs a ~0.4 s press before the drag starts, so normal scrolling still works; the page scrolls by itself when you drag near the top or bottom edge. Districts stay with the board position; people (and their relationships) move.
 - **In Custom mode**, slots are removed with the ✕ beside them (Tributes view only).
 - **Taking a photo in the claude.ai link** depends on what the phone allows inside that page; "choose from library" always works.
+
+### Owner's notes after Phase 2: pacing and quirks
+- **No pace choice.** Every new game uses the Standard pace (one game day ≈ 12 minutes). Playback has four controls: **Slow** (half speed; tap again for normal), **Pause/Play**, **Fast** (4×; tap again for normal) and **Skip** (jump to the end of the day, where the Fallen screen appears). "Next event" and the 2×/5×/10× buttons are gone. Older saved games keep the pace they were made with.
+- **No random stats.** Everyone starts with every trait at 5 (equal). The traits still exist inside the engine, but only quirks change them, and they're no longer shown anywhere.
+- **Quirks**: optional, at most one per contestant, picked in the Add sheet or the pool editor and saved with the pool entry. Effects (numbers in `engine/tuning.ts` → `QUIRK_EFFECTS`; names/descriptions in `engine/core/quirks.ts`):
+  - **Career**: strong and ruthless (goes looking for fights); 30% chance a killing blow in a fight leaves them injured instead; outcomes that would kill them ×0.7; everyone else starts −20 toward them.
+  - **Young**: fight score ×0.8; everyone else starts +20 toward them.
+  - **People person**: alliance events ×2; fight score ×0.75 when fighting alone.
+  - **Psycho**: alliance events ×0.35; fight score ×2.1 when fighting alone (so they usually beat two attackers); very ruthless; everyone else starts −10 toward them.
+  - **Survivalist** (new): hunger and thirst rise 30% slower; better at foraging and surviving the Gamemakers; outcomes that would kill them ×0.8.
+  - **Sneaky** (new): high stealth (harder to find, better ambushes and escapes); outcomes that would kill them ×0.75.
+  - **Loyal** (new): betrayal chance ×0.15; twice as likely to save someone.
+  - **Backstabber** (new): betrayal chance ×3; cunning and ruthless; everyone else starts −5 toward them.
+  "Everyone else starts …" changes show on the Relationships board, and manual edits still override them.
+- Measured over 300 games each (one quirky contestant among 23 plain ones; a plain contestant wins ~4.7%): Career wins ~8%, People person and Survivalist ~6%, Sneaky ~5%, Loyal ~5%, Young ~4%, Psycho ~3% (dangerous alone but has nobody to save them), Backstabber ~5% (betrays far more). `engine/tests/quirks.test.ts` checks the headline effects.
+- `npm run sim:stats` uses casts without quirks, so its numbers describe the plain game.

@@ -244,7 +244,7 @@ export function choose(
     const mults: number[] = [];
     for (const b of bindGen(c)) {
       if (!checkRequires(w, c.t, b)) continue;
-      const m = toneMult(w, c.t, b) * modsMult(w, c.t.mods, b) * (extraMult ? extraMult(c, b) : 1);
+      const m = toneMult(w, c.t, b) * modsMult(w, c.t.mods, b) * (extraMult ? extraMult(c, b) : 1) * (c.hasFormGroup ? allianceMult(w, b) : 1);
       binds.push(b);
       mults.push(m);
     }
@@ -265,6 +265,20 @@ export function choose(
   return null;
 }
 
+/** Quirks (People person, Psycho) make alliance events likelier or rarer for the people in them. */
+function allianceMult(w: World, b: Bind): number {
+  let m = 1;
+  for (const id of allIds(b)) m *= w.quirk(id).alliance ?? 1;
+  return m;
+}
+
+/** Quirks (Career, Survivalist) make outcomes that would kill them less likely. */
+function deathQuirkMult(w: World, b: Bind, o: Outcome): number {
+  let m = 1;
+  for (const id of new Set(deathsFrom(b, o.effects))) m *= w.quirk(id).deathOutcome ?? 1;
+  return m;
+}
+
 /** Each earlier use of a template this game makes it less likely (never impossible). */
 export function repeatMult(w: World, id: string): number {
   const n = w.stats.templateUse[id] ?? 0;
@@ -281,7 +295,7 @@ export function chooseOutcome(
 ): Outcome | null {
   const ok = outcomes.filter((o) => outcomeEligible(w, c, b, o) && !(exclude && exclude(o)));
   if (!ok.length) return null;
-  const i = w.rng.weightedIndex(ok.map((o) => RARITY_WEIGHT[o.rarity] * modsMult(w, o.mods, b) * (extra ? extra(o) : 1)));
+  const i = w.rng.weightedIndex(ok.map((o) => RARITY_WEIGHT[o.rarity] * modsMult(w, o.mods, b) * (extra ? extra(o) : 1) * deathQuirkMult(w, b, o)));
   return i < 0 ? null : ok[i]!;
 }
 

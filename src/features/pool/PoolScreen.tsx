@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { QUIRK_INFO } from '../../../engine';
 import { Avatar } from '../../components/Avatar';
 import { Screen } from '../../components/Screen';
 import { Sheet } from '../../components/Sheet';
@@ -33,7 +34,10 @@ export function PoolScreen() {
             <button key={p.id} className="flex flex-col items-center gap-1.5 rounded-xl p-2 active:bg-white/10" onClick={() => setEditing(p)}>
               <Avatar name={p.name} photo={p.photo} size={64} />
               <span className="text-sm truncate max-w-full">{p.name}</span>
-              <span className="text-[10px] text-mute -mt-1">{p.pronouns}</span>
+              <span className="text-[10px] text-mute -mt-1">
+                {p.pronouns}
+                {p.quirk ? ` · ${QUIRK_INFO[p.quirk].label}` : ''}
+              </span>
             </button>
           ))}
         </div>
@@ -53,7 +57,7 @@ export function PoolScreen() {
 }
 
 function PoolEditor({ person, onClose, onDone }: { person: PoolPerson | null; onClose: () => void; onDone: () => void }) {
-  const [draft, setDraft] = useState<PersonDraft>({ name: person?.name ?? '', pronouns: person?.pronouns ?? 'they', photo: person?.photo });
+  const [draft, setDraft] = useState<PersonDraft>({ name: person?.name ?? '', pronouns: person?.pronouns ?? 'they', quirk: person?.quirk, photo: person?.photo });
   const [confirm, setConfirm] = useState(false);
   return (
     <Sheet

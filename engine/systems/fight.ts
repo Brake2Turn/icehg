@@ -46,6 +46,8 @@ export type Fighter = {
   weapon: Weapon;
   health: Health;
   asleep: boolean;
+  /** Quirk multiplier on this fighter's score (1 = none). */
+  mult?: number;
 };
 
 export type Fate = 'dies' | 'wounded' | 'escapes' | 'fine';
@@ -73,7 +75,7 @@ export function rollFight(
     opts.ambush && rng.chance(clamp01(AMBUSH_BASE + AMBUSH_PER_STEALTH * (avg(A.map((f) => f.stealth)) - avg(B.map((f) => f.cunning)))));
   const score = (f: Fighter, enemies: Fighter[], side: 'A' | 'B') => {
     let s = f.strength + WEAPON_BONUS[f.weapon] - WOUND_PENALTY[f.health] + FIGHT_CUNNING * f.cunning + rng.normal(0, FIGHT_NOISE_SD);
-    s = Math.max(FIGHT_MIN_SCORE, s);
+    s = Math.max(FIGHT_MIN_SCORE, s) * (f.mult ?? 1);
     if (enemies.some((e) => opts.aff(f.id, e.id) >= LOYAL_IN_FIGHT)) s *= LOYAL_STRENGTH_MULT;
     if (side === 'A' && ambushed) s *= 1 + AMBUSH_BONUS;
     if (side === 'B' && opts.night && f.asleep) s *= 1 - NIGHT_WOKEN_PENALTY;
@@ -173,11 +175,13 @@ export function resolveFight(ctx: EventCtx, attackersIn: string[], defendersIn: 
   const attackers = [...new Set(attackersIn)].filter((id) => w.c[id]!.alive);
   const defenders = [...new Set(defendersIn)].filter((id) => w.c[id]!.alive && !attackers.includes(id));
   if (!attackers.length || !defenders.length) return;
-  const fighter = (id: string): Fighter => {
+  const fighter = (alone: boolean) => (id: string): Fighter => {
     const c = w.c[id]!;
-    return { id, ...pickTraits(c.traits), weapon: c.weapon, health: c.health, asleep: c.asleep };
+    const q = w.quirk(id);
+    const mult = (q.fight ?? 1) * (alone ? (q.fightAlone ?? 1) : 1);
+    return { id, ...pickTraits(c.traits), weapon: c.weapon, health: c.health, asleep: c.asleep, mult };
   };
-  const roll = rollFight(rng, attackers.map(fighter), defenders.map(fighter), {
+  const roll = rollFight(rng, attackers.map(fighter(attackers.length === 1)), defenders.map(fighter(defenders.length === 1)), {
     ambush,
     night: w.band === 'night',
     aliveTotal: w.aliveCount(),
@@ -189,6 +193,16 @@ export function resolveFight(ctx: EventCtx, attackersIn: string[], defendersIn: 
   }
   ctx.entryTags.add('fight');
 
+  // Quirks (e.g. Career): some people survive a killing blow, injured.
+  for (const id of [...attackers, ...defenders]) {
+    const p = w.quirk(id).survivesKill ?? 0;
+    if (roll.fates[id] === 'dies' && p && rng.chance(p)) {
+      roll.fates[id] = 'wounded';
+      roll.wounder[id] = roll.killer[id]!;
+      delete roll.killer[id];
+    }
+  }
+
   // Saves: a teammate who cares about someone can pull them out of a killing blow (cyan).
   const saves: [string, string, string][] = [];
   for (const side of [attackers, defenders]) {
@@ -196,7 +210,7 @@ export function resolveFight(ctx: EventCtx, attackersIn: string[], defendersIn: 
       if (roll.fates[v] !== 'dies') continue;
       const savers = side.filter((t) => t !== v && roll.fates[t] !== 'dies' && !saves.some((x) => x[0] === t) && w.getAff(t, v) >= FIGHT_SAVE_MIN);
       for (const t of rng.shuffle(savers)) {
-        if (!rng.chance(Math.min(0.9, FIGHT_SAVE_BASE * Math.exp((RESCUE_AFF_K * w.getAff(t, v)) / 100)))) continue;
+        if (!rng.chance(Math.min(0.9, FIGHT_SAVE_BASE * (w.quirk(t).saves ?? 1) * Math.exp((RESCUE_AFF_K * w.getAff(t, v)) / 100)))) continue;
         const k = roll.killer[v]!;
         roll.fates[v] = 'wounded';
         roll.wounder[v] = k;

@@ -33,6 +33,7 @@ export async function startGame(mode: Mode, pace: Pace, slots: Slot[], rel?: Rel
       id: s.key,
       name: s.name.trim(),
       pronouns: s.pronouns,
+      ...(s.quirk ? { quirk: s.quirk } : {}),
       ...(mode === 'classic' && s.district ? { district: s.district } : {}),
     })),
     ...(rel ? { affinitySeed: rel.seed, affinityBase: rel.base } : {}),

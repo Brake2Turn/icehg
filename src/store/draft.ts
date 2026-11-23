@@ -1,7 +1,7 @@
 // The game being set up (mode select → create screen). Kept in memory and sessionStorage.
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import type { Mode, Pace, PronounKey } from '../../engine';
+import type { Mode, Pace, PronounKey, QuirkId } from '../../engine';
 
 export type Slot = {
   key: string;
@@ -10,6 +10,8 @@ export type Slot = {
   district?: number;
   /** 256×256 JPEG data URL. */
   photo?: string;
+  /** Optional quirk (everyone is equal without one). */
+  quirk?: QuirkId;
   /** Set when this person came from (or was saved to) the contestant pool. */
   poolId?: string;
 };

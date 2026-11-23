@@ -159,7 +159,7 @@ export function runPerVictim(w: World, t: HazardTemplate, zone: ZoneId, victims:
       );
       const saver = w.rng
         .shuffle(near)
-        .find((r) => w.rng.chance(Math.min(0.9, RESCUE_BASE * Math.exp((RESCUE_AFF_K * w.getAff(r, x)) / 100))));
+        .find((r) => w.rng.chance(Math.min(0.9, RESCUE_BASE * (w.quirk(r).saves ?? 1) * Math.exp((RESCUE_AFF_K * w.getAff(r, x)) / 100))));
       if (saver) {
         const list = w.db.byTrigger.hazardRescue ?? [];
         const choice = choose(w, list, xz, () => [{ A: saver, B: x }]);

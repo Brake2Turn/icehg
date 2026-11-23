@@ -4,7 +4,8 @@ import { pairKey, type Overrides, type Slot } from '../../store/draft';
 /** Current feelings on the board: the seeded defaults with manual edits on top. */
 export function boardAffinity(slots: Slot[], seed: number, base: 'random' | 'neutral', overrides: Overrides): AffinityMatrix {
   const ids = slots.filter((s) => s.name.trim()).map((s) => s.key);
-  const m = defaultAffinity(ids, seed, base);
+  const quirks = Object.fromEntries(slots.filter((s) => s.name.trim() && s.quirk).map((s) => [s.key, s.quirk!]));
+  const m = defaultAffinity(ids, seed, base, quirks);
   for (const a of ids) for (const b of ids) if (a !== b && pairKey(a, b) in overrides) m[a]![b] = overrides[pairKey(a, b)]!;
   return m;
 }

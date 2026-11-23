@@ -44,8 +44,9 @@ export function needsStep(w: World, quiet: boolean) {
     } else if (c.asleep && (c.fatigue <= WAKE_FATIGUE + 20 || w.rng.chance(0.4))) c.asleep = false;
 
     c.fatigue = clamp(c.fatigue + (c.asleep ? FATIGUE_PER_TICK_ASLEEP : FATIGUE_PER_TICK_AWAKE * (travelling ? 1.4 : 1)));
-    c.hunger = clamp(c.hunger + HUNGER_PER_TICK);
-    c.thirst = clamp(c.thirst + THIRST_PER_TICK * (band === 'day' ? 1.2 : 0.8));
+    const needs = w.quirk(id).needs ?? 1;
+    c.hunger = clamp(c.hunger + HUNGER_PER_TICK * needs);
+    c.thirst = clamp(c.thirst + THIRST_PER_TICK * needs * (band === 'day' ? 1.2 : 0.8));
 
     if (!travelling) {
       if (zoneHas(c.zone, 'water') && c.thirst > 20) c.thirst = clamp(c.thirst - DRINK_IN_WATER_ZONE);

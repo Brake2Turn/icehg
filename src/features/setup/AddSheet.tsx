@@ -29,7 +29,7 @@ export function AddSheet({
 }) {
   const filled = !!slot.name.trim();
   const [tab, setTab] = useState<'new' | 'pool'>(filled || poolPeople.length === 0 ? 'new' : 'pool');
-  const [draft, setDraft] = useState<PersonDraft>({ name: slot.name, pronouns: slot.pronouns, photo: slot.photo });
+  const [draft, setDraft] = useState<PersonDraft>({ name: slot.name, pronouns: slot.pronouns, quirk: slot.quirk, photo: slot.photo });
   const [toPool, setToPool] = useState(!slot.poolId);
   const [q, setQ] = useState('');
   const [busy, setBusy] = useState(false);
@@ -46,7 +46,7 @@ export function AddSheet({
         poolId = await savePoolPerson(draft);
         onPoolChanged();
       }
-      onSave({ name: draft.name.trim(), pronouns: draft.pronouns, photo: draft.photo, ...(poolId ? { poolId } : {}) });
+      onSave({ name: draft.name.trim(), pronouns: draft.pronouns, quirk: draft.quirk, photo: draft.photo, ...(poolId ? { poolId } : {}) });
     } finally {
       setBusy(false);
     }
@@ -114,7 +114,7 @@ export function AddSheet({
                   <button
                     key={p.id}
                     disabled={used}
-                    onClick={() => onSave({ name: p.name, pronouns: p.pronouns, photo: p.photo, poolId: p.id })}
+                    onClick={() => onSave({ name: p.name, pronouns: p.pronouns, quirk: p.quirk, photo: p.photo, poolId: p.id })}
                     className={`flex flex-col items-center gap-1.5 rounded-xl p-2 ${used ? 'opacity-30' : 'active:bg-white/10'}`}
                   >
                     <Avatar name={p.name} photo={p.photo} size={60} />

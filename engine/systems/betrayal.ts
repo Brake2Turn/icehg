@@ -27,7 +27,8 @@ export function betrayalChance(w: World, a: string, groupMembers: string[]): num
     (0.5 + c.traits.ruthlessness / 10) *
     (1.5 - c.traits.loyalty / 10) *
     scarcity *
-    (allInGroup ? BETRAYAL_ALL_IN_GROUP : 1)
+    (allInGroup ? BETRAYAL_ALL_IN_GROUP : 1) *
+    (w.quirk(a).betrayal ?? 1)
   );
 }
 

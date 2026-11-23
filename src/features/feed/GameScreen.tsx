@@ -8,7 +8,7 @@ import { startGame } from '../setup/startGame';
 import { FallenOverlay } from './FallenOverlay';
 import { Feed, type FeedFilter } from './Feed';
 import { describeLog } from './outcomes';
-import { NextIcon, PauseIcon, PlayIcon, SkipIcon } from '../../components/icons';
+import { PauseIcon, PlayIcon, SkipIcon } from '../../components/icons';
 import { Roster } from './Roster';
 import { useGame } from './useGame';
 import { VictorOverlay } from './VictorOverlay';
@@ -38,7 +38,9 @@ export function GameScreen() {
   return <Game key={rec.id} rec={rec} />;
 }
 
-const SPEEDS = [1, 2, 5, 10];
+/** Playback: normal is Standard pace; Slow and Fast toggle around it. */
+const SLOW = 0.5;
+const FAST = 4;
 
 function Game({ rec }: { rec: GameRecord }) {
   const nav = useNavigate();
@@ -62,7 +64,7 @@ function Game({ rec }: { rec: GameRecord }) {
 
   const replay = async () => {
     // Same cast, photos and relationship edits; new dice.
-    const slots = rec.setup.contestants.map((c) => ({ key: c.id, name: c.name, pronouns: c.pronouns, district: c.district, photo: rec.photos?.[c.id] }));
+    const slots = rec.setup.contestants.map((c) => ({ key: c.id, name: c.name, pronouns: c.pronouns, quirk: c.quirk, district: c.district, photo: rec.photos?.[c.id] }));
     const overrides = Object.fromEntries((rec.setup.affinityOverrides ?? []).map((o) => [`${o.from}>${o.to}`, o.value]));
     const nid = await startGame(rec.setup.mode, rec.setup.pace, slots, { seed: rec.setup.affinitySeed ?? rec.setup.seed, base: rec.setup.affinityBase ?? 'random', overrides });
     nav(`/game/${nid}`, { replace: true, state: { fresh: true } });
@@ -100,19 +102,27 @@ function Game({ rec }: { rec: GameRecord }) {
 
       <footer className="glass safe-bottom px-3 pt-2 z-20 border-x-0 border-b-0">
         <div className="max-w-2xl mx-auto flex items-center gap-1.5">
-          <button className="btn btn-gold !px-4 !py-2.5 text-lg w-14" onClick={controls.togglePause} disabled={finished} aria-label={clock.paused ? 'Play' : 'Pause'}>
+          <button
+            className={`btn !py-2.5 flex-1 text-sm ${clock.speed < 1 ? 'btn-gold' : 'btn-ghost'}`}
+            onClick={() => controls.setSpeed(clock.speed < 1 ? 1 : SLOW)}
+            disabled={finished}
+            aria-pressed={clock.speed < 1}
+          >
+            Slow
+          </button>
+          <button className="btn btn-gold !py-2.5 flex-1" onClick={controls.togglePause} disabled={finished} aria-label={clock.paused ? 'Play' : 'Pause'}>
             {clock.paused ? <PlayIcon className="w-5 h-5" /> : <PauseIcon className="w-5 h-5" />}
           </button>
-          {SPEEDS.map((s) => (
-            <button key={s} onClick={() => controls.setSpeed(s)} className={`btn !px-0 !py-2.5 flex-1 text-sm ${clock.speed === s ? 'btn-gold' : 'btn-ghost'}`}>
-              {s}x
-            </button>
-          ))}
-          <button className="btn btn-light !px-3 !py-2.5" onClick={controls.nextEvent} disabled={finished} aria-label="Next event" title="Next event">
-            <NextIcon className="w-5 h-5" />
+          <button
+            className={`btn !py-2.5 flex-1 text-sm ${clock.speed > 1 ? 'btn-gold' : 'btn-ghost'}`}
+            onClick={() => controls.setSpeed(clock.speed > 1 ? 1 : FAST)}
+            disabled={finished}
+            aria-pressed={clock.speed > 1}
+          >
+            Fast
           </button>
-          <button className="btn btn-light !px-3 !py-2.5" onClick={controls.skipToMidnight} disabled={finished} aria-label="Skip to midnight" title="Skip to midnight">
-            <SkipIcon className="w-5 h-5" />
+          <button className="btn btn-light !py-2.5 flex-1 gap-1.5 text-sm" onClick={controls.skipToMidnight} disabled={finished} aria-label="Skip to the end of the day">
+            <SkipIcon className="w-5 h-5" /> Skip
           </button>
         </div>
         {finished && !victorOpen && (
@@ -124,7 +134,7 @@ function Game({ rec }: { rec: GameRecord }) {
         )}
       </footer>
 
-      {rosterOpen && <Roster view={view} people={people} traits={rec.traits} saves={saves} onClose={() => setRosterOpen(false)} onPick={(cid) => {
+      {rosterOpen && <Roster view={view} people={people} saves={saves} onClose={() => setRosterOpen(false)} onPick={(cid) => {
             setFilter({ kind: 'person', id: cid });
             setRosterOpen(false);
           }} />}

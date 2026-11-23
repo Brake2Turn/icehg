@@ -1,7 +1,8 @@
 // Starting affinity (§6.6). Each pair gets its own little dice roll from (seed, pair), so the
 // create screen can show the same starting feelings the game will use, and adding or removing
 // a slot doesn't reshuffle everyone else's.
-import { AFF_RECIPROCITY, AFF_START_SD } from '../tuning';
+import { AFF_RECIPROCITY, AFF_START_SD, QUIRK_EFFECTS } from '../tuning';
+import type { QuirkId } from './quirks';
 import { Rng } from './rng';
 
 export type AffinityBase = 'random' | 'neutral';
@@ -19,7 +20,7 @@ function hash(s: string): number {
 }
 
 /** Default feelings before any manual edits: Normal(0, 25) with reciprocity, or all zero. */
-export function defaultAffinity(ids: string[], seed: number, base: AffinityBase = 'random'): AffinityMatrix {
+export function defaultAffinity(ids: string[], seed: number, base: AffinityBase = 'random', quirks: Record<string, QuirkId> = {}): AffinityMatrix {
   const m: AffinityMatrix = {};
   for (const a of ids) m[a] = {};
   for (let i = 0; i < ids.length; i++) {
@@ -36,6 +37,11 @@ export function defaultAffinity(ids: string[], seed: number, base: AffinityBase 
       m[a]![b] = ab;
       m[b]![a] = ba;
     }
+  }
+  // Some quirks change how everyone else feels about that person.
+  for (const b of ids) {
+    const shift = quirks[b] ? (QUIRK_EFFECTS[quirks[b]!].othersFeel ?? 0) : 0;
+    if (shift) for (const a of ids) if (a !== b) m[a]![b] = clampAff(m[a]![b]! + shift);
   }
   return m;
 }

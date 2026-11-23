@@ -52,8 +52,6 @@ export const TAG_DURATION = {
 };
 
 // ---------- Traits
-export const TRAIT_MIN = 1;
-export const TRAIT_MAX = 10;
 
 // ---------- Needs per tick (§6.5)
 export const HUNGER_PER_TICK = 0.33;
@@ -215,3 +213,36 @@ export const GM_LETHAL_MULT = 3;
 export const GM_LETHAL_MOOD_EXP = 3;
 /** When the only people left are all in one alliance, the chance it ends in betrayal (otherwise they split or ditch). */
 export const P_LAST_ALLIANCE_BETRAYAL = 0.55;
+
+// ---------- Quirks (owner's request): everyone is equal (every trait 5) unless they have a quirk.
+import type { QuirkId } from './core/quirks';
+export const BASE_TRAIT = 5;
+export type QuirkEffect = {
+  /** Trait values that differ from BASE_TRAIT. */
+  traits?: Partial<Record<'strength' | 'stealth' | 'cunning' | 'survival' | 'loyalty' | 'ruthlessness', number>>;
+  /** Added to everyone else's starting feelings toward this person. */
+  othersFeel?: number;
+  /** Fight score multiplier, always / only when fighting alone. */
+  fight?: number;
+  fightAlone?: number;
+  /** Chance a killing blow in a fight leaves them injured instead. */
+  survivesKill?: number;
+  /** Weight multiplier on event outcomes that would kill them. */
+  deathOutcome?: number;
+  /** Weight multiplier on events that would put them in an alliance. */
+  alliance?: number;
+  /** Betrayal chance multiplier, save chance multiplier, needs (hunger/thirst) rate multiplier. */
+  betrayal?: number;
+  saves?: number;
+  needs?: number;
+};
+export const QUIRK_EFFECTS: Record<QuirkId, QuirkEffect> = {
+  career: { traits: { strength: 7, ruthlessness: 7 }, othersFeel: -20, survivesKill: 0.3, deathOutcome: 0.7 },
+  young: { traits: { strength: 3 }, othersFeel: 20, fight: 0.8 },
+  peoplePerson: { traits: { loyalty: 7 }, alliance: 2, fightAlone: 0.75 },
+  psycho: { traits: { ruthlessness: 9, loyalty: 3 }, alliance: 0.35, fightAlone: 2.1, othersFeel: -10 },
+  survivalist: { traits: { survival: 9 }, needs: 0.7, deathOutcome: 0.8 },
+  sneaky: { traits: { stealth: 9 }, deathOutcome: 0.75 },
+  loyal: { traits: { loyalty: 10 }, betrayal: 0.15, saves: 2 },
+  backstabber: { traits: { loyalty: 1, cunning: 8, ruthlessness: 7 }, betrayal: 3, othersFeel: -5 },
+};

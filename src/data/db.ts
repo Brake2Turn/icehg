@@ -1,6 +1,6 @@
 // IndexedDB via Dexie (§4.3). Phase 1 stores saved games and settings; the pool arrives in Phase 2.
 import Dexie, { type EntityTable } from 'dexie';
-import type { GameClock, GameSetup, LogEntry, Traits } from '../../engine';
+import type { GameClock, GameSetup, LogEntry, QuirkId, Traits } from '../../engine';
 
 export type GameRecord = {
   id: string;
@@ -24,6 +24,7 @@ export type PoolContestant = {
   id: string;
   name: string;
   pronouns: 'he' | 'she' | 'they';
+  quirk?: QuirkId;
   photo?: Blob;
   addedAt: number;
 };

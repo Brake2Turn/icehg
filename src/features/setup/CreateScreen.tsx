@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router';
+import { QUIRK_INFO } from '../../../engine';
 import { Avatar } from '../../components/Avatar';
 import { Screen } from '../../components/Screen';
 import { pairKey, useDraft, type Slot } from '../../store/draft';
@@ -46,7 +47,7 @@ export function CreateScreen() {
       slots.map((s) => {
         if (s.name.trim()) return s;
         const p = pick[i++];
-        return p ? { ...s, name: p.name, pronouns: p.pronouns, photo: p.photo, poolId: p.id } : s;
+        return p ? { ...s, name: p.name, pronouns: p.pronouns, quirk: p.quirk, photo: p.photo, poolId: p.id } : s;
       }),
     );
   };
@@ -99,7 +100,12 @@ export function CreateScreen() {
         )}
         <span className="flex-1 min-w-0">
           <span className={`block truncate ${isFilled ? 'font-medium' : 'text-mute'}`}>{isFilled ? s.name : 'Empty slot'}</span>
-          {isFilled && <span className="block text-[11px] text-mute">{s.pronouns}</span>}
+          {isFilled && (
+            <span className="block text-[11px] text-mute">
+              {s.pronouns}
+              {s.quirk && <span className="text-gold"> · {QUIRK_INFO[s.quirk].label}</span>}
+            </span>
+          )}
         </span>
         {v !== undefined && (
           <span className="text-sm font-semibold tabular-nums" style={{ color: affinityColour(v) }}>
