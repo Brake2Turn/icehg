@@ -3,7 +3,7 @@
 Hunger Games–style battle simulator, installable web app (PWA). Full spec: `docs/ICEHG_SPEC.md`. Judgement calls not in the spec: `docs/DECISIONS.md` (add to it whenever you make one).
 
 ## Current phase
-**Phase 1 — Engine + event database + text-only game: built, awaiting the owner's "next phase".** Build one phase at a time (§13 of the spec); at the end of each phase run the tests, stop, and report (what was built, how to try it on a phone, decisions made).
+**Phase 2 — Full create screen + contestant pool: built, awaiting the owner's "next phase"** (Phase 3 is the arena map). Build one phase at a time (§13 of the spec); at the end of each phase run the tests, stop, and report (what was built, how to try it on a phone, decisions made).
 
 ## Stack
 React + TypeScript (strict) + Vite, React Router, Tailwind CSS v4, Zustand, Dexie (IndexedDB), zod (tests only), vite-plugin-pwa, Vitest. Hosting: Vercel (auto-deploys from GitHub). Phase 3 adds PixiJS; Phase 4 adds Supabase.
@@ -11,7 +11,7 @@ React + TypeScript (strict) + Vite, React Router, Tailwind CSS v4, Zustand, Dexi
 ## Folder layout
 ```
 /engine            pure TypeScript simulation (see purity rule)
-  /core            types, rng, clock, world (state + patch-recording mutations), stateAt, simulate, text
+  /core            types, rng, clock, affinity (seeded per-pair starting feelings), world (state + patch-recording mutations), stateAt, simulate, text
   /systems         needs, movement, solo, encounters (+Bloodbath), groups, betrayal, fight, gamemakers, affinity, resolve
   /analysis        stats used by sim:stats and the in-app Sim stats screen
   /tests           Vitest: determinism, victors, invariants, stateAt, fights, events, content rules, purity
@@ -20,7 +20,8 @@ React + TypeScript (strict) + Vite, React Router, Tailwind CSS v4, Zustand, Dexi
 /scripts           sim-stats.ts (npm run sim:stats)
 /src
   /app             Home, Settings, router
-  /features/setup  mode select, create screen, startGame
+  /features/setup  mode select, create screen (tributes + relationships), Add sheet, photo crop, startGame
+  /features/pool   contestant pool screen + usePool
   /features/feed   game screen, feed, name chips, Fallen + Victor overlays, roster
   /features/lab    Event Lab, Sim stats (dev tools: tap the version number 7× in Settings)
   /data            Dexie schema + GameRepository / PoolRepository

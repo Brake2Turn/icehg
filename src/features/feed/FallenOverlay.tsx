@@ -1,9 +1,10 @@
-import type { ContestantSetup } from '../../../engine';
+import { Avatar } from '../../components/Avatar';
+import type { Person } from './person';
 import type { Fallen } from './useGame';
 import { DISTRICTS } from '../setup/districts';
 
 /** The Fallen screen at 00:00 (§8.4). */
-export function FallenOverlay({ fallen, people, onClose }: { fallen: Fallen; people: Record<string, ContestantSetup>; onClose: () => void }) {
+export function FallenOverlay({ fallen, people, onClose }: { fallen: Fallen; people: Record<string, Person>; onClose: () => void }) {
   const list = fallen.entry.fallen;
   const step = Math.min(0.6, 3 / Math.max(1, list.length));
   return (
@@ -23,7 +24,7 @@ export function FallenOverlay({ fallen, people, onClose }: { fallen: Fallen; peo
               const p = people[id]!;
               return (
                 <li key={id} className="rise flex items-center gap-3" style={{ animationDelay: `${0.35 + i * step}s` }}>
-                  <Initials name={p.name} />
+                  <Avatar name={p.name} photo={p.photo} />
                   <div className="text-left">
                     <div className="font-display text-2xl tracking-wide">{p.name}</div>
                     {p.district && <div className="text-xs text-mute uppercase tracking-widest">District {p.district} · {DISTRICTS[p.district - 1]?.industry}</div>}
@@ -35,32 +36,6 @@ export function FallenOverlay({ fallen, people, onClose }: { fallen: Fallen; peo
         )}
         <div className="text-xs text-mute mt-10">Tap to close</div>
       </div>
-    </div>
-  );
-}
-
-export function Initials({ name, size = 44, dead = false }: { name: string; size?: number; dead?: boolean }) {
-  const initials = name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]!.toUpperCase())
-    .join('');
-  let h = 0;
-  for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) % 360;
-  return (
-    <div
-      className="rounded-full flex items-center justify-center font-display shrink-0"
-      style={{
-        width: size,
-        height: size,
-        fontSize: size * 0.4,
-        background: dead ? '#2a2d36' : `linear-gradient(135deg, hsl(${h} 45% 38%), hsl(${(h + 40) % 360} 45% 24%))`,
-        filter: dead ? 'grayscale(1)' : undefined,
-        border: '2px solid rgba(255,255,255,.15)',
-      }}
-    >
-      {initials}
     </div>
   );
 }

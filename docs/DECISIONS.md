@@ -82,3 +82,17 @@ These override §8.1 and §8.3 of the spec at the owner's request.
 - **Saves tally:** the Contestants screen shows "N saves" for anyone who has saved someone (counted from what's been shown so far), and the Victor screen has a "Most saves" award.
 - **No last alliance standing:** an alliance can never form or grow to include everyone still alive (the outcome is simply not allowed). If deaths leave everyone alive in one alliance anyway, it must end on its next group roll: 55% a forced betrayal (the likeliest traitor turns on the member they like least), otherwise a "last alliance" event where they split up, ditch someone, or back away from each other at weapon-point (`events/lastalliance.json`, `trigger: "lastAlliance"`). Tested: across 90 games of 3, 6 and 24, it never lasts more than 16 ticks (4 hours).
 - **Legendary moments** get a gold card: a gold wash, a gold edge (unless an outcome colour applies) and a gold "Legendary moment" label. **Gamemaker events** get black-and-yellow hazard tape along the top and bottom edges only.
+
+## Phase 2
+
+- **Starting feelings are rolled per pair** from (relationship seed, the two people's ids), not in one sequence. That lets the create screen show the exact feelings the game will start with, and adding, removing or swapping someone doesn't reshuffle everyone else's. The game seed and the relationship seed are separate (`affinitySeed` in the setup), so "Play again with the same cast" keeps the same relationships (and your edits) with new dice for everything else.
+- **"Randomise all"** rolls a new relationship seed and clears manual edits. **"Reset to neutral"** sets every starting feeling to 0 and clears manual edits (`affinityBase: 'neutral'`). Manual edits always win over either.
+- **"Link both ways"** (on by default) moves both sliders together. Presets set both directions exactly as listed, even when linked (so "One-sided" is +60/−20).
+- **Relationships are attached to the person, not the slot**: swapping two people keeps their relationships; clearing a slot (or removing it in Custom) drops that person's edits.
+- **Photos** are cropped in a circle (react-easy-crop), resized to 256×256 JPEG at 80%, and stored as data URLs on the board and in the saved game (`GameRecord.photos`), and as blobs in the pool (Dexie). The engine never sees photos.
+- **The pool is separate from games.** Picking someone from the pool copies them onto the board; editing them on the board only changes that game (the sheet says so). Edit the pool itself from Home → Contestant pool. "Save to contestant pool" only appears for people not already in it.
+- **"In this game" in the pool grid** is decided by pool id, so two different pool people with the same name can both play.
+- **Kept "Sample names"** alongside "Fill empty slots from pool" for quick testing.
+- **Drag to swap** needs a ~0.4 s press before the drag starts, so normal scrolling still works; the page scrolls by itself when you drag near the top or bottom edge. Districts stay with the board position; people (and their relationships) move.
+- **In Custom mode**, slots are removed with the ✕ beside them (Tributes view only).
+- **Taking a photo in the claude.ai link** depends on what the phone allows inside that page; "choose from library" always works.

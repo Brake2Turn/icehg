@@ -1,5 +1,6 @@
-import { dayOf, ITEM_LABEL, WEAPON_LABEL, type ContestantSetup, type Traits, type ViewContestant, type ViewState } from '../../../engine';
-import { Initials } from './FallenOverlay';
+import type { Person } from './person';
+import { dayOf, ITEM_LABEL, WEAPON_LABEL, type Traits, type ViewContestant, type ViewState } from '../../../engine';
+import { Avatar } from '../../components/Avatar';
 import { listNames } from './outcomes';
 
 /** Colour-blind-safe alliance colours (Okabe–Ito), always paired with a letter badge. */
@@ -18,7 +19,7 @@ export function Roster({
   /** How many times each contestant has saved someone (so far in what's been shown). */
   saves: Record<string, number>;
   view: ViewState;
-  people: Record<string, ContestantSetup>;
+  people: Record<string, Person>;
   traits: Record<string, Traits>;
   onClose: () => void;
   onPick: (id: string) => void;
@@ -41,7 +42,7 @@ export function Roster({
     return (
       <li key={c.id}>
         <button className={`w-full text-left rounded-xl px-3 py-2 flex gap-3 items-center bg-white/5 active:bg-white/10 ${c.alive ? '' : 'opacity-55'}`} onClick={() => onPick(c.id)}>
-          <Initials name={p.name} size={38} dead={!c.alive} />
+          <Avatar name={p.name} photo={p.photo} size={38} dead={!c.alive} />
           <div className="flex-1 min-w-0">
             <div className="font-medium">
               {p.name}

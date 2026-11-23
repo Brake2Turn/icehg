@@ -4,6 +4,7 @@ import { simulate } from '../core/simulate';
 import { stateAt, ViewFolder } from '../core/stateAt';
 import type { LogEntry, ViewState } from '../core/types';
 import { TICK_MIN } from '../tuning';
+import { defaultAffinity } from '../core/affinity';
 import { db, run, setup } from './helpers';
 
 const strip = (v: ViewState) => ({ ...v, minute: 0 });
@@ -103,6 +104,30 @@ describe('stateAt', () => {
     for (const t of [600, 900, 2000, end / 2, end, 1500, 700]) {
       expect(strip(f.at(t))).toEqual(strip(stateAt(r.setup, r.log, t)));
     }
+  });
+});
+
+describe('relationships from the create screen (§5.4)', () => {
+  it('the game starts with exactly the board\'s feelings: seeded defaults plus manual edits', () => {
+    const s = { ...setup(12, 9), affinitySeed: 1234, affinityOverrides: [{ from: 'c0', to: 'c1', value: 90 }, { from: 'c1', to: 'c0', value: -70 }] };
+    const r = simulate(s, db);
+    const first = r.log[0]!.patches.find((p) => p.p === 'affAll');
+    if (!first || first.p !== 'affAll') throw new Error('no starting affinity');
+    const ids = s.contestants.map((c) => c.id);
+    const want = defaultAffinity(ids, 1234);
+    want.c0!.c1 = 90;
+    want.c1!.c0 = -70;
+    first.ids.forEach((a, i) => first.ids.forEach((b, j) => a !== b && expect(first.v[i]![j]).toBe(want[a]![b])));
+  });
+  it('a pair keeps its starting feelings when other slots change', () => {
+    const a = defaultAffinity(['x', 'y', 'z'], 5);
+    const b = defaultAffinity(['q', 'y', 'x'], 5);
+    expect(b.x!.y).toBe(a.x!.y);
+    expect(b.y!.x).toBe(a.y!.x);
+  });
+  it('"Reset to neutral" starts everyone at 0', () => {
+    const m = defaultAffinity(['a', 'b', 'c'], 5, 'neutral');
+    expect(Object.values(m).flatMap((r) => Object.values(r)).every((v) => v === 0)).toBe(true);
   });
 });
 

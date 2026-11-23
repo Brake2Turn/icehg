@@ -2,6 +2,7 @@
 // Every change to something on screen goes through a helper that records a Patch,
 // so stateAt(log) can rebuild exactly the same view (§4.2, tested at every midnight).
 import { Rng } from './rng';
+import { defaultAffinity } from './affinity';
 import { neighbours, RING } from './arena';
 import { dayOf, timeBand } from './clock';
 import type {
@@ -22,8 +23,6 @@ import type {
   ZoneId,
 } from './types';
 import {
-  AFF_RECIPROCITY,
-  AFF_START_SD,
   GM_MOOD_SD,
   START_MINUTE,
   TAG_DURATION,
@@ -142,16 +141,8 @@ export class World {
       this.aff[a] = {};
       this.affStart[a] = {};
     }
-    for (let i = 0; i < ids.length; i++) {
-      for (let j = i + 1; j < ids.length; j++) {
-        const a = ids[i]!;
-        const b = ids[j]!;
-        const ab = clampAff(this.rng.normal(0, AFF_START_SD));
-        const ba = clampAff(AFF_RECIPROCITY * ab + (1 - AFF_RECIPROCITY) * this.rng.normal(0, AFF_START_SD));
-        this.aff[a]![b] = ab;
-        this.aff[b]![a] = ba;
-      }
-    }
+    const start = defaultAffinity(ids, this.setup.affinitySeed ?? this.setup.seed, this.setup.affinityBase ?? 'random');
+    for (const a of ids) for (const b of ids) if (a !== b) this.aff[a]![b] = start[a]![b]!;
     for (const o of this.setup.affinityOverrides ?? []) {
       if (this.aff[o.from] && o.from !== o.to && o.to in this.aff) this.aff[o.from]![o.to] = clampAff(o.value);
     }

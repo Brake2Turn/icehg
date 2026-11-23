@@ -34,9 +34,9 @@ export function Home() {
               </span>
             </button>
           )}
-          <button className="btn btn-ghost py-4 font-display uppercase tracking-widest opacity-50" disabled title="Coming in Phase 2">
-            Contestant pool <span className="text-[10px] normal-case tracking-normal">(soon)</span>
-          </button>
+          <Link className="btn btn-ghost py-4 font-display uppercase tracking-widest" to="/pool">
+            Contestant pool
+          </Link>
           <button className="btn btn-ghost py-4 font-display uppercase tracking-widest opacity-50" disabled title="Coming in Phase 4">
             Watch <span className="text-[10px] normal-case tracking-normal">(soon)</span>
           </button>

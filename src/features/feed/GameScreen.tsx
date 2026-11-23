@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { formatGameTime, type ContestantSetup } from '../../../engine';
+import { formatGameTime } from '../../../engine';
+import type { Person } from './person';
 import type { GameRecord } from '../../data/db';
 import { games } from '../../data/repositories';
 import { startGame } from '../setup/startGame';
@@ -42,7 +43,10 @@ const SPEEDS = [1, 2, 5, 10];
 function Game({ rec }: { rec: GameRecord }) {
   const nav = useNavigate();
   const { clock, t, view, revealed, fallen, controls, finished } = useGame(rec);
-  const people = useMemo(() => Object.fromEntries(rec.setup.contestants.map((c) => [c.id, c])) as Record<string, ContestantSetup>, [rec]);
+  const people = useMemo(
+    () => Object.fromEntries(rec.setup.contestants.map((c) => [c.id, { ...c, photo: rec.photos?.[c.id] }])) as Record<string, Person>,
+    [rec],
+  );
   const nameOf = (cid: string) => people[cid]?.name ?? '?';
   const outcomes = useMemo(() => describeLog(rec.setup, rec.log), [rec]);
   const saves = useMemo(() => {
@@ -57,8 +61,10 @@ function Game({ rec }: { rec: GameRecord }) {
   const total = rec.setup.contestants.length;
 
   const replay = async () => {
-    const slots = rec.setup.contestants.map((c) => ({ key: c.id, name: c.name, pronouns: c.pronouns, district: c.district }));
-    const nid = await startGame(rec.setup.mode, rec.setup.pace, slots);
+    // Same cast, photos and relationship edits; new dice.
+    const slots = rec.setup.contestants.map((c) => ({ key: c.id, name: c.name, pronouns: c.pronouns, district: c.district, photo: rec.photos?.[c.id] }));
+    const overrides = Object.fromEntries((rec.setup.affinityOverrides ?? []).map((o) => [`${o.from}>${o.to}`, o.value]));
+    const nid = await startGame(rec.setup.mode, rec.setup.pace, slots, { seed: rec.setup.affinitySeed ?? rec.setup.seed, base: rec.setup.affinityBase ?? 'random', overrides });
     nav(`/game/${nid}`, { replace: true, state: { fresh: true } });
   };
 

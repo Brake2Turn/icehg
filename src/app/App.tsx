@@ -8,6 +8,7 @@ import { ModeSelect } from '../features/setup/ModeSelect';
 import { CreateScreen } from '../features/setup/CreateScreen';
 import { GameScreen } from '../features/feed/GameScreen';
 import { Settings } from './Settings';
+import { PoolScreen } from '../features/pool/PoolScreen';
 const EventLab = lazy(() => import('../features/lab/EventLab').then((m) => ({ default: m.EventLab })));
 const SimStatsScreen = lazy(() => import('../features/lab/SimStatsScreen').then((m) => ({ default: m.SimStatsScreen })));
 
@@ -21,6 +22,7 @@ export function App() {
         <Route path="/create" element={<CreateScreen />} />
         <Route path="/game/:id" element={<GameScreen />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/pool" element={<PoolScreen />} />
         <Route path="/lab" element={<EventLab />} />
         <Route path="/lab/stats" element={<SimStatsScreen />} />
         <Route path="*" element={<Home />} />

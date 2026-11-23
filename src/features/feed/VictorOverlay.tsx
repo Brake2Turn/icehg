@@ -1,6 +1,7 @@
-import type { ContestantSetup, LogEntry, ViewState } from '../../../engine';
+import type { Person } from './person';
+import type { LogEntry, ViewState } from '../../../engine';
 import { computeAwards } from './awards';
-import { Initials } from './FallenOverlay';
+import { Avatar } from '../../components/Avatar';
 
 /** Basic Victor screen (§8.6). */
 export function VictorOverlay({
@@ -13,7 +14,7 @@ export function VictorOverlay({
   onHome,
 }: {
   victor: string;
-  people: Record<string, ContestantSetup>;
+  people: Record<string, Person>;
   log: LogEntry[];
   final: ViewState;
   onLog: () => void;
@@ -29,7 +30,7 @@ export function VictorOverlay({
       <div className="min-h-full flex flex-col items-center px-6 safe-top safe-bottom py-10 gap-6 max-w-md mx-auto">
         <div className="text-xs uppercase tracking-[0.4em] text-gold">The Victor</div>
         <div className="rise">
-          <Initials name={v.name} size={110} />
+          <Avatar name={v.name} photo={v.photo} size={110} />
         </div>
         <div className="text-center rise" style={{ animationDelay: '.15s' }}>
           <div className="font-display text-5xl tracking-wide gold-text">{v.name}</div>

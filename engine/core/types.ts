@@ -70,6 +70,10 @@ export type GameSetup = {
   contestants: ContestantSetup[];
   /** Manual affinity edits (Phase 2 UI). Applied after the random defaults. */
   affinityOverrides?: AffinityOverride[];
+  /** Seed for the starting feelings (defaults to `seed`); the create screen shows these before Start. */
+  affinitySeed?: number;
+  /** 'neutral' = everyone starts at 0 ("Reset to neutral"). */
+  affinityBase?: 'random' | 'neutral';
 };
 
 export type Contestant = {

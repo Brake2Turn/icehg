@@ -14,8 +14,17 @@ export function newId(): string {
   return crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
+export type Relationships = { seed: number; base: 'random' | 'neutral'; overrides: Record<string, number> };
+
 /** Roll the whole game (§4.2), save it, and return its id. */
-export async function startGame(mode: Mode, pace: Pace, slots: Slot[], seed = newSeed()): Promise<string> {
+export async function startGame(mode: Mode, pace: Pace, slots: Slot[], rel?: Relationships, seed = newSeed()): Promise<string> {
+  const keys = new Set(slots.map((s) => s.key));
+  const affinityOverrides = Object.entries(rel?.overrides ?? {})
+    .map(([k, value]) => {
+      const [from, to] = k.split('>') as [string, string];
+      return { from, to, value };
+    })
+    .filter((o) => keys.has(o.from) && keys.has(o.to));
   const setup: GameSetup = {
     mode,
     pace,
@@ -26,6 +35,8 @@ export async function startGame(mode: Mode, pace: Pace, slots: Slot[], seed = ne
       pronouns: s.pronouns,
       ...(mode === 'classic' && s.district ? { district: s.district } : {}),
     })),
+    ...(rel ? { affinitySeed: rel.seed, affinityBase: rel.base } : {}),
+    ...(affinityOverrides.length ? { affinityOverrides } : {}),
   };
   const result = simulate(setup, eventDb);
   const now = Date.now();
@@ -43,6 +54,7 @@ export async function startGame(mode: Mode, pace: Pace, slots: Slot[], seed = ne
     endMinute: result.endMinute,
     clock: { anchorWallMs: now, anchorGameMin: START_MINUTE_VALUE, speed: 1, paused: false, pace },
     seenMidnights: [],
+    photos: Object.fromEntries(slots.filter((s) => s.photo).map((s) => [s.key, s.photo!])),
   };
   await games.save(rec);
   return rec.id;

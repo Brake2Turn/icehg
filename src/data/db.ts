@@ -16,6 +16,8 @@ export type GameRecord = {
   clock: GameClock;
   /** Midnights whose Fallen screen has already been shown (game minute). */
   seenMidnights: number[];
+  /** Contestant photos (256×256 JPEG data URLs), by contestant id. */
+  photos?: Record<string, string>;
 };
 
 export type PoolContestant = {
