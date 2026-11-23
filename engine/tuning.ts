@@ -231,18 +231,20 @@ export type QuirkEffect = {
   deathOutcome?: number;
   /** Weight multiplier on events that would put them in an alliance. */
   alliance?: number;
+  /** How likely they are to be the one picked when an ally betrays the alliance. */
+  betrayalTarget?: number;
   /** Betrayal chance multiplier, save chance multiplier, needs (hunger/thirst) rate multiplier. */
   betrayal?: number;
   saves?: number;
   needs?: number;
 };
 export const QUIRK_EFFECTS: Record<QuirkId, QuirkEffect> = {
-  career: { traits: { strength: 7, ruthlessness: 7 }, othersFeel: -20, survivesKill: 0.3, deathOutcome: 0.7 },
+  career: { traits: { strength: 7, ruthlessness: 7 }, othersFeel: -25, survivesKill: 0.3, deathOutcome: 0.7 },
   young: { traits: { strength: 3 }, othersFeel: 20, fight: 0.8 },
   peoplePerson: { traits: { loyalty: 7 }, alliance: 2, fightAlone: 0.75 },
   psycho: { traits: { ruthlessness: 9, loyalty: 3 }, alliance: 0.35, fightAlone: 2.1, othersFeel: -10 },
-  survivalist: { traits: { survival: 9 }, needs: 0.7, deathOutcome: 0.8 },
-  sneaky: { traits: { stealth: 9 }, deathOutcome: 0.75 },
-  loyal: { traits: { loyalty: 10 }, betrayal: 0.15, saves: 2 },
-  backstabber: { traits: { loyalty: 1, cunning: 8, ruthlessness: 7 }, betrayal: 3, othersFeel: -5 },
+  survivalist: { traits: { survival: 9 }, needs: 0.7, deathOutcome: 0.85, fight: 0.7 },
+  sneaky: { traits: { stealth: 9 }, deathOutcome: 0.75, othersFeel: -15 },
+  loyal: { traits: { loyalty: 10 }, betrayal: 0.15, saves: 2, betrayalTarget: 3 },
+  backstabber: { traits: { loyalty: 1, cunning: 8, ruthlessness: 7 }, betrayal: 3, othersFeel: -10, alliance: 0.8 },
 };

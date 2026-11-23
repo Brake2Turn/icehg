@@ -58,7 +58,22 @@ export function PersonForm({ value, onChange }: { value: PersonDraft; onChange: 
             </button>
           ))}
         </div>
-        <div className="text-xs text-mute min-h-[2.5em]">{value.quirk ? QUIRK_INFO[value.quirk].description : 'A regular tribute. Nothing special, for better or worse.'}</div>
+        <div className="text-xs min-h-[3.5em] flex flex-col gap-0.5">
+          {value.quirk ? (
+            <>
+              <span>
+                <span className="text-chip-green font-semibold">Pro: </span>
+                <span className="text-text">{QUIRK_INFO[value.quirk].pro}</span>
+              </span>
+              <span>
+                <span className="text-chip-red font-semibold">Con: </span>
+                <span className="text-text">{QUIRK_INFO[value.quirk].con}</span>
+              </span>
+            </>
+          ) : (
+            <span className="text-mute">A regular tribute. Nothing special, for better or worse.</span>
+          )}
+        </div>
       </div>
     </div>
   );

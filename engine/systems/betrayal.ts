@@ -43,7 +43,7 @@ export function betrayalCheck(w: World, groupId: string, forced = false): boolea
     if (!forced && !w.rng.chance(betrayalChance(w, a, members))) continue;
     const others = members.filter((m) => m !== a);
     // Aimed at the member A likes least, weighted by low affinity.
-    const victim = w.rng.weighted(others, (m) => Math.exp((-AFFINITY_INFLUENCE * 2 * w.getAff(a, m)) / 100))!;
+    const victim = w.rng.weighted(others, (m) => Math.exp((-AFFINITY_INFLUENCE * 2 * w.getAff(a, m)) / 100) * (w.quirk(m).betrayalTarget ?? 1))!;
     const zone = w.c[a]!.zone;
     const choice = choose(w, w.db.betrayal, zone, (c) => {
       const gSlot = c.unitSlots.find((s) => s.role === 'G');
