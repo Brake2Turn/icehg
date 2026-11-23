@@ -89,7 +89,7 @@ export const P_NEED_CRISIS = 0.04;
 export const P_SOLO_DAY = 0.07;
 export const P_SOLO_NIGHT = 0.015;
 /** Solo template weight boost when a tag-driven template matches (abandoned etc.). */
-export const ENCOUNTER_RATE = 0.2;
+export const ENCOUNTER_RATE = 0.28;
 export const VISIBILITY: Record<'dawn' | 'day' | 'dusk' | 'night', number> = {
   dawn: 0.75,
   day: 1,
@@ -105,9 +105,9 @@ export const MAX_GROUP = 6;
 /** Number of ticks the Bloodbath runs (10:00–10:30). */
 export const BLOODBATH_TICKS = 2;
 /** Weight multiplier for lethal Bloodbath templates (the opening is meant to be brutal). */
-export const BLOODBATH_LETHAL_MULT = 12;
+export const BLOODBATH_LETHAL_MULT = 22;
 /** Per-game Gamemaker temperament: lognormal spread applied to hazard and shrink odds. */
-export const GM_MOOD_SD = 1.3;
+export const GM_MOOD_SD = 1.2;
 
 // ---------- Movement (§6.4)
 export const P_MOVE_DAY = 0.03;
@@ -125,7 +125,7 @@ export const MOVE_UTILITY = {
   hunt: 0.35,
   /** Hunters ((ruthlessness+strength)/20 above this) roam toward people. */
   hunterThreshold: 0.55,
-  hunterUrge: 4,
+  hunterUrge: 8,
   hunterPull: 1.2,
   vengeance: 2.5,
   cornucopiaAfterBloodbath: -2.5,
@@ -173,10 +173,9 @@ export const STALEMATE_WOUND = 0.2;
 export const STALEMATE_DIE = 0.05;
 
 // ---------- Gamemakers (§6.11)
-export const P_GM = 0.008;
-export const GM_DAY_FACTOR = 0.15;
+export const P_GM = 0.0007;
 export const GM_BORED_HOURS = 12;
-export const P_FEAST_ANNOUNCE = 0.35;
+export const P_FEAST_ANNOUNCE = 0.2;
 export const FEAST_FROM_DAY = 3;
 export const FEAST_HOUR = 8;
 export const FEAST_WINDOW_MIN = 120;
@@ -193,3 +192,24 @@ export const SUDDEN_DEATH_DAY = 40;
 export const FEAST_SOLO_P = 0.15;
 /** Solo-roll multiplier for abandoned / grieving / betrayed contestants. */
 export const TAGGED_SOLO_MULT = 3;
+
+// ---------- Repetition (owner's request): each use of a template this game makes it less likely again.
+export const REPEAT_DECAY = 0.6;
+export const REPEAT_FLOOR = 0.12;
+
+// ---------- Saves (shown in cyan)
+/** Chance a nearby ally pulls someone out of a Gamemaker hazard: base × e^(k·aff/100). */
+export const RESCUE_BASE = 0.1;
+export const RESCUE_AFF_K = 2.2;
+/** Chance a teammate saves someone about to die in a fight (needs affinity ≥ FIGHT_SAVE_MIN). */
+export const FIGHT_SAVE_BASE = 0.12;
+export const FIGHT_SAVE_MIN = 20;
+
+// ---------- Gamemaker events (owner's request): at most one per day, likelier as days pass.
+/** Per-tick chance on day d: P_GM × mood × d^GM_DAY_EXP × boredom. */
+export const GM_DAY_EXP = 1.3;
+/** Share of Gamemaker hazards that hit the whole arena instead of one area. */
+export const P_ARENA_WIDE = 0.35;
+/** Kill outcomes in Gamemaker events: weight × GM_LETHAL_MULT × mood^GM_LETHAL_MOOD_EXP. */
+export const GM_LETHAL_MULT = 3;
+export const GM_LETHAL_MOOD_EXP = 3;

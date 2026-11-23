@@ -1,0 +1,128 @@
+[
+  { "id": "rescue.drag_clear", "category": "gamemaker", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "huddle", "trigger": "hazardRescue", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} grabs {B} by the collar and drags {B.them} clear just in time.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 30 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} goes back in for {B} and carries {B.them} out, and gets hurt doing it.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 40 }, { "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "rescue.shout_warning", "category": "gamemaker", "severity": "minor", "rarity": "common", "tone": "neutral", "visual": "huddle", "trigger": "hazardRescue", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} screams {B}'s name at exactly the right moment. {B} dives, and lives.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 25 }] }
+    ] },
+
+  { "id": "rescue.shield", "category": "gamemaker", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "trigger": "hazardRescue", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} throws {A.themself} over {B} and takes the worst of it. {B} gets up without a scratch.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 45 }, { "kind": "injure", "target": "A", "severity": "wounded" }] },
+      { "rarity": "rare", "text": "{A} throws {A.themself} over {B} and takes all of it. {B} crawls out from underneath {A.them} alive. {A} doesn't.",
+        "effects": [{ "kind": "kill", "target": "A" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 60 }, { "kind": "addTag", "who": "B", "tag": "grieving" }] }
+    ] },
+
+  { "id": "rescue.unlikely", "category": "gamemaker", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "trigger": "hazardRescue", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": -2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} hauls {B} to safety, then looks at {B.them} like {A.they} {A.is} already regretting it.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 35 }, { "kind": "affinity", "from": "A", "to": "B", "delta": 10 }] }
+    ] },
+
+  { "id": "rescue.together", "category": "gamemaker", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "trigger": "hazardRescue", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} pulls {B} out, and afterwards neither of them suggests going separate ways.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 30 }, { "kind": "formGroup", "members": ["A", "B"] }] }
+    ] },
+
+  { "id": "enc.save_snared", "category": "encounter", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{B} is hanging upside down from someone's snare in the {zone}, purple in the face. {A} cuts {B.them} down and walks off before {B} can say thank you.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 30 }] },
+      { "rarity": "uncommon", "text": "{A} finds {B} caught in a snare, cuts {B.them} down, and the two of them decide they're safer together.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 30 }, { "kind": "formGroup", "members": ["A", "B"] }] }
+    ] },
+
+  { "id": "enc.save_bleeding", "category": "encounter", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "health": [{ "who": "B", "is": ["critical"] }] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2.5 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} finds {B} bleeding out in the {zone}, ties a tourniquet with {A.their} own belt and stays until the bleeding stops.",
+        "effects": [{ "kind": "heal", "target": "B" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 35 }] },
+      { "rarity": "uncommon", "text": "{A} finds {B} half dead in the {zone} and carries {B.them} somewhere dry. They stick together after that.",
+        "effects": [{ "kind": "heal", "target": "B" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 35 }, { "kind": "formGroup", "members": ["A", "B"] }] }
+    ] },
+
+  { "id": "enc.save_starving", "category": "encounter", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "needs": [{ "who": "B", "need": "hunger", "min": 70 }], "hasItem": [{ "who": "A", "item": "food" }] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{B} is too weak to stand. {A} sits {B.them} up and feeds {B.them} by hand until {B.their} colour comes back.",
+        "effects": [{ "kind": "transferItem", "from": "A", "to": "B", "item": "food" }, { "kind": "need", "who": "B", "need": "hunger", "delta": -50 }, { "kind": "affinity", "from": "B", "to": "A", "delta": 30 }] }
+    ] },
+
+  { "id": "enc.save_cliff_edge", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "when": { "zones": ["cliffs", "ruins", "caves"] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "The ground goes out from under {B}. {A} catches {B.their} wrist at the last second and hauls {B.them} back up.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 40 }] },
+      { "rarity": "uncommon", "text": "{A} catches {B} as the edge gives way, and they both go down the slope together. They're bruised, alive, and suddenly very close friends.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 40 }, { "kind": "affinity", "from": "A", "to": "B", "delta": 15 }] }
+    ] },
+
+  { "id": "enc.save_poisoned", "category": "encounter", "severity": "minor", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "tags": [{ "who": "B", "has": ["poisoned"] }] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} recognises the berries on {B}'s lips, sticks two fingers down {B.their} throat and keeps {B.them} walking until it passes.",
+        "effects": [{ "kind": "removeTag", "who": "B", "tag": "poisoned" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 25 }] }
+    ] },
+
+  { "id": "enc.fake_help", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} kneels beside the wounded {B} and promises to help. {B} relaxes. {A} waits for that, then cuts {B.their} throat.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "common", "text": "{A} offers to help the wounded {B}, but {B} has seen that smile before and keeps {B.their} back to a tree until {A} gives up and leaves.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -30 }] }
+    ] },
+
+  { "id": "grp.save_infection", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "health": [{ "who": "B", "is": ["critical"] }] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} heats a knife in the fire and cuts the rot out of {B}'s wound while {B} bites down on a stick. {B} screams the whole time, and lives.",
+        "effects": [{ "kind": "heal", "target": "B" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 35 }] }
+    ] },
+
+  { "id": "grp.save_night_watch", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "mods": [{ "kind": "affinity", "from": "A", "to": "B", "per": 2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} wakes to see a snake coiled on {B}'s chest, and flicks it into the dark with a stick before it strikes.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 30 }] }
+    ] },
+
+  { "id": "bb.pulls_clear", "category": "bloodbath", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle", "save": true,
+    "roles": { "A": "one", "B": "one" },
+    "outcomes": [
+      { "rarity": "common", "text": "Someone swings an axe at {B}'s head. {A} yanks {B} out of the way by the backpack, and they run for the trees together.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 35 }, { "kind": "formGroup", "members": ["A", "B"] }] }
+    ] }
+]

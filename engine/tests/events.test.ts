@@ -13,7 +13,7 @@ function people(n: number, p: PronounKey, prefix: string): TextBinding {
 
 function ctxFor(t: AnyTemplate | null, p: PronounKey, gSize: number, hSize: number): TextContext {
   const one = (r: string) => ({ people: [{ id: r, pronouns: p }], isUnit: false });
-  const roles: TextContext['roles'] = { A: one('A'), B: one('B'), C: one('C'), X: one('X'), K: one('K'), V: one('V') };
+  const roles: TextContext['roles'] = { A: one('A'), B: one('B'), C: one('C'), X: one('X'), K: one('K'), V: one('V'), S: one('S') };
   roles.G = people(gSize, p, 'g');
   roles.H = people(hSize, p, 'h');
   roles.W = people(gSize, p, 'w');

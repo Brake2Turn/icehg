@@ -177,7 +177,7 @@
         "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 25 }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
     ] },
 
-  { "id": "enc.mercy_wounded", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+  { "id": "enc.mercy_wounded", "save": true, "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
     "roles": { "A": "one", "B": "one" },
     "requires": { "affinity": [{ "from": "A", "to": "B", "min": 60 }], "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
     "outcomes": [{ "rarity": "common", "text": "{A} finds {B} hurt in the {zone}. Anyone else would finish it. {A} cleans the wound and stays until {B} can stand.",
@@ -226,7 +226,7 @@
         "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "loseItem", "who": "A", "item": "trap" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
     ] },
 
-  { "id": "enc.river_rescue", "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+  { "id": "enc.river_rescue", "save": true, "category": "encounter", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
     "roles": { "A": "one", "B": "one" },
     "when": { "zones": ["river", "lake", "swamp"] },
     "outcomes": [{ "rarity": "common", "text": "{B} goes under in the {zone} and doesn't come up. {A} dives in and drags {B.them} out by the collar. {B} coughs up half the {zone} and stares at {A} like {A.they} {A.is} insane.",

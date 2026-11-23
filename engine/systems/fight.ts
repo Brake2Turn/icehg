@@ -19,6 +19,11 @@ import {
   LOYAL_STRENGTH_MULT,
   NIGHT_WOKEN_PENALTY,
   RARITY_WEIGHT,
+  REPEAT_DECAY,
+  REPEAT_FLOOR,
+  FIGHT_SAVE_BASE,
+  FIGHT_SAVE_MIN,
+  RESCUE_AFF_K,
   STALEMATE_BASE,
   STALEMATE_DIE,
   STALEMATE_WOUND,
@@ -153,7 +158,8 @@ export function rollFight(
 function pickLine(ctx: EventCtx, lines: FightLine[], used: Set<string>, rng: Rng): FightLine | undefined {
   let pool = lines.filter((l) => !used.has(l.id));
   if (!pool.length) pool = lines;
-  const i = rng.weightedIndex(pool.map((l) => RARITY_WEIGHT[l.rarity]));
+  const use = ctx.w.stats.fightLineUse;
+  const i = rng.weightedIndex(pool.map((l) => RARITY_WEIGHT[l.rarity] * Math.max(REPEAT_FLOOR, REPEAT_DECAY ** (use[l.id] ?? 0))));
   if (i < 0) return undefined;
   const l = pool[i]!;
   used.add(l.id);
@@ -182,6 +188,29 @@ export function resolveFight(ctx: EventCtx, attackersIn: string[], defendersIn: 
     ctx.participants.add(id);
   }
   ctx.entryTags.add('fight');
+
+  // Saves: a teammate who cares about someone can pull them out of a killing blow (cyan).
+  const saves: [string, string, string][] = [];
+  for (const side of [attackers, defenders]) {
+    for (const v of side) {
+      if (roll.fates[v] !== 'dies') continue;
+      const savers = side.filter((t) => t !== v && roll.fates[t] !== 'dies' && !saves.some((x) => x[0] === t) && w.getAff(t, v) >= FIGHT_SAVE_MIN);
+      for (const t of rng.shuffle(savers)) {
+        if (!rng.chance(Math.min(0.9, FIGHT_SAVE_BASE * Math.exp((RESCUE_AFF_K * w.getAff(t, v)) / 100)))) continue;
+        const k = roll.killer[v]!;
+        roll.fates[v] = 'wounded';
+        roll.wounder[v] = k;
+        delete roll.killer[v];
+        if (rng.chance(0.5) && roll.fates[t] !== 'wounded') {
+          roll.fates[t] = 'wounded';
+          roll.wounder[t] = k;
+        }
+        saves.push([t, v, k]);
+        ctx.saves.push([t, v]);
+        break;
+      }
+    }
+  }
 
   const lines = w.db.linesByKind;
   const used = new Set<string>();
@@ -218,6 +247,11 @@ export function resolveFight(ctx: EventCtx, attackersIn: string[], defendersIn: 
       const l = pickLine(ctx, weaponLines('wound', kw), used, rng);
       if (l) out.push(renderText(l.text, { roles: { ...roles, K: textBinding(w, [k], false), V: textBinding(w, [id], false) }, zone, weapon: WEAPON_LABEL[kw] }));
     }
+  }
+  for (const [t, v, k] of saves) {
+    const l = pickLine(ctx, lines.save, used, rng);
+    if (l) out.push(renderText(l.text, { roles: { ...roles, S: textBinding(w, [t], false), V: textBinding(w, [v], false), K: textBinding(w, [k], false) }, zone }));
+    w.addAff(v, t, 30);
   }
   const escapees = [...attackers, ...defenders].filter((id) => roll.fates[id] === 'escapes');
   for (const id of escapees) {

@@ -21,6 +21,9 @@
   --color-chip-orange: #ff9a3c;
   --color-chip-green: #5fd38d;
   --color-chip-white: #f2f4f8;
+  --color-chip-pink: #ff7ac8;
+  --color-chip-cyan: #3ddbe6;
+  --color-chip-blue: #5b9dff;
 }
 
 html, body, #root { height: 100%; }
@@ -41,6 +44,7 @@ body::before {
     radial-gradient(800px 500px at 100% 110%, rgba(80, 100, 160, 0.10), transparent 60%);
 }
 
+@layer components {
 .glass {
   background: rgba(18, 21, 29, 0.72);
   backdrop-filter: blur(14px) saturate(140%);
@@ -68,6 +72,8 @@ body::before {
   outline: none;
 }
 .input:focus { border-color: var(--color-gold); }
+}
+
 .safe-top { padding-top: max(env(safe-area-inset-top), 0.75rem); }
 .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
 

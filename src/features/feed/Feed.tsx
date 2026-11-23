@@ -1,18 +1,24 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { dayOf, formatGameTime, type EventEntry, type LogEntry, type MidnightEntry } from '../../../engine';
 import { NameText } from './NameText';
-import type { Border, Outcome } from './outcomes';
+import type { Outcome, Tone } from './outcomes';
 
-/** Card edge by what happened: death, betrayal, injury, or something good. */
-const BORDER: Record<Exclude<Border, null>, string> = {
-  red: 'border-chip-red/80 shadow-[0_0_0_1px_var(--color-chip-red),0_0_18px_-6px_var(--color-chip-red)]',
-  purple: 'border-chip-purple/80 shadow-[0_0_0_1px_var(--color-chip-purple),0_0_18px_-6px_var(--color-chip-purple)]',
-  orange: 'border-chip-orange/70 shadow-[0_0_0_1px_var(--color-chip-orange)]',
-  green: 'border-chip-green/60',
+/** Card edge by the biggest thing that happened (no glow). */
+const BORDER: Record<Tone, string> = {
+  pink: 'border-chip-pink',
+  red: 'border-chip-red',
+  purple: 'border-chip-purple',
+  cyan: 'border-chip-cyan',
+  blue: 'border-chip-blue',
+  orange: 'border-chip-orange',
+  green: 'border-chip-green/70',
 };
-const SUMMARY: Record<Exclude<Border, null>, string> = {
+const TEXT: Record<Tone, string> = {
+  pink: 'text-chip-pink',
   red: 'text-chip-red',
   purple: 'text-chip-purple',
+  cyan: 'text-chip-cyan',
+  blue: 'text-chip-blue',
   orange: 'text-chip-orange',
   green: 'text-chip-green',
 };
@@ -98,14 +104,30 @@ export function Feed({
             return (
               <div key={e.seq}>
                 {header && <DayHeader day={day} />}
-                <div className={`glass rounded-xl px-3 py-2.5 flex gap-3 fade-in ${border ? BORDER[border] : ''}`}>
+                <div className={`glass rounded-xl px-3 py-2.5 flex gap-3 fade-in ${border ? `${BORDER[border]} border-[1.5px]` : ''}`}>
                   <div className="w-11 shrink-0 text-[11px] text-mute pt-0.5 tabular-nums">{formatGameTime(e.gameMinute).split(' · ')[1]}</div>
                   <div className="flex-1 min-w-0">
                     <div className="text-[15px] leading-snug">
                       <NameText text={e.text} nameOf={nameOf} onName={onName} />
                     </div>
+                    {e.lines && e.lines.length > 0 && (
+                      <ul className="mt-1.5 flex flex-col gap-1 text-[14px] leading-snug border-l border-white/15 pl-2.5">
+                        {e.lines.map((l, i) => (
+                          <li key={i}>
+                            <NameText text={l} nameOf={nameOf} onName={onName} />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     {o && o.summary.length > 0 && (
-                      <div className={`mt-1.5 text-[12px] font-semibold leading-snug ${border ? SUMMARY[border] : 'text-mute'}`}>{o.summary.join(' · ')}</div>
+                      <div className="mt-1.5 text-[12px] font-semibold leading-snug">
+                        {o.summary.map((l, i) => (
+                          <span key={i}>
+                            {i > 0 && <span className="text-mute"> · </span>}
+                            <span className={l.tone ? TEXT[l.tone] : 'text-mute'}>{l.text}</span>
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </div>

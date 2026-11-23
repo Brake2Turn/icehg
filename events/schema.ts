@@ -37,6 +37,8 @@ export const WeightModZ = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('alive'), per: z.number() }).strict(),
   z.object({ kind: z.literal('day'), per: z.number() }).strict(),
   z.object({ kind: z.literal('hasTag'), who: RoleZ, tag: TagZ, mult: z.number().min(0) }).strict(),
+  /** ×e^(per·aff/100), where aff = how `from` feels about `to`. */
+  z.object({ kind: z.literal('affinity'), from: RoleZ, to: RoleZ, per: z.number() }).strict(),
 ]);
 
 const RoleOrUnit = z.union([RoleZ, z.literal('G'), z.literal('H')]);
@@ -106,7 +108,7 @@ const WhenZ = z
  */
 export const TriggerZ = z.enum([
   'woundWorsen', 'succumb', 'dehydration', 'starvation',
-  'hazard', 'closure', 'feastAnnounce', 'feastDrop', 'gong',
+  'hazard', 'closure', 'feastAnnounce', 'feastDrop', 'gong', 'hazardRescue',
 ]);
 
 const BaseTemplate = {
@@ -117,6 +119,8 @@ const BaseTemplate = {
   tone: ToneZ,
   visual: VisualZ,
   betrayal: z.boolean().optional(),
+  /** A saves B (shown in cyan). */
+  save: z.boolean().optional(),
   trigger: TriggerZ.optional(),
   roles: z
     .object({
@@ -139,7 +143,7 @@ export const EventTemplateZ = z
   .strict();
 
 export const HazardTemplateZ = z
-  .object({ ...BaseTemplate, category: z.literal('gamemaker'), intro: z.string().min(1), perVictim: z.array(OutcomeZ) })
+  .object({ ...BaseTemplate, category: z.literal('gamemaker'), scope: z.enum(['arena', 'zone']).optional(), intro: z.string().min(1), perVictim: z.array(OutcomeZ) })
   .strict();
 
 export const AnyTemplateZ = z.union([HazardTemplateZ, EventTemplateZ]);
@@ -147,7 +151,7 @@ export const AnyTemplateZ = z.union([HazardTemplateZ, EventTemplateZ]);
 export const FightLineZ = z
   .object({
     id: z.string().regex(/^fl\.[a-z0-9_.]+$/),
-    kind: z.enum(['opener', 'kill', 'wound', 'escape', 'stalemate', 'ending']),
+    kind: z.enum(['opener', 'kill', 'wound', 'escape', 'stalemate', 'ending', 'save']),
     rarity: RarityZ,
     weapon: z.array(WeaponZ).optional(),
     matchup: z.array(z.enum(['1v1', '1vGroup', 'groupVsGroup'])).optional(),

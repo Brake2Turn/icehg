@@ -14,19 +14,21 @@ describe('feed outcomes (border + summary)', () => {
       for (const e of r.log) {
         if (e.kind !== 'event') continue;
         const o = out.get(e.seq)!;
+        const all = o.summary.map((l) => l.text).join(' | ');
+        const betrayal = !!e.tags?.includes('betrayal');
         for (const p of e.patches) {
           if (p.p === 'death') {
-            expect(o.border).toBe('red');
-            expect(o.summary.join(' ')).toContain(name(p.id));
-            expect(o.summary[0]).toMatch(/died$/);
+            expect(betrayal ? ['pink', 'red'] : ['red', 'pink']).toContain(o.border);
+            expect(all).toContain(name(p.id));
           }
-          if (p.p === 'groupNew') expect(o.summary.join(' ')).toMatch(/have an alliance/);
+          if (p.p === 'groupNew') expect(all).toMatch(/have an alliance/);
         }
-        if (e.tags?.includes('betrayal')) {
-          expect(['red', 'purple']).toContain(o.border);
-          expect(o.summary.join(' ')).toMatch(/betrayed/);
+        if (betrayal) {
+          expect(['pink', 'purple', 'red']).toContain(o.border);
+          expect(all).toMatch(/betrayed/);
         }
-        for (const line of o.summary) expect(line).not.toMatch(/undefined|\?|\[\[/);
+        for (const [a, b] of e.saves ?? []) expect(all).toContain(`${name(a)} saved ${name(b)}`);
+        for (const line of o.summary) expect(line.text).not.toMatch(/undefined|\?|\[\[/);
       }
     }
   });

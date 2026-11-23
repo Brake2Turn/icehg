@@ -158,7 +158,7 @@
         "effects": [{ "kind": "addTag", "who": "A", "tag": "hiding" }, { "kind": "gainItem", "who": "A", "item": "medkit" }] }
     ] },
 
-  { "id": "bb.mercy", "category": "bloodbath", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "fight",
+  { "id": "bb.mercy", "category": "bloodbath", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "fight",
     "roles": { "A": "one", "B": "one" },
     "requires": { "affinity": [{ "from": "A", "to": "B", "min": 60 }] },
     "outcomes": [

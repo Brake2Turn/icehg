@@ -91,7 +91,7 @@
     "outcomes": [{ "rarity": "common", "text": "{A} teaches {B} how to make a snare from a bootlace. {B} is bad at it, then less bad at it.",
       "effects": [{ "kind": "gainItem", "who": "B", "item": "trap" }, { "kind": "affinity", "from": "B", "to": "A", "delta": 12 }] }] },
 
-  { "id": "grp.medkit_share", "category": "group", "severity": "minor", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+  { "id": "grp.medkit_share", "save": true, "category": "group", "severity": "minor", "rarity": "common", "tone": "cooperative", "visual": "huddle",
     "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
     "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "hasItem": [{ "who": "A", "item": "medkit" }], "health": [{ "who": "B", "is": ["wounded", "critical"] }] },
     "outcomes": [{ "rarity": "common", "text": "{A} uses {A.their} only medkit on {B} without being asked. {B} doesn't know what to say, so {B.they} say{B.s} nothing.",

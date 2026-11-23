@@ -9,6 +9,8 @@ import group from './group.json';
 import betrayal from './betrayal.json';
 import gamemaker from './gamemaker.json';
 import feast from './feast.json';
+import saves from './saves.json';
+import more from './more.json';
 import fightlines from './fightlines.json';
 
 export const TEMPLATE_FILES: Record<string, unknown[]> = {
@@ -20,6 +22,8 @@ export const TEMPLATE_FILES: Record<string, unknown[]> = {
   betrayal,
   gamemaker,
   feast,
+  saves,
+  more,
 };
 
 export const eventDb: EventDb = {

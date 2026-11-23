@@ -1,0 +1,236 @@
+[
+  { "id": "enc.murder_garrote", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "mods": [{ "kind": "traitDiff", "a": "A", "b": "B", "trait": "stealth", "per": 0.08 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} drops a loop of vine over {B}'s head from behind and pulls. {B} kicks for a long time, then stops.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} gets a loop of vine around {B}'s neck, but {B} gets a hand under it and throws {A} into a tree. {A} runs.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "affinity", "from": "B", "to": "A", "delta": -40 }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "enc.murder_rock_drop", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "zones": ["cliffs", "ruins"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} waits on a ledge above the path for an hour. When {B} walks underneath, {A} drops a boulder the size of a fridge.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} drops a boulder on {B} from a ledge and misses by a step. {B} looks up. {A} waves, awkwardly, and leaves.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -40 }, { "kind": "addTag", "who": "B", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.murder_drown", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "zoneTags": ["water"] },
+    "mods": [{ "kind": "traitDiff", "a": "A", "b": "B", "trait": "strength", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} catches {B} filling a bottle at the {zone}, pushes {B.their} head under and kneels on {B.their} back until the bubbles stop.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} tries to hold {B} under in the {zone}. {B} comes up swinging a rock, and {A} decides to be somewhere else.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "enc.murder_bait_fire", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "ambush",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} lights a small fire as bait and waits in the dark. {B} creeps over to warm {B.their} hands, and {A} steps out behind {B.them}.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "common", "text": "{A} lights a fire as bait in the {zone}. {B} sees it, sees how obviously it's a trap, and goes the other way.",
+        "effects": [] }
+    ] },
+
+  { "id": "enc.murder_surrender", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "requires": { "hasWeapon": ["A"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "ruthlessness", "per": 0.2 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{B} drops to {B.their} knees and puts {B.their} hands up. {A} kills {B.them} anyway, and doesn't seem to think about it.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "common", "text": "{B} drops to {B.their} knees and begs. {A} thinks about it for far too long, then tells {B.them} to run.",
+        "effects": [{ "kind": "move", "who": ["B"], "to": "adjacent" }, { "kind": "addTag", "who": "B", "tag": "hunted" }] }
+    ] },
+
+  { "id": "enc.murder_mud", "category": "encounter", "severity": "lethal", "rarity": "rare", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "zones": ["swamp"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} shoves {B} into a pool of sucking mud and stands on the bank watching until there's nothing left to watch.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} shoves {B} into the mud, but {B} grabs {A}'s ankle on the way in and they both crawl out filthy and furious.",
+        "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -40 }, { "kind": "need", "who": "A", "need": "fatigue", "delta": 25 }, { "kind": "need", "who": "B", "need": "fatigue", "delta": 25 }] }
+    ] },
+
+  { "id": "enc.murder_sniper", "category": "encounter", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "death",
+    "roles": { "A": "one", "B": "one" },
+    "when": { "timeOfDay": ["dawn", "day"] },
+    "requires": { "hasWeapon": ["A"] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "stealth", "per": 0.15 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} lies in the undergrowth for two hours waiting for {B} to come back to {B.their} camp. {B} never sees it coming.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }] },
+      { "rarity": "common", "text": "{A} lies in wait for {B} for two hours, falls asleep, and wakes up to find {B}'s camp packed up and gone.",
+        "effects": [] }
+    ] },
+
+  { "id": "grp.betrayal_watch", "category": "group", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} volunteers for the night watch. In the morning {B} is dead, and {A} is gone with the supplies.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }, { "kind": "transferItem", "from": "B", "to": "A", "item": "all" }, { "kind": "leaveGroup", "who": "A" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] },
+      { "rarity": "uncommon", "text": "{A} volunteers for the night watch and spends it creeping towards {B}. {B} was only pretending to sleep.",
+        "effects": [{ "kind": "injure", "target": "A", "severity": "wounded" }, { "kind": "leaveGroup", "who": "A" }, { "kind": "move", "who": ["A"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_mid_sentence", "category": "group", "severity": "lethal", "rarity": "common", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{B} is halfway through a story about {B.their} dog when {A} brings a rock down on {B.their} head. {A} never did like the dog.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "uncommon", "text": "{A} swings a rock at {B} mid-conversation, and catches only an ear. {B} runs, holding the side of {B.their} head and shouting.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_lure", "category": "group", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "timeOfDay": ["dawn", "day", "dusk"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} sends {B} to scout ahead, straight into a nest of wild dogs {A} spotted an hour ago. {A} doesn't go after {B.them}.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "common", "text": "{A} sends {B} to scout ahead into a nest of wild dogs. {B} gets out, bitten and bleeding, and works out exactly what happened.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_swim", "category": "group", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "when": { "zoneTags": ["water"] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} offers to teach {B} to swim. The lesson is short.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "uncommon", "text": "{A} tries to drown {B} during a swimming lesson. {B}, it turns out, can swim fine, and swims away.",
+        "effects": [{ "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "grp.betrayal_trip", "category": "group", "severity": "lethal", "rarity": "uncommon", "tone": "hostile", "visual": "betrayal", "betrayal": true,
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "Something big is crashing through the trees after them. {A} trips {B} to slow it down, and doesn't look back at the noise.",
+        "effects": [{ "kind": "kill", "target": "B", "by": "A" }] },
+      { "rarity": "uncommon", "text": "Running from something in the trees, {A} trips {B} on purpose. {B} gets up bloody and gets away, and won't forget it.",
+        "effects": [{ "kind": "injure", "target": "B", "severity": "wounded" }, { "kind": "leaveGroup", "who": "B" }, { "kind": "move", "who": ["B"], "to": "adjacent" }] }
+    ] },
+
+  { "id": "solo.chill_clouds", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["day"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} lies on {A.their} back in the {zone} and finds shapes in the clouds. One of them looks like a Gamemaker. {A} glares at it.", "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -5 }] }] },
+
+  { "id": "solo.chill_skim_stones", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "zones": ["river", "lake"], "timeOfDay": ["dawn", "day", "dusk"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} skims stones across the {zone}. Seven bounces. Nobody saw. Typical.", "effects": [] }] },
+
+  { "id": "solo.chill_humming", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "outcomes": [{ "rarity": "common", "text": "{A} hums the same four bars of a song from home over and over, because {A.they} can't remember the rest.", "effects": [] }] },
+
+  { "id": "solo.chill_sunbathe", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "sleep",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["day"], "zoneTags": ["exposed", "water"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} finds a warm rock and lies on it like a lizard for an hour. It's the most relaxed anyone in the arena has been all week.", "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -15 }] }] },
+
+  { "id": "solo.chill_names_squirrel", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "zones": ["forest", "meadow", "ruins"] },
+    "outcomes": [{ "rarity": "common", "text": "A squirrel keeps following {A} around the {zone}. {A} names it Gerald. {A} does not eat Gerald. Yet.", "effects": [] }] },
+
+  { "id": "solo.chill_stars", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} can't sleep, so {A.they} count{A.s} the stars over the {zone}. The arena sky is fake, and some of the stars blink.", "effects": [] }] },
+
+  { "id": "solo.chill_speech", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "alive": { "max": 10 } },
+    "outcomes": [{ "rarity": "common", "text": "{A} quietly practises {A.their} Victor's speech to a tree. It needs work. The tree is unconvinced.", "effects": [] }] },
+
+  { "id": "solo.chill_carves", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "requires": { "hasWeapon": ["A"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} whittles a little wooden animal with {A.their} {weapon}. It's either a horse or a dog. {A} isn't sure either.", "effects": [] }] },
+
+  { "id": "solo.chill_stretches", "category": "solo", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one" },
+    "when": { "timeOfDay": ["dawn"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} does a full stretching routine at dawn in the {zone}, as if this is a normal morning. Small acts of defiance.", "effects": [{ "kind": "need", "who": "A", "need": "fatigue", "delta": -5 }] }] },
+
+  { "id": "solo.chill_talks_home", "category": "solo", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "cry",
+    "roles": { "A": "one" },
+    "outcomes": [{ "rarity": "common", "text": "{A} talks out loud to {A.their} family back home, in case they're watching. {A} tells them {A.they} {A.is} fine. {A.They} {A.is} not fine.", "effects": [] }] },
+
+  { "id": "grp.chill_stories", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} tells {B} about the worst job {A.they} ever had. {B} tops it. They argue about who wins until they're both laughing.", "effects": [{ "kind": "affinity", "from": "A", "to": "B", "delta": 8, "mutual": true }] }] },
+
+  { "id": "grp.chill_rankings", "category": "group", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "outcomes": [{ "rarity": "common", "text": "{G} rank everyone left in the Games from most to least dangerous. They don't agree on who goes first. Nobody puts themselves on the list.", "effects": [] }] },
+
+  { "id": "grp.chill_watch_duty", "category": "group", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} and {B} play rock, paper, scissors for the first watch. Best of three becomes best of eleven. {B} loses and sulks.", "effects": [{ "kind": "need", "who": "B", "need": "fatigue", "delta": 10 }] }] },
+
+  { "id": "grp.chill_haircut", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "hasWeapon": ["A"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} gives {B} a haircut with {A.their} {weapon}. It's terrible. {B} says it's fine, which is the kindest lie told in the arena so far.", "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 5 }] }] },
+
+  { "id": "grp.chill_huddle", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "sleep",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "timeOfDay": ["night"] },
+    "outcomes": [{ "rarity": "common", "text": "It's freezing, so {G} sleep back to back in a pile in the {zone}. Someone snores. Everyone pretends it's someone else.", "effects": [{ "kind": "need", "who": "G", "need": "fatigue", "delta": -15 }, { "kind": "affinity", "from": "G", "to": "G", "delta": 4 }] }] },
+
+  { "id": "grp.chill_nicknames", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} gives everyone in the group a nickname. Some of them stick. One of them is cruel, but accurate.", "effects": [{ "kind": "affinity", "from": "G", "to": "A", "delta": 4 }] }] },
+
+  { "id": "grp.chill_wash", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "when": { "zoneTags": ["water"], "timeOfDay": ["day"] },
+    "outcomes": [{ "rarity": "common", "text": "{G} take turns washing the blood out of their clothes in the {zone} while one of them keeps watch. Most of it comes out.", "effects": [{ "kind": "affinity", "from": "G", "to": "G", "delta": 3 }] }] },
+
+  { "id": "grp.chill_plan", "category": "group", "severity": "flavour", "rarity": "common", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "mods": [{ "kind": "trait", "who": "A", "trait": "cunning", "per": 0.1 }],
+    "outcomes": [
+      { "rarity": "common", "text": "{A} draws a plan in the dirt with a stick. It has arrows and everything. The group nods along, and nobody follows it.", "effects": [] },
+      { "rarity": "uncommon", "text": "{A} draws a plan in the dirt with a stick, and it's actually good. The group looks at {A} differently after that.", "effects": [{ "kind": "affinity", "from": "G", "to": "A", "delta": 10 }] }
+    ] },
+
+  { "id": "grp.chill_kill_count", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "neutral", "visual": "none",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }], "hasWeapon": ["A"] },
+    "outcomes": [{ "rarity": "common", "text": "{A} starts keeping a tally of kills on a stick. {B} asks what happens when the tally gets to the group. {A} doesn't answer straight away.", "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": -8 }] }] },
+
+  { "id": "grp.chill_mend", "category": "group", "severity": "flavour", "rarity": "common", "tone": "cooperative", "visual": "huddle",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [{ "rarity": "common", "text": "{A} patches the hole in {B}'s jacket with a fishhook and some thread, without being asked.", "effects": [{ "kind": "affinity", "from": "B", "to": "A", "delta": 8 }] }] },
+
+  { "id": "grp.chill_song", "category": "group", "severity": "flavour", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle",
+    "roles": { "G": { "min": 3, "max": 6 } },
+    "when": { "timeOfDay": ["dusk", "night"] },
+    "outcomes": [{ "rarity": "common", "text": "{G} sing, very quietly, so nobody can find them by the noise. It sounds terrible and nobody wants it to stop.", "effects": [{ "kind": "affinity", "from": "G", "to": "G", "delta": 6 }] }] }
+]

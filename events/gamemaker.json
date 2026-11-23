@@ -147,5 +147,58 @@
         "effects": [{ "kind": "loseItem", "who": "X", "item": "food" }, { "kind": "loseItem", "who": "X", "item": "water" }, { "kind": "move", "who": ["X"], "to": "adjacent" }] },
       { "rarity": "rare", "text": "{X} is asleep when the water comes. {X} doesn't wake up.",
         "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+  { "id": "gm.arena_cold_snap", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard", "scope": "arena",
+    "roles": {},
+    "intro": "The Gamemakers drop the temperature across the whole arena. By nightfall the puddles are frozen solid.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} burrows into a pile of leaves and shivers through it.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 20 }] },
+      { "rarity": "common", "mods": [{ "kind": "hasItem", "who": "X", "item": "sleepingBag", "mult": 4 }], "text": "{X} zips {X.themself} into a sleeping bag and barely notices.", "effects": [] },
+      { "rarity": "common", "text": "{X} keeps moving all night to stay warm and survives it, just.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 30 }] },
+      { "rarity": "uncommon", "text": "{X} loses feeling in two fingers and doesn't get it back.", "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }] },
+      { "rarity": "rare", "mods": [{ "kind": "health", "who": "X", "is": "critical", "mult": 5 }], "text": "{X} lies down to rest and freezes where {X.they} lie{X.s}.", "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.arena_quake", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard", "scope": "arena",
+    "roles": {},
+    "intro": "The whole arena shakes. Trees come down, rocks come loose, and the ground opens in long cracks.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} curls up in the open and waits for it to stop.", "effects": [] },
+      { "rarity": "common", "text": "{X} runs from a falling tree and makes it by a stride.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 15 }] },
+      { "rarity": "common", "text": "{X} is thrown flat and gets up dizzy, but whole.", "effects": [] },
+      { "rarity": "uncommon", "text": "{X} is clipped by a falling branch and gets up with a cracked collarbone.", "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }] },
+      { "rarity": "rare", "text": "{X} is swallowed by a crack in the ground that closes again a second later.", "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.arena_screech", "category": "gamemaker", "severity": "major", "rarity": "uncommon", "tone": "neutral", "visual": "hazard", "scope": "arena",
+    "roles": {},
+    "intro": "A deafening screech plays across the arena all night, from speakers hidden in the trees. Nobody sleeps.",
+    "perVictim": [
+      { "rarity": "common", "text": "{X} stuffs moss in {X.their} ears and stares at the dark until morning.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 35 }] },
+      { "rarity": "common", "text": "{X} screams back at it for a while, which doesn't help.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 40 }] },
+      { "rarity": "common", "text": "{X} somehow sleeps through it. Nobody understands how.", "effects": [] },
+      { "rarity": "uncommon", "text": "{X}'s ears start bleeding around three in the morning.", "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "need", "who": "X", "need": "fatigue", "delta": 40 }] }
+    ] },
+
+  { "id": "gm.arena_bad_water", "category": "gamemaker", "severity": "lethal", "rarity": "uncommon", "tone": "neutral", "visual": "hazard", "scope": "arena",
+    "roles": {},
+    "intro": "Every stream, pond and puddle in the arena turns a faint green overnight. The Gamemakers have done something to the water.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "hasItem", "who": "X", "item": "water", "mult": 4 }], "text": "{X} has a sealed bottle and doesn't touch the green stuff.", "effects": [] },
+      { "rarity": "common", "text": "{X} notices the colour and goes thirsty instead.", "effects": [{ "kind": "need", "who": "X", "need": "thirst", "delta": 35 }] },
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.15 }], "text": "{X} boils it twice and drinks it anyway. It's fine. Probably.", "effects": [] },
+      { "rarity": "uncommon", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": -0.15 }], "text": "{X} drinks before noticing and spends the day doubled over.", "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }, { "kind": "addTag", "who": "X", "tag": "poisoned" }] },
+      { "rarity": "rare", "mods": [{ "kind": "health", "who": "X", "is": "critical", "mult": 5 }], "text": "{X} drinks deeply from the green water and doesn't wake up.", "effects": [{ "kind": "kill", "target": "X" }] }
+    ] },
+
+  { "id": "gm.arena_storm", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard", "scope": "arena",
+    "roles": {},
+    "intro": "A storm rolls over the entire arena: sideways rain, hail the size of teeth, and lightning that seems to be aiming.",
+    "perVictim": [
+      { "rarity": "common", "mods": [{ "kind": "trait", "who": "X", "trait": "survival", "per": 0.15 }], "text": "{X} finds a rock overhang and waits it out.", "effects": [] },
+      { "rarity": "common", "text": "{X} gets soaked to the bone and pelted with hail, but lives.", "effects": [{ "kind": "need", "who": "X", "need": "fatigue", "delta": 20 }] },
+      { "rarity": "common", "text": "{X} drinks the rain with {X.their} mouth open and calls it a win.", "effects": [{ "kind": "need", "who": "X", "need": "thirst", "delta": -40 }] },
+      { "rarity": "uncommon", "text": "{X} is knocked flat by hail and gets up with a split scalp.", "effects": [{ "kind": "injure", "target": "X", "severity": "wounded" }] },
+      { "rarity": "rare", "text": "Lightning hits the tree {X} is sheltering under.", "effects": [{ "kind": "kill", "target": "X" }] }
     ] }
 ]

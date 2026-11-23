@@ -95,7 +95,7 @@ export function bloodbathTick(w: World, tickIndex: number, totalTicks: number) {
     if (!c.alive || w.acted.has(id) || bloodbathDone.has(id) || w.isTravelling(c)) continue;
     const others = pool().filter((x) => x !== id);
     const choice = choose(w, w.db.byCategory.bloodbath, 'cornucopia', (ct) => bloodbathBinds(w, ct, id, others), (ct) =>
-      ct.t.severity === 'lethal' ? BLOODBATH_LETHAL_MULT : 1,
+      ct.t.severity === 'lethal' || ct.t.rarity === 'legendary' ? BLOODBATH_LETHAL_MULT : 1,
     );
     if (!choice) continue;
     const ctx = runTemplate(w, choice, 'cornucopia');

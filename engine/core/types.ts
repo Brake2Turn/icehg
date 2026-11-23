@@ -163,6 +163,12 @@ export type EventEntry = LogEntryBase & {
   /** Extra bookkeeping for stats/awards. */
   tags?: ('betrayal' | 'fight' | 'groupFormed' | 'mercy' | 'suicide')[];
   fight?: FightSummary;
+  /** Gamemaker events: one line per contestant caught up in it (their fate). `text` is the intro. */
+  lines?: string[];
+  /** [saver, saved] pairs: someone saved someone else in this event. */
+  saves?: [string, string][];
+  /** Gamemaker events: whole arena or one area. */
+  scope?: 'arena' | 'zone';
 };
 
 export type FightSummary = {

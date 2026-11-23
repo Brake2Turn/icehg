@@ -84,6 +84,8 @@ export class World {
   traits: Record<string, Traits> = {};
   /** Per-game Gamemaker temperament (rolled once): scales hazard and shrink odds. */
   gmMood = 1;
+  /** Day of the last Gamemaker event (one per day at most). */
+  gmDay = 0;
 
   constructor(setup: GameSetup, db: CompiledDb) {
     this.setup = setup;

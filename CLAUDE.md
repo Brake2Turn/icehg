@@ -39,7 +39,7 @@ React + TypeScript (strict) + Vite, React Router, Tailwind CSS v4, Zustand, Dexi
 - All event text must be original — nothing copied from other simulators, the books or the films.
 
 ## Writing events
-Templates live in `/events/*.json` (see §6.12 and `events/schema.ts`). Tokens: `{A}` names; `{A.they}/{A.them}/{A.their}/{A.theirs}/{A.themself}` (+ capitalised); verbs `{A.is} {A.was} {A.has} {A.does} {A.s} {A.es} {A.ies}`; units `{G} {G.count} {G.first}`; `{R}` = group G minus A/B/C; `{zone} {item} {weapon}`; fight lines `{K} {V} {W} {L}` (openers use `{G}`/`{H}`). Verbs after a name agree with the head-count ("Sam runs", "Sam and Jo run"); after a pronoun they follow the pronoun ("they run"). Avoid contractions after pronoun tokens (`{A.they}'ve`). Lethal templates need ≥2 outcomes including a non-lethal one. Use the Event Lab to preview.
+Templates live in `/events/*.json` (see §6.12 and `events/schema.ts`). Tokens: `{A}` names; `{A.they}/{A.them}/{A.their}/{A.theirs}/{A.themself}` (+ capitalised); verbs `{A.is} {A.was} {A.has} {A.does} {A.s} {A.es} {A.ies}`; units `{G} {G.count} {G.first}`; `{R}` = group G minus A/B/C; `{zone} {item} {weapon}`; fight lines `{K} {V} {W} {L}` (openers use `{G}`/`{H}`; `save` lines add `{S}` = the saver). Mark save events with `"save": true` (A saves B); whole-arena Gamemaker events with `"scope": "arena"`. Verbs after a name agree with the head-count ("Sam runs", "Sam and Jo run"); after a pronoun they follow the pronoun ("they run"). Avoid contractions after pronoun tokens (`{A.they}'ve`). Lethal templates need ≥2 outcomes including a non-lethal one. Use the Event Lab to preview.
 
 ## Commands
 ```bash

@@ -50,7 +50,7 @@ export function simulate(setup: GameSetup, db: EventDb, hooks?: SimHooks): GameR
         bloodbathTick(w, tick, BLOODBATH_TICKS);
         if (tick === BLOODBATH_TICKS - 1) w.stats.bloodbathDeaths = w.startCount - w.aliveCount();
       } else {
-        const steps = [scheduledStep, woundsStep, movementStep, soloStep, encounterStep, groupStep, hazardStep];
+        const steps = [scheduledStep, hazardStep, woundsStep, movementStep, soloStep, encounterStep, groupStep];
         for (const step of steps) {
           if (over()) break;
           step(w);

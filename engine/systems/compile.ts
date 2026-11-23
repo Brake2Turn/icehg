@@ -73,7 +73,7 @@ export function compileDb(db: EventDb): CompiledDb {
     else if (t.betrayal) betrayal.push(c);
     else byCategory[t.category].push(c);
   }
-  const linesByKind: CompiledDb['linesByKind'] = { opener: [], kill: [], wound: [], escape: [], stalemate: [], ending: [] };
+  const linesByKind: CompiledDb['linesByKind'] = { opener: [], kill: [], wound: [], escape: [], stalemate: [], ending: [], save: [] };
   for (const l of db.fightLines) linesByKind[l.kind].push(l);
   return { all: db.templates, byCategory, betrayal, byTrigger, hazards, closures, fightLines: db.fightLines, linesByKind };
 }

@@ -11,6 +11,8 @@ import {
   GRIEF_LIKE_MIN,
   MAX_GROUP,
   RARITY_WEIGHT,
+  REPEAT_DECAY,
+  REPEAT_FLOOR,
   WITNESS_LIKE_MIN,
   WITNESS_PENALTY,
   WITNESS_VENGEFUL_MIN,
@@ -189,6 +191,11 @@ export function modsMult(w: World, mods: WeightMod[] | undefined, b: Bind): numb
       case 'hasTag':
         f = ids(b, mod.who).some((id) => w.hasTag(id, mod.tag)) ? mod.mult : 1;
         break;
+      case 'affinity': {
+        const a = affBetween(w, ids(b, mod.from), ids(b, mod.to));
+        f = a === null ? 1 : Math.exp((mod.per * a) / 100);
+        break;
+      }
     }
     m *= Math.max(0, f);
   }
@@ -242,7 +249,7 @@ export function choose(
       mults.push(m);
     }
     if (binds.length === 0) continue;
-    const weight = RARITY_WEIGHT[c.t.rarity] * avg(mults);
+    const weight = RARITY_WEIGHT[c.t.rarity] * avg(mults) * repeatMult(w, c.t.id);
     if (weight > 0) cands.push({ c, binds, mults, weight });
   }
   while (cands.length) {
@@ -258,10 +265,23 @@ export function choose(
   return null;
 }
 
-export function chooseOutcome(w: World, c: Compiled | null, b: Bind, outcomes: Outcome[], exclude?: (o: Outcome) => boolean): Outcome | null {
+/** Each earlier use of a template this game makes it less likely (never impossible). */
+export function repeatMult(w: World, id: string): number {
+  const n = w.stats.templateUse[id] ?? 0;
+  return n ? Math.max(REPEAT_FLOOR, REPEAT_DECAY ** n) : 1;
+}
+
+export function chooseOutcome(
+  w: World,
+  c: Compiled | null,
+  b: Bind,
+  outcomes: Outcome[],
+  exclude?: (o: Outcome) => boolean,
+  extra?: (o: Outcome) => number,
+): Outcome | null {
   const ok = outcomes.filter((o) => outcomeEligible(w, c, b, o) && !(exclude && exclude(o)));
   if (!ok.length) return null;
-  const i = w.rng.weightedIndex(ok.map((o) => RARITY_WEIGHT[o.rarity] * modsMult(w, o.mods, b)));
+  const i = w.rng.weightedIndex(ok.map((o) => RARITY_WEIGHT[o.rarity] * modsMult(w, o.mods, b) * (extra ? extra(o) : 1)));
   return i < 0 ? null : ok[i]!;
 }
 
@@ -314,6 +334,9 @@ export class EventCtx {
   private movedUnits = new Map<string, ZoneId>();
   participants = new Set<string>();
   fight?: FightSummary;
+  lines: string[] = [];
+  saves: [string, string][] = [];
+  scope?: 'arena' | 'zone';
   entryTags = new Set<'betrayal' | 'fight' | 'groupFormed' | 'mercy' | 'suicide'>();
   visualOverride?: Visual;
 
@@ -629,6 +652,9 @@ export function commitEvent(
     patches,
     ...(ctx.entryTags.size ? { tags: [...ctx.entryTags] } : {}),
     ...(ctx.fight ? { fight: ctx.fight } : {}),
+    ...(ctx.lines.length ? { lines: ctx.lines.slice() } : {}),
+    ...(ctx.saves.length ? { saves: ctx.saves.slice() } : {}),
+    ...(ctx.scope ? { scope: ctx.scope } : {}),
   });
   for (const m of ctx.moves) {
     const living = m.who.filter((id) => w.c[id]!.alive && w.c[id]!.zone !== m.to);
@@ -648,6 +674,7 @@ export function runTemplate(w: World, choice: { c: Compiled; b: Bind; o: Outcome
   w.cur = [];
   const ctx = new EventCtx(w, b, zone);
   const text = renderText(o.text, textContext(w, b, zone, o.effects));
+  if (c.t.save && b.A && b.B) ctx.saves.push([b.A, b.B]);
   if (opts?.betrayal) {
     ctx.flag(b.A!, 'betrayer');
     ctx.entryTags.add('betrayal');
