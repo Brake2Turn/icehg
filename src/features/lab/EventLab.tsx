@@ -83,7 +83,7 @@ export function EventLab() {
         <span className="text-mute">H</span>
         <input type="number" min={1} max={6} value={h} onChange={(e) => setH(Number(e.target.value))} className="input !w-16 !py-1" />
         <button className="btn btn-ghost !py-1 !px-3" onClick={() => setSeed((s) => s + 1)}>
-          🎲 New names
+          New names
         </button>
       </div>
 

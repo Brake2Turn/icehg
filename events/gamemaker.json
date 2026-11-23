@@ -79,7 +79,7 @@
 
   { "id": "gm.heatwave", "category": "gamemaker", "severity": "lethal", "rarity": "common", "tone": "neutral", "visual": "hazard",
     "roles": {},
-    "intro": "The Gamemakers turn the sun up. The {zone} becomes an oven.",
+    "intro": "The Gamemakers turn the sun up over the {zone} until the air shimmers.",
     "perVictim": [
       { "rarity": "common", "text": "{X} finds shade and lies very still until it passes.",
         "effects": [{ "kind": "need", "who": "X", "need": "thirst", "delta": 30 }] },

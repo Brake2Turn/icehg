@@ -60,6 +60,7 @@ body::before {
 .btn:active { transform: scale(.97); }
 .btn:disabled { opacity: .4; pointer-events: none; }
 .btn-gold { background: linear-gradient(180deg, var(--color-gold-2), var(--color-gold)); color: #1b1404; }
+.btn-light { background: #dfe3ec; color: var(--color-ink); }
 .btn-ghost { background: rgba(255,255,255,.06); color: var(--color-text); border: 1px solid rgba(255,255,255,.08); }
 .input {
   width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);

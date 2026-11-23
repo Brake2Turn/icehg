@@ -1,6 +1,5 @@
 import type { ContestantSetup } from '../../../engine';
 import type { Fallen } from './useGame';
-import { CannonIcon } from './icons';
 import { DISTRICTS } from '../setup/districts';
 
 /** The Fallen screen at 00:00 (§8.4). */
@@ -24,7 +23,6 @@ export function FallenOverlay({ fallen, people, onClose }: { fallen: Fallen; peo
               const p = people[id]!;
               return (
                 <li key={id} className="rise flex items-center gap-3" style={{ animationDelay: `${0.35 + i * step}s` }}>
-                  <CannonIcon className="w-4 h-4 text-chip-red" />
                   <Initials name={p.name} />
                   <div className="text-left">
                     <div className="font-display text-2xl tracking-wide">{p.name}</div>

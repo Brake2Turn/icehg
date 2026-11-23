@@ -34,7 +34,7 @@ export function NameText({
               e.stopPropagation();
               onName?.(s.id);
             }}
-            className={`font-bold ${CHIP_CLASS[colours?.[s.id] ?? 'white']} hover:underline underline-offset-2`}
+            className={`font-bold ${colours ? CHIP_CLASS[colours[s.id] ?? 'white'] : 'text-chip-white'} hover:underline underline-offset-2`}
           >
             {nameOf(s.id)}
           </button>

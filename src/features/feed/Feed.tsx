@@ -1,24 +1,29 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { dayOf, formatGameTime, type EventEntry, type LogEntry, type MidnightEntry } from '../../../engine';
-import { CannonIcon } from './icons';
 import { NameText } from './NameText';
+import type { Border, Outcome } from './outcomes';
 
-export type FeedFilter = { kind: 'all' } | { kind: 'deaths' } | { kind: 'groups' } | { kind: 'person'; id: string };
+/** Card edge by what happened: death, betrayal, injury, or something good. */
+const BORDER: Record<Exclude<Border, null>, string> = {
+  red: 'border-chip-red/80 shadow-[0_0_0_1px_var(--color-chip-red),0_0_18px_-6px_var(--color-chip-red)]',
+  purple: 'border-chip-purple/80 shadow-[0_0_0_1px_var(--color-chip-purple),0_0_18px_-6px_var(--color-chip-purple)]',
+  orange: 'border-chip-orange/70 shadow-[0_0_0_1px_var(--color-chip-orange)]',
+  green: 'border-chip-green/60',
+};
+const SUMMARY: Record<Exclude<Border, null>, string> = {
+  red: 'text-chip-red',
+  purple: 'text-chip-purple',
+  orange: 'text-chip-orange',
+  green: 'text-chip-green',
+};
+
+export type FeedFilter = { kind: 'all' } | { kind: 'person'; id: string };
 
 type Row = EventEntry | MidnightEntry;
 
 function matches(e: Row, f: FeedFilter): boolean {
-  if (e.kind === 'midnight') return f.kind === 'all' || f.kind === 'deaths';
-  switch (f.kind) {
-    case 'all':
-      return true;
-    case 'deaths':
-      return e.patches.some((p) => p.p === 'death');
-    case 'groups':
-      return !!e.tags?.some((t) => t === 'betrayal' || t === 'groupFormed') || e.category === 'group';
-    case 'person':
-      return e.participants.includes(f.id);
-  }
+  if (f.kind === 'all') return true;
+  return e.kind === 'event' && e.participants.includes(f.id);
 }
 
 /** The running feed (§8.3, Phase 1 version): grouped by day, auto-scrolls unless you've scrolled up. */
@@ -28,7 +33,9 @@ export function Feed({
   nameOf,
   filter,
   onName,
+  outcomes,
 }: {
+  outcomes: Map<number, Outcome>;
   log: LogEntry[];
   revealed: number;
   nameOf: (id: string) => string;
@@ -86,16 +93,21 @@ export function Feed({
                 </div>
               );
             }
-            const death = e.patches.some((p) => p.p === 'death');
+            const o = outcomes.get(e.seq);
+            const border = o?.border ?? null;
             return (
               <div key={e.seq}>
                 {header && <DayHeader day={day} />}
-                <div className={`glass rounded-xl px-3 py-2.5 flex gap-3 fade-in ${death ? 'border-chip-red/30' : ''}`}>
+                <div className={`glass rounded-xl px-3 py-2.5 flex gap-3 fade-in ${border ? BORDER[border] : ''}`}>
                   <div className="w-11 shrink-0 text-[11px] text-mute pt-0.5 tabular-nums">{formatGameTime(e.gameMinute).split(' · ')[1]}</div>
-                  <div className="flex-1 text-[15px] leading-snug">
-                    <NameText text={e.text} colours={e.nameColours} nameOf={nameOf} onName={onName} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[15px] leading-snug">
+                      <NameText text={e.text} nameOf={nameOf} onName={onName} />
+                    </div>
+                    {o && o.summary.length > 0 && (
+                      <div className={`mt-1.5 text-[12px] font-semibold leading-snug ${border ? SUMMARY[border] : 'text-mute'}`}>{o.summary.join(' · ')}</div>
+                    )}
                   </div>
-                  {death && <CannonIcon className="w-4 h-4 text-chip-red shrink-0 mt-1" />}
                 </div>
               </div>
             );
