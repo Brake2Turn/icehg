@@ -45,6 +45,11 @@ function Game({ rec }: { rec: GameRecord }) {
   const people = useMemo(() => Object.fromEntries(rec.setup.contestants.map((c) => [c.id, c])) as Record<string, ContestantSetup>, [rec]);
   const nameOf = (cid: string) => people[cid]?.name ?? '?';
   const outcomes = useMemo(() => describeLog(rec.setup, rec.log), [rec]);
+  const saves = useMemo(() => {
+    const out: Record<string, number> = {};
+    for (const e of rec.log.slice(0, revealed)) if (e.kind === 'event') for (const [saver] of e.saves ?? []) out[saver] = (out[saver] ?? 0) + 1;
+    return out;
+  }, [rec, revealed]);
   const [filter, setFilter] = useState<FeedFilter>({ kind: 'all' });
   const [victorOpen, setVictorOpen] = useState(true);
   const [rosterOpen, setRosterOpen] = useState(false);
@@ -113,7 +118,7 @@ function Game({ rec }: { rec: GameRecord }) {
         )}
       </footer>
 
-      {rosterOpen && <Roster view={view} people={people} traits={rec.traits} onClose={() => setRosterOpen(false)} onPick={(cid) => {
+      {rosterOpen && <Roster view={view} people={people} traits={rec.traits} saves={saves} onClose={() => setRosterOpen(false)} onPick={(cid) => {
             setFilter({ kind: 'person', id: cid });
             setRosterOpen(false);
           }} />}

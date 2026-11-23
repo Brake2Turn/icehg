@@ -29,6 +29,14 @@ export function computeAwards(log: LogEntry[], final: ViewState, victor: string,
     if (who.length) out.push({ title: 'Biggest betrayal', who, detail: victim ? `turned on ${nameOf(victim)}` : 'turned on the group' });
   }
 
+  const saveCount: Record<string, number> = {};
+  for (const e of log) if (e.kind === 'event') for (const [saver] of e.saves ?? []) saveCount[saver] = (saveCount[saver] ?? 0) + 1;
+  const maxSaves = Math.max(0, ...Object.values(saveCount));
+  if (maxSaves > 0) {
+    const who = Object.keys(saveCount).filter((id) => saveCount[id] === maxSaves);
+    out.push({ title: 'Most saves', who, detail: `saved someone ${maxSaves === 1 ? 'once' : `${maxSaves} times`}` });
+  }
+
   let best: [string, string, number] | null = null;
   for (const a of cs)
     for (const b of cs) {

@@ -302,14 +302,22 @@ export function outcomeEligible(w: World, c: Compiled | null, b: Bind, o: Outcom
         }
       }
       if (members.size + biggest > MAX_GROUP) return false;
+      // Never let everyone still alive end up in one alliance (owner's rule).
+      if (members.size + biggest >= w.aliveCount() - deathsSoFar(w, b, o)) return false;
     }
     if (e.kind === 'joinGroup') {
       const g = ids(b, 'G');
       if (g.length + 1 > MAX_GROUP) return false;
+      if (g.length + 1 >= w.aliveCount() - deathsSoFar(w, b, o)) return false;
     }
   }
   void c;
   return true;
+}
+
+/** People this outcome kills outright (so the alliance check counts the field after it). */
+function deathsSoFar(w: World, b: Bind, o: Outcome): number {
+  return new Set(deathsFrom(b, o.effects).filter((id) => w.c[id]!.alive)).size;
 }
 
 function deathsFrom(b: Bind, effects: Effect[]): string[] {

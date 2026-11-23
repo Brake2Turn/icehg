@@ -11,6 +11,7 @@ import gamemaker from './gamemaker.json';
 import feast from './feast.json';
 import saves from './saves.json';
 import more from './more.json';
+import lastalliance from './lastalliance.json';
 import fightlines from './fightlines.json';
 
 export const TEMPLATE_FILES: Record<string, unknown[]> = {
@@ -24,6 +25,7 @@ export const TEMPLATE_FILES: Record<string, unknown[]> = {
   feast,
   saves,
   more,
+  lastalliance,
 };
 
 export const eventDb: EventDb = {

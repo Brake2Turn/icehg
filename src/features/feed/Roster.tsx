@@ -11,9 +11,12 @@ export function Roster({
   view,
   people,
   traits,
+  saves,
   onClose,
   onPick,
 }: {
+  /** How many times each contestant has saved someone (so far in what's been shown). */
+  saves: Record<string, number>;
   view: ViewState;
   people: Record<string, ContestantSetup>;
   traits: Record<string, Traits>;
@@ -30,9 +33,11 @@ export function Roster({
   const row = (c: ViewContestant) => {
     const p = people[c.id]!;
     const t = traits[c.id];
+    const sv = saves[c.id] ?? 0;
+    const saved = sv ? `${sv} save${sv === 1 ? '' : 's'}` : '';
     const status = c.alive
-      ? [HEALTH[c.health], c.kills.length ? `${c.kills.length} kill${c.kills.length === 1 ? '' : 's'}` : '', c.weapon !== 'none' ? WEAPON_LABEL[c.weapon] : '', ...c.items.map((i) => ITEM_LABEL[i])]
-      : [c.killedBy ? `Killed by ${nameOf(c.killedBy)}` : 'Died', c.deathMinute !== null ? `Day ${dayOf(c.deathMinute)}` : '', c.kills.length ? `${c.kills.length} kill${c.kills.length === 1 ? '' : 's'}` : ''];
+      ? [HEALTH[c.health], c.kills.length ? `${c.kills.length} kill${c.kills.length === 1 ? '' : 's'}` : '', saved, c.weapon !== 'none' ? WEAPON_LABEL[c.weapon] : '', ...c.items.map((i) => ITEM_LABEL[i])]
+      : [c.killedBy ? `Killed by ${nameOf(c.killedBy)}` : 'Died', c.deathMinute !== null ? `Day ${dayOf(c.deathMinute)}` : '', c.kills.length ? `${c.kills.length} kill${c.kills.length === 1 ? '' : 's'}` : '', saved];
     return (
       <li key={c.id}>
         <button className={`w-full text-left rounded-xl px-3 py-2 flex gap-3 items-center bg-white/5 active:bg-white/10 ${c.alive ? '' : 'opacity-55'}`} onClick={() => onPick(c.id)}>

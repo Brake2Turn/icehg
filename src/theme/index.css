@@ -45,6 +45,26 @@ body::before {
 }
 
 @layer components {
+/* Gamemaker events: black-and-yellow hazard tape along the top and bottom edge only. */
+.hazard { position: relative; overflow: hidden; }
+.hazard::before, .hazard::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 6px; pointer-events: none;
+  background: repeating-linear-gradient(135deg, #f2c230 0 8px, #15161a 8px 16px);
+}
+.hazard::before { top: 0; }
+.hazard::after { bottom: 0; }
+/* Legendary moments: a gold wash and a gold label. */
+.glass.legendary {
+  background:
+    linear-gradient(135deg, rgba(247, 220, 138, 0.20), rgba(227, 183, 76, 0.06) 45%, rgba(18, 21, 29, 0.72) 75%),
+    rgba(18, 21, 29, 0.72);
+}
+.legendary-tag {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-family: var(--font-display); font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  padding: .1rem .5rem; border-radius: 999px; color: #1b1404;
+  background: linear-gradient(180deg, var(--color-gold-2), var(--color-gold));
+}
 .glass {
   background: rgba(18, 21, 29, 0.72);
   backdrop-filter: blur(14px) saturate(140%);

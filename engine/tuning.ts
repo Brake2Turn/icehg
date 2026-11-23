@@ -213,3 +213,5 @@ export const P_ARENA_WIDE = 0.35;
 /** Kill outcomes in Gamemaker events: weight × GM_LETHAL_MULT × mood^GM_LETHAL_MOOD_EXP. */
 export const GM_LETHAL_MULT = 3;
 export const GM_LETHAL_MOOD_EXP = 3;
+/** When the only people left are all in one alliance, the chance it ends in betrayal (otherwise they split or ditch). */
+export const P_LAST_ALLIANCE_BETRAYAL = 0.55;

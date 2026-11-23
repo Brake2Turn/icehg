@@ -104,10 +104,19 @@ export function Feed({
             return (
               <div key={e.seq}>
                 {header && <DayHeader day={day} />}
-                <div className={`glass rounded-xl px-3 py-2.5 flex gap-3 fade-in ${border ? `${BORDER[border]} border-[1.5px]` : ''}`}>
+                <div
+                  className={`glass rounded-xl px-3 flex gap-3 fade-in ${e.category === 'gamemaker' ? 'hazard py-4' : 'py-2.5'} ${
+                    e.rarity === 'legendary' ? 'legendary' : ''
+                  } ${border ? `${BORDER[border]} border-[1.5px]` : e.rarity === 'legendary' ? 'border-gold border-[1.5px]' : ''}`}
+                >
                   <div className="w-11 shrink-0 text-[11px] text-mute pt-0.5 tabular-nums">{formatGameTime(e.gameMinute).split(' · ')[1]}</div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[15px] leading-snug">
+                    {e.rarity === 'legendary' && (
+                      <div className="mb-1.5">
+                        <span className="legendary-tag">Legendary moment</span>
+                      </div>
+                    )}
+                    <div className={`text-[15px] leading-snug ${e.category === 'gamemaker' ? 'font-semibold' : ''}`}>
                       <NameText text={e.text} nameOf={nameOf} onName={onName} />
                     </div>
                     {e.lines && e.lines.length > 0 && (

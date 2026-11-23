@@ -1,0 +1,33 @@
+[
+  { "id": "last.split", "category": "group", "severity": "major", "rarity": "common", "tone": "neutral", "visual": "none", "trigger": "lastAlliance",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} look around and realise they're the only ones left. Nobody says it out loud. At first light they walk off in different directions.",
+        "effects": [{ "kind": "leaveGroup", "who": "G" }, { "kind": "affinity", "from": "G", "to": "G", "delta": -15 }] },
+      { "rarity": "uncommon", "text": "{G} shake hands, wish each other luck, and mean about half of it. Then the alliance is over.",
+        "effects": [{ "kind": "leaveGroup", "who": "G" }, { "kind": "affinity", "from": "G", "to": "G", "delta": -10 }] }
+    ] },
+
+  { "id": "last.ditch", "category": "group", "severity": "major", "rarity": "common", "tone": "hostile", "visual": "chase", "trigger": "lastAlliance",
+    "roles": { "A": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{R} slip{R.s} away from {A} in the night. Only one of them can go home, and the maths has started.",
+        "effects": [{ "kind": "ditch", "who": "A", "from": "G" }, { "kind": "affinity", "from": "A", "to": "G", "delta": -40 }, { "kind": "leaveGroup", "who": "G" }] }
+    ] },
+
+  { "id": "last.standoff", "category": "group", "severity": "major", "rarity": "common", "tone": "hostile", "visual": "fight", "trigger": "lastAlliance",
+    "roles": { "A": "one", "B": "one", "G": { "min": 2, "max": 6 } },
+    "requires": { "inGroup": [{ "who": "A", "group": "G" }, { "who": "B", "group": "G" }] },
+    "outcomes": [
+      { "rarity": "common", "text": "{A} and {B} catch each other reaching for a weapon at the same moment. They back away slowly, and the alliance is over.",
+        "effects": [{ "kind": "leaveGroup", "who": "G" }, { "kind": "affinity", "from": "A", "to": "B", "delta": -30, "mutual": true }] }
+    ] },
+
+  { "id": "last.goodbye", "category": "group", "severity": "major", "rarity": "uncommon", "tone": "cooperative", "visual": "huddle", "trigger": "lastAlliance",
+    "roles": { "G": { "min": 2, "max": 6 } },
+    "outcomes": [
+      { "rarity": "common", "text": "{G} agree they can't do this to each other face to face. They split the supplies, say goodbye properly, and go.",
+        "effects": [{ "kind": "leaveGroup", "who": "G" }] }
+    ] }
+]

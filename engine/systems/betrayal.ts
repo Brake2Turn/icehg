@@ -32,12 +32,14 @@ export function betrayalChance(w: World, a: string, groupMembers: string[]): num
 }
 
 /** Returns true if a betrayal happened. */
-export function betrayalCheck(w: World, groupId: string): boolean {
+export function betrayalCheck(w: World, groupId: string, forced = false): boolean {
   const g = w.groups.get(groupId);
   if (!g) return false;
   const members = g.members.slice();
-  for (const a of w.rng.shuffle(members)) {
-    if (!w.rng.chance(betrayalChance(w, a, members))) continue;
+  // Forced (last alliance standing): the likeliest traitor goes first.
+  const order = forced ? members.slice().sort((x, y) => betrayalChance(w, y, members) - betrayalChance(w, x, members)) : w.rng.shuffle(members);
+  for (const a of order) {
+    if (!forced && !w.rng.chance(betrayalChance(w, a, members))) continue;
     const others = members.filter((m) => m !== a);
     // Aimed at the member A likes least, weighted by low affinity.
     const victim = w.rng.weighted(others, (m) => Math.exp((-AFFINITY_INFLUENCE * 2 * w.getAff(a, m)) / 100))!;

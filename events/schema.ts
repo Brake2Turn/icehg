@@ -108,7 +108,7 @@ const WhenZ = z
  */
 export const TriggerZ = z.enum([
   'woundWorsen', 'succumb', 'dehydration', 'starvation',
-  'hazard', 'closure', 'feastAnnounce', 'feastDrop', 'gong', 'hazardRescue',
+  'hazard', 'closure', 'feastAnnounce', 'feastDrop', 'gong', 'hazardRescue', 'lastAlliance',
 ]);
 
 const BaseTemplate = {

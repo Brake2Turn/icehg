@@ -106,6 +106,24 @@ describe('stateAt', () => {
   });
 });
 
+describe('alliances', () => {
+  it('everyone left is never allowed to be one alliance for long, and never by forming one', () => {
+    for (const n of [3, 6, 24]) {
+      for (let seed = 300; seed < 330; seed++) {
+        let streak = 0;
+        simulate(setup(n, seed), db, {
+          onTickEnd: (w) => {
+            const alive = w.aliveCount();
+            const all = alive >= 2 && [...w.groups.values()].some((g) => g.members.length === alive);
+            streak = all ? streak + 1 : 0;
+            expect(streak, `seed ${seed}: last alliance survived ${streak} ticks`).toBeLessThanOrEqual(16);
+          },
+        });
+      }
+    }
+  });
+});
+
 describe('game shape', () => {
   it('the Fallen list at each midnight matches the deaths since the previous one', () => {
     const r = run(24, 77);
